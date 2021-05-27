@@ -1,0 +1,1 @@
+var CodeMR_ProjectMetrics = {"Project Name":"FoodDels", "Number of Highly Problematic Classes":0, "Number of Entities":26, "Number of Problematic Classes":1, "Class Lines of Code":1662, "Number of External Packages":18, "Number of Packages":8, "Number of External Entities":68}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/optimiser"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/neilurquhart/Dropbox/foodel/dev/git/foodel/server/jlhttp-2.5/lib/jlhttp-2.5.jar"/>
+	<classpathentry kind="lib" path="/Users/neilurquhart/Dropbox/foodel/dev/git/foodel/FoodDels/hopper/commons-io-1.3.1.jar"/>
+	<classpathentry kind="lib" path="/Users/neilurquhart/Dropbox/foodel/dev/git/foodel/FoodDels/hopper/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="/Users/neilurquhart/Dropbox/foodel/dev/git/foodel/FoodDels/hopper/graphhopper-api-0.11.0-pre4.jar"/>
+	<classpathentry kind="lib" path="/Users/neilurquhart/Dropbox/foodel/dev/git/foodel/FoodDels/hopper/graphhopper-core-0.11.0-pre4.jar"/>
+	<classpathentry kind="lib" path="/Users/neilurquhart/Dropbox/foodel/dev/git/foodel/FoodDels/hopper/graphhopper-reader-osm-0.11.0-pre4.jar"/>
+	<classpathentry kind="lib" path="/Users/neilurquhart/Dropbox/foodel/dev/git/foodel/FoodDels/hopper/hppc-0.7.2.jar"/>
+	<classpathentry kind="lib" path="/Users/neilurquhart/Dropbox/foodel/dev/git/foodel/FoodDels/hopper/jts-core-1.14.0.jar"/>
+	<classpathentry kind="lib" path="/Users/neilurquhart/Dropbox/foodel/dev/git/foodel/FoodDels/hopper/osmosis-osm-binary-0.46.jar"/>
+	<classpathentry kind="lib" path="/Users/neilurquhart/Dropbox/foodel/dev/git/foodel/FoodDels/hopper/protobuf-java-3.4.0.jar"/>
+	<classpathentry kind="lib" path="/Users/neilurquhart/Dropbox/general-work/foodel/foodel2/server/gson/gson-2.6.2.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
