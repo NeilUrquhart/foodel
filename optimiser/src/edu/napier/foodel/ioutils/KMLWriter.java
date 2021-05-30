@@ -15,21 +15,7 @@ public class KMLWriter {
 	public static void setDataDir(String d) {
 		directory = d;
 	}
-			
-
-	public KMLWriter() {
-		//Load in header
-		 /*   try
-		    {
-		        kml = new String ( Files.readAllBytes( Paths.get("./kmlHeader.txt")) );
-		    }
-		    catch (IOException e)
-		    {
-		        e.printStackTrace();
-		    }*/
-	}
 	
-
 	 public void addPlacemark(double lat, double lon, String title, String desc, String type) {
 		String style = "style3";
 		if (type.equals("del")) {
@@ -49,32 +35,13 @@ public class KMLWriter {
 	    "<name>"+ title +"</name>" +
 	    "<description><![CDATA["+desc+"]]></description>" +
 	    "<styleUrl>#"+style+"</styleUrl>" +
-//	    "<Polygon>" +
-//	      "<outerBoundaryIs>" +
-//	        "<LinearRing>" +
-//	         // "<tessellate>1</tessellate>" +
-//	          "<coordinates>" +
-//	            lon +"," + lat + ",0.000000 " +
-//	            (lon +0.00009) +"," + (lat+0.00009) + ",0.000000 " +
-//	            (lon +0.00009)+"," + (lat-0.00009) + ",0.000000 " +
-//	            
-//	          "</coordinates>" +
-//	        "</LinearRing>" +
-//	      "</outerBoundaryIs>" +
-//	    "</Polygon>" +
+
 "<Point> " +
 " <coordinates> "+lon+ "," + lat+ ",1</coordinates> " +
 " </Point> " +
 	  "</Placemark>";
 		
-		 /*
-		String place = "<Placemark> "+
-		    "<name>Simple placemark</name>"+
-		    "<description>Attached to the ground. Intelligently places itself   at the height of the underlying terrain.</description>" +
-		    "<Point> " +
-		     " <coordinates> "+lon+ "," + lat+ ",1</coordinates> " +
-		    " </Point> " +
-		  "</Placemark> ";*/
+
 		places = places + place;
 	}
 	 

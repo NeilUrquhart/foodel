@@ -2,10 +2,13 @@ package edu.napier.foodel.server;
 
 import java.security.SecureRandom;
 
-import edu.napier.foodel.problem.FoodelProblem;
+import edu.napier.foodel.problem.cvrp.CVRPProblem;
+import edu.napier.foodel.problemTemplate.FoodelProblem;
+
+
 
 public class Problem {
-	private FoodelProblem p = new FoodelProblem();
+	private FoodelProblem p;// = new FoodelProblem();
 	private String inputFile;
 	private ProblemStatus status;
 	private String key = "";
@@ -33,8 +36,6 @@ public class Problem {
 		return p;
 	}
 	
-	
-	
 	public String getKey() {
 		return key;
 	}
@@ -59,7 +60,4 @@ public class Problem {
 		return p.getReference();
 	}
 
-//	public void setId(String id) {
-//		this.id = id;
-//	}
 }

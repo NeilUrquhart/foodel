@@ -10,9 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 import edu.napier.foodel.facade.FoodelFacade;
-import edu.napier.foodel.ioutils.ProblemParser;
-import edu.napier.foodel.ioutils.ProblemStreamParser;
-import edu.napier.foodel.problem.FoodelProblem;
+
+
 import edu.napier.foodel.server.HTMLpage;
 import edu.napier.foodel.server.Problem;
 import edu.napier.foodel.server.ProblemStatus;
@@ -93,7 +92,7 @@ public class MapHandler implements ContextHandler {
 			}
 
 			if(current.getStatus().equals(ProblemStatus.SOLVED)) {
-				FoodelFacade f =new FoodelFacade();
+				FoodelFacade f =FoodelFacade.getInstance();
 				f.setProblem(current.getProblem());
 				page.addToHeader(
 				"	<meta charset=\"utf-8\" />\n" + 

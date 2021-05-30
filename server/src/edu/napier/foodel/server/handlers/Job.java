@@ -14,9 +14,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 
 import edu.napier.foodel.facade.FoodelFacade;
-import edu.napier.foodel.ioutils.ProblemParser;
-import edu.napier.foodel.ioutils.ProblemStreamParser;
-import edu.napier.foodel.problem.FoodelProblem;
+
 import edu.napier.foodel.server.HTMLpage;
 import edu.napier.foodel.server.Problem;
 import edu.napier.foodel.server.ProblemStatus;
@@ -133,7 +131,7 @@ public class Job implements ContextHandler {
 			}
 
 			if(current.getStatus().equals(ProblemStatus.SOLVED)) {
-				var f =new FoodelFacade();
+				var f  =FoodelFacade.getInstance();
 				f.setProblem(current.getProblem());
 				page.addToBody(f.getResultHTML(key));
 				resp.getHeaders().add("Content-Type", "text/html");

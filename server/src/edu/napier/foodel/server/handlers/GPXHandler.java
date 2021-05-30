@@ -63,7 +63,7 @@ public class GPXHandler implements ContextHandler {
 				resp.send(200,  "Job not complete");
 				return 0;
 			}
-			var f  = new FoodelFacade();
+			var f  = FoodelFacade.getInstance();
 			f.setProblem(current.getProblem());
 			resp.getHeaders().add("Content-Disposition", "attachment; filename="+current.getId()+"-"+run+".gpx");	
 			resp.getHeaders().add("Content-Type", "application/octet-stream");

@@ -10,15 +10,16 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import com.google.gson.Gson;
 import edu.napier.foodel.facade.FoodelFacade;
-import edu.napier.foodel.geocode.Geocoder;
-import edu.napier.foodel.problem.FoodelProblem;
+import edu.napier.foodel.geo.GHopperInterface;
+import edu.napier.foodel.geo.Geocoder;
+import edu.napier.foodel.problem.cvrp.CVRPProblem;
+import edu.napier.foodel.problemTemplate.FoodelProblem;
 import edu.napier.foodel.server.handlers.Default;
 import edu.napier.foodel.server.handlers.GPXHandler;
 import edu.napier.foodel.server.handlers.Job;
 import edu.napier.foodel.server.handlers.MapHandler;
 import edu.napier.foodel.server.handlers.UploadProblem;
 import edu.napier.foodel.server.handlers.ServerStatus;
-import edu.napier.ghopper.GHopperInterface;
 import net.freeutils.httpserver.HTTPServer;
 import net.freeutils.httpserver.HTTPServer.VirtualHost;
 import net.freeutils.httpserver.HTTPServer.FileContextHandler;
@@ -74,9 +75,9 @@ public class Server {
 		try {
 			LOGGER.info("Starting to solve "+ currentTask.getId());
 			p= currentTask.getProblem();
-			var f = new FoodelFacade();
+			var f = FoodelFacade.getInstance();
 			f.setProblem(p);
-			f.run();	
+			f.solve();	
 			currentTask.setStatus(ProblemStatus.SOLVED);
 			LOGGER.info("Solved "+ currentTask.getId());
 			

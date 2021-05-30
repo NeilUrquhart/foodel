@@ -6,8 +6,8 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 
-import edu.napier.foodel.basic.VRPVisit;
-import edu.napier.foodel.problem.FoodelVisit;
+import edu.napier.foodel.problemTemplate.FoodelVisit;
+
 
 public class HTMmapwriter {
 	private String segments = "";
@@ -35,7 +35,7 @@ public class HTMmapwriter {
 		segments += buffer;
 	}
 
-	 public void addWayPoint(VRPVisit v,int order, String time ) {
+	 public void addWayPoint(FoodelVisit v,int order, String time ) {
 		 String name = v.getName().replace('\n', ' ').trim();
 		 waypoints +=
 				 "	var marker = new L.marker([" +v.getX()+"," +v.getY()+ "], { opacity: 0.01 }); \n" + 
@@ -99,7 +99,7 @@ public class HTMmapwriter {
 //       
 // }
      
-     public  String body(VRPVisit start,String id, int run) {
+     public  String body(FoodelVisit start,String id, int run) {
          return
          		"<H2> "+id+" Route :" + run +"</H2>" +
          		"\n" + 

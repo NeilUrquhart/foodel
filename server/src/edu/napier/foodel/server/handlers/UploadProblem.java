@@ -1,11 +1,18 @@
 package edu.napier.foodel.server.handlers;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import edu.napier.foodel.ioutils.ProblemStreamParser;
-import edu.napier.foodel.problem.FoodelProblem;
+import edu.napier.foodel.facade.FoodelFacade;
+import edu.napier.foodel.problem.cvrp.CVRPProblem;
+import edu.napier.foodel.problemTemplate.FoodelProblem;
+import edu.napier.foodel.problemTemplate.ProblemStreamParser;
 import edu.napier.foodel.server.HTMLpage;
 import edu.napier.foodel.server.Problem;
 import edu.napier.foodel.server.ProblemStatus;
@@ -65,9 +72,10 @@ public class UploadProblem {
 					}
 					
 					//Check file can be parsed + extract id
-					var p = new FoodelProblem();
-					p.setReference(filename);
-					p= ProblemStreamParser.buildProblem(part.getBody(), p);	
+					
+					HashMap<String,String[]> csvData = readStream(part.getBody());
+					
+					FoodelProblem p= FoodelFacade.getInstance().newProblem(csvData,filename);//.buildProblem(part.getBody(), filename);	
 					newTask.setProblem(p);
 					//set new task
 					newTask.setInputFile(filename);
@@ -100,6 +108,37 @@ public class UploadProblem {
 		page.addToBody("<H3><a href= /job?id="+newTask.getId()+"&key="+newTask.getKey() +"> Click to continue </a></h3> ");
 		resp.send(200,page.html());
 		return 0;
+	}
+
+	private HashMap<String, String[]> readStream(InputStream problemStream) throws Exception {
+		HashMap<String,String[]> res = new HashMap<String,String[]>();
+		
+		BufferedReader b;
+		try {
+			InputStreamReader isr = new InputStreamReader(problemStream,StandardCharsets.UTF_8);
+			b = new BufferedReader(isr); 
+		}catch(Exception e) {
+			throw new Exception("Can't open file:");
+		}
+		//int capacity =0;
+		
+		String readLine = "";
+
+		while ((readLine = b.readLine()) != null) {
+			System.out.println(readLine);
+			readLine =readLine.trim();
+			String[] data = readLine.split(",");
+		    String key = data[0];
+		    int count = 0;
+		    while (res.containsKey(key+" "+count)) {
+		    	count++;
+		    }
+		    key = key +" " + count;
+		    res.put(key, data);
+		}
+		b.close();
+		
+		return res;
 	}
 
 	//	
