@@ -20,6 +20,8 @@ public abstract  class FoodelProblem  {
 	private int vehicleCapacity;//The vehicle capacity
 
 	private FoodelVisit vrpstart;//The starting and finishing point of the TSP
+	
+	
 	public FoodelVisit getStart() {
 		return vrpstart;
 	}

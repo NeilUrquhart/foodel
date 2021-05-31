@@ -38,14 +38,6 @@ public class CVRPProblem extends FoodelProblem {
 	}
 	
 
-    
-//    public FoodelVisit getInitialVisit() {
-//		return initialVisit;
-//	}
-//
-//	public void setInitialVisit(FoodelVisit initialVisit) {
-//		this.initialVisit = initialVisit;
-//	}
 
 	public void setMode(String aMode) {
     	if (aMode.contains("Car"))
@@ -398,19 +390,13 @@ public class CVRPProblem extends FoodelProblem {
 		
 			for (FoodelVisit v : run){
 				c++;
-				
-
 				htm.addWayPoint(v, c, getTimeOnlyformatter().format(time));
-
 				FoodelVisit curr = v;
-
 				Journey j = GHopperInterface.getJourney(prev, curr, getMode());
 				time = time + ( j.getTravelTimeMS()) ;
 				
 				//done
 				time  = time + deliveryTime;
-
-
 				ArrayList<Point2D.Double> p = j.getPath();
 				ArrayList<Double> lat = new ArrayList<Double>();
 				ArrayList<Double> lon = new ArrayList<Double>();
@@ -430,26 +416,19 @@ public class CVRPProblem extends FoodelProblem {
 			if (getEnd() != null) {
 				Journey j = GHopperInterface.getJourney(prev, getEnd() /*new Visit( "",myVRP.getEnd().getX(),myVRP.getEnd().getY())*/, getMode());
 				time = time + ( j.getTravelTimeMS()) ;
-		
 				time  = time + deliveryTime;
-
-
 				ArrayList<Point2D.Double> p = j.getPath();
 				ArrayList<Double> lat = new ArrayList<Double>();
 				ArrayList<Double> lon = new ArrayList<Double>();
-
 				for (Point2D l : p){
 					lat.add(l.getX());
 					lon.add(l.getY());	
 				}
 				htm.addPath(lat, lon);
-
 				htm.addWayPoint(getEnd(),c, getTimeOnlyformatter().format(time));
 			}
 			//Done end
 		return htm.body(getStart(),getReference(),route);
-		
-		
 	}
 	
 	public String getResultHTML(String key) {

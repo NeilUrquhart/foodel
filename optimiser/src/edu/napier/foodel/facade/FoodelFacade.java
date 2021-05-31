@@ -13,9 +13,13 @@ import java.util.HashMap;
 
 import edu.napier.foodel.geo.GHopperInterface;
 import edu.napier.foodel.problem.cvrp.CVRPProblem;
+import edu.napier.foodel.problem.cvrp.CVRPProblemFactory;
 import edu.napier.foodel.problem.cvrp.CVRPsolver;
+import edu.napier.foodel.problem.volunteers.VolunteerProblem;
+import edu.napier.foodel.problem.volunteers.VolunteerProblemFactory;
+import edu.napier.foodel.problem.volunteers.VolunteerSolver;
 import edu.napier.foodel.problemTemplate.FoodelProblem;
-import edu.napier.foodel.problemTemplate.ProblemStreamParser;
+import edu.napier.foodel.problemTemplate.FoodelProblemFactory;
 import edu.napier.foodel.utils.RandomSingleton;
 
 public class FoodelFacade {
@@ -31,25 +35,26 @@ public class FoodelFacade {
 	//Done Singleton
 	
 	private  FoodelProblem myVRP;
-	
+	private enum ProblemType {CVRP, Volunteer}
+	private ProblemType problem;
 	
 	public  void setProblem(FoodelProblem aProb) {
 		myVRP = aProb;
 	}
 	
-//	public  FoodelProblem buildProblem(InputStream problemStream, String ref) throws Exception{
-//		myVRP = new CVRPProblem();
-//		myVRP.setReference(ref);
-//		myVRP = (CVRPProblem) ProblemStreamParser.parseStream(problemStream, myVRP);
-//		return myVRP;
-//	}
-
 	public  void solve(){
 		RandomSingleton.getInstance().setSeed(86);
 		double runTime = 60000*15; //15 mins
 		double end = System.currentTimeMillis() + runTime;
 		GHopperInterface.setCacheSize();
-		CVRPsolver eaSolve = new CVRPsolver(end);
+		CVRPsolver eaSolve=null;
+		
+		if (problem == ProblemType.CVRP)
+			eaSolve = new CVRPsolver(end);
+
+		if (problem == ProblemType.Volunteer)
+			eaSolve = new VolunteerSolver(end);
+		
 		myVRP.solve(eaSolve);
 		}
 
@@ -66,9 +71,31 @@ public class FoodelFacade {
 	}
 
 	public FoodelProblem newProblem(HashMap<String, String[]> csvData,String ref) throws Exception {
-		myVRP = new CVRPProblem();
-		myVRP.setReference(ref);
-		myVRP = (CVRPProblem) ProblemStreamParser.parseData(csvData, myVRP);
-		return myVRP;
+		//Establish Problem Type...
+		
+		if (findKey(csvData,"Volunteer")) {
+			problem = ProblemType.Volunteer;
+			myVRP = new VolunteerProblem();
+			FoodelProblemFactory factory = new VolunteerProblemFactory();
+			myVRP.setReference(ref);
+			myVRP = (CVRPProblem) factory.parseData(csvData,myVRP);
+			return myVRP;
+		}else {
+			//Default is CVRP problem
+			problem = ProblemType.CVRP;
+			FoodelProblemFactory factory = new CVRPProblemFactory();
+			myVRP = new CVRPProblem();
+			myVRP.setReference(ref);
+			myVRP = (CVRPProblem) factory.parseData(csvData,myVRP);
+			return myVRP;
+		}
 	}	
+	
+	private boolean findKey(HashMap<String, String[]> data, String key) {
+		for (String s: data.keySet() ) {
+			if (s.startsWith(key))
+				return true;
+		}
+		return false;
+	}
 }

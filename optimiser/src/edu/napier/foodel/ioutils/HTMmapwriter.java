@@ -42,13 +42,13 @@ public class HTMmapwriter {
 					  		"	marker.bindTooltip(\" "+order +" : "+name+"   \", {permanent: true, className: \"my-label\", offset: [0, 0] });\n" + 
 					  		"marker.addTo(mymap);\n";
 		 
-		 if (v instanceof FoodelVisit) {
+		 //if (v instanceof FoodelVisit) {
 			 FoodelVisit f = (FoodelVisit)v;
 			 waypointList += "<tr><td>" + order + "</td><td>" +time+ "</td><td>"+v.getName() +"</td><td>"+f.getAddress()+ "</td><td>"+f.getOrder() +"</td></tr>\n";
-		 }else			 
-		 {
-			 waypointList += "<tr><td>" + order + "</td><td>" +time+ "</td><td>"+v.getName() +"</td></tr>\n";
-		 }		 
+		// }else			 
+		// {
+		//	 waypointList += "<tr><td>" + order + "</td><td>" +time+ "</td><td>"+v.getName() +"</td></tr>\n";
+		// }		 
 	 }
 	 
 //     public  String html(VRPVisit start,String id, int run) {

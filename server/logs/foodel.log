@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2021-05-30T22:44:03.958155Z</date>
-  <millis>1622414643958</millis>
-  <nanos>155000</nanos>
+  <date>2021-05-31T19:01:10.956984Z</date>
+  <millis>1622487670956</millis>
+  <nanos>984000</nanos>
   <sequence>0</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -14,9 +14,9 @@
   <message>Starting server</message>
 </record>
 <record>
-  <date>2021-05-30T22:44:04.172563Z</date>
-  <millis>1622414644172</millis>
-  <nanos>563000</nanos>
+  <date>2021-05-31T19:01:11.197296Z</date>
+  <millis>1622487671197</millis>
+  <nanos>296000</nanos>
   <sequence>1</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -26,26 +26,27 @@
   <message>Server running</message>
 </record>
 <record>
-  <date>2021-05-30T22:44:20.797331Z</date>
-  <millis>1622414660797</millis>
-  <nanos>331000</nanos>
+  <date>2021-05-31T19:02:49.127972Z</date>
+  <millis>1622487769127</millis>
+  <nanos>972000</nanos>
   <sequence>2</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
   <class>edu.napier.foodel.server.Server</class>
   <method>executeProblem</method>
   <thread>1</thread>
-  <message>Starting to solve elc-mon.csv</message>
+  <message>Starting to solve elc-all.csv</message>
 </record>
 <record>
-  <date>2021-05-30T22:44:44.728250Z</date>
-  <millis>1622414684728</millis>
-  <nanos>250000</nanos>
+  <date>2021-05-31T19:05:26.608882Z</date>
+  <millis>1622487926608</millis>
+  <nanos>882000</nanos>
   <sequence>3</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
   <class>edu.napier.foodel.server.Server</class>
   <method>executeProblem</method>
   <thread>1</thread>
-  <message>Solved elc-mon.csv</message>
+  <message>Solved elc-all.csv</message>
 </record>
+</log>

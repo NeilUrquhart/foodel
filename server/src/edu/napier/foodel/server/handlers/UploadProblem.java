@@ -12,7 +12,7 @@ import java.util.List;
 import edu.napier.foodel.facade.FoodelFacade;
 import edu.napier.foodel.problem.cvrp.CVRPProblem;
 import edu.napier.foodel.problemTemplate.FoodelProblem;
-import edu.napier.foodel.problemTemplate.ProblemStreamParser;
+import edu.napier.foodel.problemTemplate.FoodelProblemFactory;
 import edu.napier.foodel.server.HTMLpage;
 import edu.napier.foodel.server.Problem;
 import edu.napier.foodel.server.ProblemStatus;
@@ -125,16 +125,17 @@ public class UploadProblem {
 		String readLine = "";
 
 		while ((readLine = b.readLine()) != null) {
-			System.out.println(readLine);
 			readLine =readLine.trim();
 			String[] data = readLine.split(",");
-		    String key = data[0];
-		    int count = 0;
-		    while (res.containsKey(key+" "+count)) {
-		    	count++;
-		    }
-		    key = key +" " + count;
-		    res.put(key, data);
+			if (data.length >= 2) {
+				String key = data[0];
+				int count = 0;
+				while (res.containsKey(key+" "+count)) {
+					count++;
+				}
+				key = key +" " + count;
+				res.put(key, data);
+			}
 		}
 		b.close();
 		

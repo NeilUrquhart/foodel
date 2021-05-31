@@ -1,53 +1,20 @@
-package edu.napier.foodel.problem.cvrp;
+package edu.napier.foodel.problem.volunteers;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import edu.napier.foodel.geo.GHopperInterface;
-import edu.napier.foodel.problemTemplate.FoodelVisit;
-import edu.napier.foodel.problemTemplate.FoodelIndividual;
+import edu.napier.foodel.problem.cvrp.CVRPIndividual;
+import edu.napier.foodel.problem.cvrp.CVRPProblem;
 import edu.napier.foodel.problemTemplate.FoodelProblem;
-import edu.napier.foodel.utils.RandomSingleton;
+import edu.napier.foodel.problemTemplate.FoodelVisit;
 
-public class CVRPIndividual extends FoodelIndividual {
-	protected double rawDist=0;
+public class VolunteerIndividual extends CVRPIndividual {
 
-
-	public CVRPIndividual(FoodelProblem prob) {
+	public VolunteerIndividual(FoodelProblem prob) {
 		super(prob);
 	}
 
-	public CVRPIndividual (FoodelProblem prob, FoodelIndividual parent1, FoodelIndividual parent2){
-		super(prob,parent1,parent2);
-	}
-
-
-
-	public CVRPIndividual(FoodelProblem prob, ArrayList<FoodelVisit> seed) {
-		this(prob);
-		this.genotype.clear();
-		for(FoodelVisit v : seed) {
-			genotype.add((FoodelVisit)v);
-		}
-
-	}
-
-	@Override
-	public CVRPIndividual copy() {
-		//Create a new individual that is a direct copy of this individual
-		CVRPIndividual copy = new CVRPIndividual(this.problem);
-		copy.genotype = (ArrayList<FoodelVisit>) this.genotype.clone();
-		return copy;
-	}
-
-	public ArrayList<ArrayList<FoodelVisit>> getPhenotype(){
-		return phenotype;
-	}
-
-	public void resetPheno() {
-		phenotype =null;
-	}
-
+	
 	@Override
 	public double evaluate() {
 		/*
@@ -119,38 +86,4 @@ public class CVRPIndividual extends FoodelIndividual {
 		return ((fProblem.getWeightedDistance(this))); 
 	}	
 
-
-
-	@Override
-	public void mutate() {
-		RandomSingleton rnd =RandomSingleton.getInstance();
-		float choice = rnd.getRnd().nextFloat();
-		if (choice>=0.8) {
-			super.mutate();
-		}
-		else {
-			//Mutate the genotype, by randomly swapping two adjacent genes
-			phenotype = null;
-			int rndGene = rnd.getRnd().nextInt(genotype.size()-1);
-			FoodelVisit v1 = genotype.remove(rndGene);
-			genotype.add(rndGene+1,v1);
-		}
-	}
-
-	
-	protected int routeDemand(ArrayList<FoodelVisit> route){
-	//Return the total cumulative demand within <route>
-	int demand=0;
-	for (FoodelVisit visit: route){
-		demand += visit.getDemand();
-	}
-	return demand;
-}
-
-	public double getDistance() {
-		if (phenotype==null)
-			this.evaluate();
-
-		return this.rawDist;
-	}
 }

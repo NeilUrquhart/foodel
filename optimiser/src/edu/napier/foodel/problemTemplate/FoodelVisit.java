@@ -8,17 +8,20 @@ public class FoodelVisit extends Point2D.Double {
 	private static int counter=0;
 	private int index;
 	protected int demand;
- 	protected String theName;
+ 	protected String name;
 	private String address;
 	private String order;
 	//private String postCode;
 
-	public FoodelVisit(String name, double lat, double lon, int demand) {
+	public FoodelVisit(String name, String address, String order,double lat, double lon, int demand) {
 		super(lat, lon);
 		this.demand = demand;
-		theName = name;
+		this.name = name;
+		this.address = address;
+		this.order = order;
 		counter++;
 		index=counter;
+		
 	}
 
 	public int getIndex() {
@@ -30,6 +33,8 @@ public class FoodelVisit extends Point2D.Double {
 	}
 	
 	public String getAddress() {
+		if (address == null)
+			return "";
 		return address;
 	}
 	
@@ -37,6 +42,8 @@ public class FoodelVisit extends Point2D.Double {
 		this.address = address;
 	}
 	public String getOrder() {
+		if (order==null)
+			return "";
 		return order;
 	}
 	public void setOrder(String order) {
@@ -50,7 +57,7 @@ public class FoodelVisit extends Point2D.Double {
 //	}
 
 	public void setName(String name) {
-		this.theName = name;
+		this.name = name;
 	}
 
 	public void setDemand(int demand) {
@@ -63,7 +70,7 @@ public class FoodelVisit extends Point2D.Double {
 	       return false;
 	     }
 	     FoodelVisit other = (FoodelVisit) o;
-	     return theName.equals(other.theName);
+	     return (name.equals(other.name) && address.equals(other.address));
 	  }
 	
 	public double distance(FoodelVisit v) {
@@ -73,8 +80,9 @@ public class FoodelVisit extends Point2D.Double {
  	}
 
 	public String getName() {
-		
-		return theName;
+		if (name==null)
+			return "";
+		return name;
 	}
 
 	public int getDemand() {

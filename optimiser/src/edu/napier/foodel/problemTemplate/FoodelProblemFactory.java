@@ -17,8 +17,8 @@ import edu.napier.foodel.problem.cvrp.CVRPProblem;
 
  */
 
-public class ProblemStreamParser   {
-	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+public abstract class  FoodelProblemFactory   {
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	//private  BufferedReader b;
 
 	//	public static FoodelProblem parseStream(InputStream problemStream, FoodelProblem result) throws Exception{
@@ -134,8 +134,8 @@ public class ProblemStreamParser   {
 	//		}
 	//	}
 
-	public static FoodelProblem parseData(HashMap<String, String[]> csvData, FoodelProblem result) throws Exception {
-
+	public FoodelProblem parseData(HashMap<String, String[]> csvData, FoodelProblem result) throws Exception {
+		
 
 		for(String keyword : csvData.keySet()) {
 			processLine(keyword,csvData,result);
@@ -155,7 +155,7 @@ public class ProblemStreamParser   {
 
 	}
 
-	private static void processLine(String keyword, HashMap<String, String[]> csvData, FoodelProblem result) throws Exception {
+	private  void processLine(String keyword, HashMap<String, String[]> csvData, FoodelProblem result) throws Exception {
 
 		if (keyword.startsWith("Vehicle Capacity")){
 			String[] buffer = csvData.get(keyword);
@@ -194,13 +194,13 @@ public class ProblemStreamParser   {
 			System.out.println(buffer[0]);//cust
 			System.out.println(buffer[1]);//Address
 			int bags =1;
-			if (buffer.length >2) {
-				System.out.println(buffer[2]);//Bags
-				bags = Integer.parseInt(buffer[2]);
-			}
+//			if (buffer.length >2) {
+//				System.out.println(buffer[2]);//Bags
+//				bags = Integer.parseInt(buffer[2]);
+//			}
 			String note = "";
-			if (buffer.length>3) {
-				note = buffer[3]; 
+			if (buffer.length>4) {
+				note = buffer[4]; 
 				note = note.replace('<', ' ');
 				note = note.replace('>', ' ');
 				note = note.replace('(', ' ');
@@ -209,14 +209,14 @@ public class ProblemStreamParser   {
 				note = note.replace('+', ' ');
 				System.out.println(note);//Note
 			}
-			Point2D p = Geocoder.find(buffer[1]);
+			Point2D p = Geocoder.find(buffer[2]);
 			if (p== null) {
-				throw new Exception("Address not found " + buffer[1]);
+				throw new Exception("Address not found " + buffer[2]);
 			}else {
-				FoodelVisit v = new FoodelVisit(buffer[1],p.getX(),p.getY(),bags);
-				v.setOrder(note);
+				FoodelVisit v = new FoodelVisit(buffer[1],buffer[2],note,p.getX(),p.getY(),bags);
+				//v.setOrder(note);
 				//v.setPostCode(buffer[1]);
-				v.setAddress(buffer[1]);
+				//v.setAddress(buffer[1]);
 				result.addVisit(v);
 			}
 		}
@@ -225,7 +225,7 @@ public class ProblemStreamParser   {
 			String[] buffer = csvData.get(keyword);
 			System.out.println(buffer[1]);
 			Point2D p = Geocoder.find(buffer[1]);
-			FoodelVisit v = new FoodelVisit("Depot",p.getX(),p.getY(),0);
+			FoodelVisit v = new FoodelVisit("Depot","","",p.getX(),p.getY(),0);
 			result.setStart(v);
 			result.setStartPcode(buffer[1]);
 		}
@@ -234,7 +234,7 @@ public class ProblemStreamParser   {
 			String[] buffer = csvData.get(keyword);
 			System.out.println(buffer[1]);
 			Point2D p =Geocoder.find(buffer[1]);
-			FoodelVisit v = new FoodelVisit("End",p.getX(),p.getY(),0);
+			FoodelVisit v = new FoodelVisit("End","","",p.getX(),p.getY(),0);
 			result.setEnd(v);
 			result.setEndPCode(buffer[1]);
 		}
