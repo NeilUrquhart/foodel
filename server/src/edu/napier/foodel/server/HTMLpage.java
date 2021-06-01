@@ -10,6 +10,7 @@ public class HTMLpage {
 	private  StringBuilder body = new StringBuilder();
 	private static String headtemplate= null;
 	private static String bodytemplate= null;
+	private static String footertemplate = null;
 	
 	public HTMLpage(String title) {
 		try {
@@ -18,6 +19,10 @@ public class HTMLpage {
 			
 			if (bodytemplate==null)
 				bodytemplate = Files.readString(Path.of("./config/" +ServerProperties.getInstance().get("htmlbody")));
+		
+			if (footertemplate==null)
+				footertemplate = Files.readString(Path.of("./config/" +ServerProperties.getInstance().get("htmlfooter")));
+		
 			
 			head.append("<title>"+title+"</title>\n");
 		} catch (IOException e) {
@@ -44,6 +49,7 @@ public class HTMLpage {
 				+ "  <body>\n"
 				+  bodytemplate
 				+ body.toString()
+				+ footertemplate
 				+ "  </body>\n"
 				+ "</html>";
 	}

@@ -120,7 +120,7 @@ public class HTMmapwriter {
          		middle() +
          		"</script>\n" + 
          		"\n" + 
-         		"<h2>Delivery schedule </h2>\n<table>" + 
+         		"<h2>Schedule</h2>\n<table>" + 
          		waypointList + 
          		"</table>";
 

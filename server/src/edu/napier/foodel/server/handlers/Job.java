@@ -115,13 +115,13 @@ public class Job implements ContextHandler {
 
 			}
 
-			page.addToBody("<body> <h1>Problem task: "+current.getId()+"</h1>");
+			page.addToBody("<body> <h1>Problem: "+current.getId()+"</h1>");
 			if (current.getStatus().equals(ProblemStatus.WAITING))	{
 				page.addToBody("<h2>Your problem is currently in a queue waiting to be solved.</h2>");
 			}
 			
 			if (current.getStatus().equals(ProblemStatus.RUNNING))	{
-				page.addToBody("<h2>Your problem is being solved right now! Please wait...</h2>");
+				page.addToBody("<p> Your problem is being solved at the moment. Please be patient, your result will be shown here in a few minutes.</p>");
 			}
 			
 			if (!current.getStatus().equals(ProblemStatus.SOLVED))	{
@@ -149,7 +149,7 @@ public class Job implements ContextHandler {
 		resp.getHeaders().add("Content-Type", "text/html");	
 		page.addToBody("<h1>Please enter the problem key to view your problem</h1>\n"
 				+ "Problem Key: <input type=\"text\" id=\"key\" value=\"xxx\">\n"
-				+ "<button onclick=\"myFunction()\">Try it</button>\n"
+				+ "<button onclick=\"myFunction()\">Find Problem  class =\"button\" </button>\n"
 				+ "\n"
 				+ "<script>\n"
 				+ "function myFunction() {\n"

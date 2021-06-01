@@ -15,14 +15,15 @@ public class Default implements ContextHandler {
 	
 	public int serve(Request req, Response resp) throws IOException {
 		var defaultpage = new HTMLpage("Foodel Server ");
-		defaultpage.addToBody(" <h1>Welcome to Foodel</h1><br>"
-				+ "Foodel is a simple application that allows you to sort deliveries into efficient delivery routes."
-				+ " <br>"
-				+ "Foodel was developed by Dr Neil Urquhart at Edinburgh Napier University. <br>"
-				+ "Please feel free to make use of Foodel and let us know of your expieriances with it.<br>"
+		defaultpage.addToBody(" <h1>Welcome</h1><br>"
+				+ "<p>Foodel is a simple application that allows you to sort deliveries into efficient delivery routes."
+				
+				+ "Foodel was developed by Dr Neil Urquhart at Edinburgh Napier University."
+				+ "Please feel free to make use of Foodel and let us know of your expieriences with it.</p>"
 				+ "<br>"
-				+ " <a href=\"/new\">Click here to upload a new problem </a> <br>"
-				+ "<a href=\"/status\">Click here to see what problems are being solved on your machine.</a> <br>");
+				
+				+ "<p> <a href=\"/new\" class =\"button\">Upload a new problem </a> </p>"
+				+ "<p><a href=\"/status\" class =\"button\" >Check the status of your machine</a> </p>");
 		resp.getHeaders().add("Content-Type", "text/html");
 		resp.send(200,   defaultpage.html());
 		return 0;

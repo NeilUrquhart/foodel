@@ -13,8 +13,6 @@ public class VolunteerIndividual extends CVRPIndividual {
 	public VolunteerIndividual(FoodelProblem prob) {
 		super(prob);
 	}
-
-	
 	@Override
 	public double evaluate() {
 		/*
@@ -24,65 +22,43 @@ public class VolunteerIndividual extends CVRPIndividual {
 		 * 
 		 * This method has been overriden to allow a custom fitness function
 		 * 
-		 * Add in code to ensure that route is not over the allowed time
-		 * 
+		 * This method allocates a volunteer to each route. The distance includes from home to start,
+		 * then the last visit to home.
 		 */
 		CVRPProblem fProblem = (CVRPProblem)problem;
 		long timeLimit = fProblem.getTimeLimitMS();
-		//System.out.println(fProblem.getTimeOnlyformatter().format(timeLimit));
 		long deliveryTime = fProblem.getDeliveryTimeMS();
-		int veh= fProblem.getVehicleQty();
-		//int split = fProblem.getVehicleCapacity()/veh;
 		
 		if (phenotype == null) {
 			phenotype = new ArrayList<ArrayList<FoodelVisit>> ();
-
 			FoodelVisit depot = (FoodelVisit) problem.getStart();
-			FoodelVisit finish = (FoodelVisit) fProblem.getEnd();
 			FoodelVisit prev= depot;
 			FoodelVisit curr = null;
 			ArrayList<FoodelVisit> newRoute = new ArrayList<FoodelVisit>();
-			long time = 0;//fProblem.getStartTime();//0;
-			boolean first = true;
-			int count=0;
+			long time = 0;
+			int route = 0;
 			for (FoodelVisit v : genotype){
-				count++;
 				curr = (FoodelVisit)v;
-				
-
 				double newTime = time + GHopperInterface.getJourney(prev,curr, fProblem.getMode()).getTravelTimeMS();
-
-				//if ((v.getDemand() + routeDemand(newRoute) > problem.getVehicleCapacity())||((count%split)==0)){
-					if ((v.getDemand() + routeDemand(newRoute) > problem.getVehicleCapacity())||(newTime >timeLimit )){
-
-
+				if ((v.getDemand() + routeDemand(newRoute) > problem.getVehicleCapacity())||(newTime >timeLimit )){
 					//If next visit cannot be added  due to capacity constraint 
 					//start new route.
 					phenotype.add(newRoute);
+					route ++;
 					newRoute = new ArrayList<FoodelVisit>();
 					time = 0;
 					prev = depot;
 				}
-
-
 				time = time + GHopperInterface.getJourney(prev, curr, fProblem.getMode()).getTravelTimeMS();
-				
 				FoodelVisit fCurr = (FoodelVisit)curr;
 				time = time + deliveryTime;
-
 				newRoute.add(v);
-
 			}
 			prev = curr;
 			phenotype.add(newRoute);
-		
-
-
 			this.rawDist = fProblem.getSolutionDistance(phenotype);
 		}
 		//Get weighted distance
-
-
 		return ((fProblem.getWeightedDistance(this))); 
 	}	
 

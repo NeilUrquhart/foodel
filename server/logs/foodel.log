@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2021-05-31T19:01:10.956984Z</date>
-  <millis>1622487670956</millis>
-  <nanos>984000</nanos>
+  <date>2021-06-01T12:03:19.083129Z</date>
+  <millis>1622548999083</millis>
+  <nanos>129000</nanos>
   <sequence>0</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -14,9 +14,9 @@
   <message>Starting server</message>
 </record>
 <record>
-  <date>2021-05-31T19:01:11.197296Z</date>
-  <millis>1622487671197</millis>
-  <nanos>296000</nanos>
+  <date>2021-06-01T12:03:19.307032Z</date>
+  <millis>1622548999307</millis>
+  <nanos>32000</nanos>
   <sequence>1</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -26,9 +26,9 @@
   <message>Server running</message>
 </record>
 <record>
-  <date>2021-05-31T19:02:49.127972Z</date>
-  <millis>1622487769127</millis>
-  <nanos>972000</nanos>
+  <date>2021-06-01T12:03:59.906326Z</date>
+  <millis>1622549039906</millis>
+  <nanos>326000</nanos>
   <sequence>2</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -38,9 +38,9 @@
   <message>Starting to solve elc-all.csv</message>
 </record>
 <record>
-  <date>2021-05-31T19:05:26.608882Z</date>
-  <millis>1622487926608</millis>
-  <nanos>882000</nanos>
+  <date>2021-06-01T12:06:41.414005Z</date>
+  <millis>1622549201414</millis>
+  <nanos>5000</nanos>
   <sequence>3</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>

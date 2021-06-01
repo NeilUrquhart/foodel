@@ -439,10 +439,6 @@ public class CVRPProblem extends FoodelProblem {
 		long time = getStartTime();
 
 		ArrayList<ArrayList<FoodelVisit>> solution = getCVRPSolution();
-//		if (getInitialVisit()!= null) {
-//			ArrayList<FoodelVisit> run =solution.get(0);
-//			run.add(0,getInitialVisit());
-//		}
 
 		
 		for(ArrayList<FoodelVisit> run :solution){
@@ -451,8 +447,8 @@ public class CVRPProblem extends FoodelProblem {
 			if (this.isConcurrent())
 				time = getStartTime();
 
-			html = html += "<h2> Delivery run "+r+"</h2>";
-			html = html += "<a href=\"map?id="+getReference() +"&key="+key+"&run="+r+"\">View Map</a>  <a href=\"gpx?key="+key+"&run="+r+"\">GPX File</a>  <br> \n";
+			html = html += "<h2> Run:"+r+"</h2>";
+			html = html += "<a href=\"map?id="+getReference() +"&key="+key+"&run="+r+"\" class =\"button\"  >View Map</a>  <a href=\"gpx?key="+key+"&run="+r+"\" class =\"button\" >GPX File</a><br> <br> \n";
 			FoodelVisit prev = getStart();
 			
 			for (FoodelVisit v : run){
