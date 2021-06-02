@@ -9,13 +9,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import edu.napier.foodel.facade.FoodelFacade;
+import edu.napier.foodel.facade.FoodelSolver;
 import edu.napier.foodel.problem.cvrp.CVRPProblem;
 import edu.napier.foodel.problemTemplate.FoodelProblem;
 import edu.napier.foodel.problemTemplate.FoodelProblemFactory;
 import edu.napier.foodel.server.HTMLpage;
-import edu.napier.foodel.server.Problem;
-import edu.napier.foodel.server.ProblemStatus;
+import edu.napier.foodel.server.Task;
+import edu.napier.foodel.server.TaskStatus;
 import edu.napier.foodel.server.ServerProperties;
 import net.freeutils.httpserver.HTTPServer.Context;
 import net.freeutils.httpserver.HTTPServer.MultipartIterator.*;
@@ -26,9 +26,9 @@ import net.freeutils.httpserver.HTTPServer.Response;
 
 public class UploadProblem {
 
-	static List<Problem> taskList;
+	static List<Task> taskList;
 
-	public static void setTaskList(List<Problem> taskList) {
+	public static void setTaskList(List<Task> taskList) {
 		UploadProblem.taskList = taskList;
 	}
 
@@ -60,7 +60,7 @@ public class UploadProblem {
 		var page = new HTMLpage("New Foodel problem:");
 		
 		String filename;
-		var newTask = new Problem();
+		var newTask = new Task();
 		Iterator<Part> it = new MultipartIterator(request);
 		while (it.hasNext()) {
 			var part = it.next();
@@ -73,13 +73,20 @@ public class UploadProblem {
 					
 					//Check file can be parsed + extract id
 					
+					if (idInUse(filename)) {
+						int c=1;
+						while(idInUse(filename + "-"+c))
+								c++;
+						
+						filename = filename +"-"+c;
+					}
 					HashMap<String,String[]> csvData = readStream(part.getBody());
 					
-					FoodelProblem p= FoodelFacade.getInstance().newProblem(csvData,filename);//.buildProblem(part.getBody(), filename);	
+					FoodelProblem p= FoodelSolver.getInstance().newProblem(csvData,filename);//.buildProblem(part.getBody(), filename);	
 					newTask.setProblem(p);
 					//set new task
 					newTask.setInputFile(filename);
-					newTask.setStatus(ProblemStatus.WAITING);
+					newTask.setStatus(TaskStatus.WAITING);
 					//newTask.setId(p.getReference());
 
 				} catch(Exception e) {
@@ -141,6 +148,14 @@ public class UploadProblem {
 		b.close();
 		
 		return res;
+	}
+	
+	private boolean idInUse(String id) {
+		for (Task t : taskList) {
+			if (t.getId().equals(id))
+				return true;
+		}
+		return false;
 	}
 
 	//	

@@ -1,6 +1,6 @@
 package edu.napier.foodel.server;
 
-public enum ProblemStatus {
+public enum TaskStatus {
 	LOADING("loading"),
 	WAITING("waiting"),
 	RUNNING("running"),
@@ -8,7 +8,7 @@ public enum ProblemStatus {
 
 	private String status;
 
-	private ProblemStatus(String s) {
+	private TaskStatus(String s) {
 		this.status = s;
 	}
 

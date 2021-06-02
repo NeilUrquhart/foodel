@@ -9,7 +9,7 @@ import java.util.List;
 
 
 import edu.napier.foodel.server.HTMLpage;
-import edu.napier.foodel.server.Problem;
+import edu.napier.foodel.server.Task;
 
 import net.freeutils.httpserver.HTTPServer.ContextHandler;
 
@@ -19,9 +19,9 @@ import net.freeutils.httpserver.HTTPServer.Response;
 
 public class ServerStatus implements ContextHandler {
 
-	static List<Problem> taskList;
+	static List<Task> taskList;
 
-	public ServerStatus(List<Problem> taskList) {
+	public ServerStatus(List<Task> taskList) {
 		super();
 		ServerStatus.taskList = taskList;
 	}
@@ -39,9 +39,9 @@ public class ServerStatus implements ContextHandler {
 			page.addToBody("<p> Here are the problems that you have loaded so far in this session: </p>");
 
 		synchronized(taskList){ 
-			Iterator<Problem> myIterator = taskList.iterator(); 
+			Iterator<Task> myIterator = taskList.iterator(); 
 			while(myIterator.hasNext()){ 
-				Problem t = myIterator.next();
+				Task t = myIterator.next();
 
 				page.addToBody("<a href=\"/job?id="+t.getId()+" \">" +t.getId() + ":"+ t.getStatus()  +"</a><br>");
 			} 

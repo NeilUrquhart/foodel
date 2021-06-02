@@ -9,14 +9,14 @@ import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import com.google.gson.Gson;
-import edu.napier.foodel.facade.FoodelFacade;
+import edu.napier.foodel.facade.FoodelSolver;
 import edu.napier.foodel.geo.GHopperInterface;
 import edu.napier.foodel.geo.Geocoder;
 import edu.napier.foodel.problem.cvrp.CVRPProblem;
 import edu.napier.foodel.problemTemplate.FoodelProblem;
 import edu.napier.foodel.server.handlers.Default;
 import edu.napier.foodel.server.handlers.GPXHandler;
-import edu.napier.foodel.server.handlers.Job;
+import edu.napier.foodel.server.handlers.TaskHandler;
 import edu.napier.foodel.server.handlers.MapHandler;
 import edu.napier.foodel.server.handlers.UploadProblem;
 import edu.napier.foodel.server.handlers.ServerStatus;
@@ -25,7 +25,7 @@ import net.freeutils.httpserver.HTTPServer.VirtualHost;
 import net.freeutils.httpserver.HTTPServer.FileContextHandler;
 
 public class Server {
-	private static List<Problem> taskList;
+	private static List<Task> taskList;
 	//private static int port;
 	private static final Logger LOGGER = Logger.getLogger(Server.class.getName());
     
@@ -35,7 +35,7 @@ public class Server {
 		LOGGER.addHandler(new FileHandler(ServerProperties.getInstance().get("logdir")+"foodel.log"));
 		LOGGER.info("Starting server");
 		//Init task list
-		taskList =new ArrayList<Problem>();
+		taskList =new ArrayList<Task>();
 		taskList = Collections.synchronizedList(taskList);
 		
 		startServer();
@@ -49,15 +49,15 @@ public class Server {
 	}
 
 	private static void processLoop() {
-		Problem currentProblem = null;
+		Task currentProblem = null;
 		while(true) {			
 			//read problem
 			synchronized(taskList){
 				if (taskList.size() >0) {
-					for (Problem t : taskList) {
-						if (t.getStatus().equals(ProblemStatus.WAITING)) {
+					for (Task t : taskList) {
+						if (t.getStatus().equals(TaskStatus.WAITING)) {
 							currentProblem = t;
-							currentProblem.setStatus(ProblemStatus.RUNNING);
+							currentProblem.setStatus(TaskStatus.RUNNING);
 							break;
 						}
 					}
@@ -70,15 +70,15 @@ public class Server {
 		}
 	}
 
-	private static Problem executeProblem(Problem currentTask) {
+	private static Task executeProblem(Task currentTask) {
 		FoodelProblem p;
 		try {
 			LOGGER.info("Starting to solve "+ currentTask.getId());
 			p= currentTask.getProblem();
-			var f = FoodelFacade.getInstance();
+			var f = FoodelSolver.getInstance();
 			f.setProblem(p);
 			f.solve();	
-			currentTask.setStatus(ProblemStatus.SOLVED);
+			currentTask.setStatus(TaskStatus.SOLVED);
 			LOGGER.info("Solved "+ currentTask.getId());
 			
 			String save  = ServerProperties.getInstance().get("savesolutions");
@@ -87,7 +87,7 @@ public class Server {
 					var gson = new Gson();
 					// Java objects to String
 					String dir = ServerProperties.getInstance().get("solsdir");
-					try (var writer = new FileWriter(dir + p.getReference()+".json")) {
+					try (var writer = new FileWriter(dir + currentTask.getKey()+".json")) {
 						gson.toJson(currentTask, writer);
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -122,7 +122,7 @@ public class Server {
 			UploadProblem.setTaskList(taskList);
 			host.addContext("/status", new ServerStatus(taskList));
 			host.addContext("/gpx", new GPXHandler(taskList));
-			host.addContext("/job", new Job(taskList));
+			host.addContext("/job", new TaskHandler(taskList));
 			host.addContext("/map", new MapHandler(taskList));
 			host.addContext("/", new Default());
 			host.addContext("/static", new FileContextHandler( new File("public_html/")));

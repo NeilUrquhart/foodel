@@ -7,10 +7,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import edu.napier.foodel.facade.FoodelFacade;
+import edu.napier.foodel.facade.FoodelSolver;
 
-import edu.napier.foodel.server.Problem;
-import edu.napier.foodel.server.ProblemStatus;
+import edu.napier.foodel.server.Task;
+import edu.napier.foodel.server.TaskStatus;
 
 import net.freeutils.httpserver.HTTPServer.ContextHandler;
 
@@ -20,9 +20,9 @@ import net.freeutils.httpserver.HTTPServer.Response;
 
 public class GPXHandler implements ContextHandler {
 
-	static List<Problem> taskList;
+	static List<Task> taskList;
 
-	public GPXHandler(List<Problem> taskList) {
+	public GPXHandler(List<Task> taskList) {
 		super();
 		GPXHandler.taskList = taskList;
 	}
@@ -41,11 +41,11 @@ public class GPXHandler implements ContextHandler {
 		}
 
 		//Find job
-		Problem current = null;
+		Task current = null;
 		synchronized(taskList){ 
-			Iterator<Problem> myIterator = taskList.iterator(); 
+			Iterator<Task> myIterator = taskList.iterator(); 
 			while(myIterator.hasNext()){ 
-				Problem t = myIterator.next();
+				Task t = myIterator.next();
 				if ((t.getKey().equals(key))) {
 					current = t;
 					break;
@@ -58,12 +58,12 @@ public class GPXHandler implements ContextHandler {
 				return 0;
 			}
 			
-			if (!current.getStatus().equals(ProblemStatus.SOLVED)) {
+			if (!current.getStatus().equals(TaskStatus.SOLVED)) {
 				resp.getHeaders().add("Content-Type", "text/html");
 				resp.send(200,  "Job not complete");
 				return 0;
 			}
-			var f  = FoodelFacade.getInstance();
+			var f  = FoodelSolver.getInstance();
 			f.setProblem(current.getProblem());
 			resp.getHeaders().add("Content-Disposition", "attachment; filename="+current.getId()+"-"+run+".gpx");	
 			resp.getHeaders().add("Content-Type", "application/octet-stream");

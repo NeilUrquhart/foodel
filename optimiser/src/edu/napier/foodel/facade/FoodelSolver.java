@@ -22,14 +22,14 @@ import edu.napier.foodel.problemTemplate.FoodelProblem;
 import edu.napier.foodel.problemTemplate.FoodelProblemFactory;
 import edu.napier.foodel.utils.RandomSingleton;
 
-public class FoodelFacade {
+public class FoodelSolver {
 	//Implements Singleton
-	private static FoodelFacade instance = null;
-	private FoodelFacade() {}
+	private static FoodelSolver instance = null;
+	private FoodelSolver() {}
 	
-	public static FoodelFacade getInstance() {
+	public static FoodelSolver getInstance() {
 		if (instance == null)
-			instance = new FoodelFacade();
+			instance = new FoodelSolver();
 		return instance;
 	}
 	//Done Singleton

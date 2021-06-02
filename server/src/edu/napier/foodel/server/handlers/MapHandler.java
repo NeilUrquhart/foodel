@@ -9,12 +9,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import edu.napier.foodel.facade.FoodelFacade;
+import edu.napier.foodel.facade.FoodelSolver;
 
 
 import edu.napier.foodel.server.HTMLpage;
-import edu.napier.foodel.server.Problem;
-import edu.napier.foodel.server.ProblemStatus;
+import edu.napier.foodel.server.Task;
+import edu.napier.foodel.server.TaskStatus;
 import edu.napier.foodel.server.ServerProperties;
 import net.freeutils.httpserver.HTTPServer;
 import net.freeutils.httpserver.HTTPServer.Context;
@@ -27,9 +27,9 @@ import net.freeutils.httpserver.HTTPServer.Response;
 
 public class MapHandler implements ContextHandler {
 
-	static List<Problem> taskList;
+	static List<Task> taskList;
 
-	public MapHandler(List<Problem> taskList) {
+	public MapHandler(List<Task> taskList) {
 		super();
 		MapHandler.taskList = taskList;
 	}
@@ -62,22 +62,22 @@ public class MapHandler implements ContextHandler {
 		
 				
 		//Find job
-		Problem current = null;
+		Task current = null;
 		synchronized(taskList){
 			
 			if (nokey == false) {
-				Iterator<Problem> myIterator = taskList.iterator(); 
+				Iterator<Task> myIterator = taskList.iterator(); 
 				while(myIterator.hasNext()){ 
-					Problem t = myIterator.next();
+					Task t = myIterator.next();
 					if ((t.getKey().equals(key))) {
 						current = t;
 						break;
 					}
 				} 
 			}else{//nokey = true
-				Iterator<Problem> myIterator = taskList.iterator(); 
+				Iterator<Task> myIterator = taskList.iterator(); 
 				while(myIterator.hasNext()){ 
-					Problem t = myIterator.next();
+					Task t = myIterator.next();
 					if ((t.getId().equals(id))) {
 						current = t;
 						break;
@@ -91,8 +91,8 @@ public class MapHandler implements ContextHandler {
 				return mapError(resp, page);
 			}
 
-			if(current.getStatus().equals(ProblemStatus.SOLVED)) {
-				FoodelFacade f =FoodelFacade.getInstance();
+			if(current.getStatus().equals(TaskStatus.SOLVED)) {
+				FoodelSolver f =FoodelSolver.getInstance();
 				f.setProblem(current.getProblem());
 				page.addToHeader(
 				"	<meta charset=\"utf-8\" />\n" + 

@@ -326,17 +326,19 @@ public class VolunteerProblem extends CVRPProblem {
 
 			for (FoodelVisit v : run){
 				c++;
-				String description = c +" ";
+				String description;// = c +" ";
 				if (v instanceof FoodelVisit) {
-
+					description= c +" ";
 					if (((FoodelVisit)v).getAddress()!= null) {
+						
 						description += ((FoodelVisit)v).getAddress().replace("&", " and ");
 						description += " ";
 					}
 					if (((FoodelVisit)v).getOrder()!= null) 
 						description += ((FoodelVisit)v).getOrder().replace("&", " and ");
-				}else 
-					description += v.getName();
+				}
+				else 
+					description = c + " "+ v.getName();
 
 				html = html +  description + " " + getTimeOnlyformatter().format(time) +"<br>" ;
 

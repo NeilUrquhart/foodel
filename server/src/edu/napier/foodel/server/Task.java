@@ -7,15 +7,15 @@ import edu.napier.foodel.problemTemplate.FoodelProblem;
 
 
 
-public class Problem {
+public class Task {
 	private FoodelProblem p;// = new FoodelProblem();
 	private String inputFile;
-	private ProblemStatus status;
+	private TaskStatus status;
 	private String key = "";
 	//private String id = "";
 	
 	
-	public Problem() {
+	public Task() {
 		//Generate random key
 		SecureRandom random = new SecureRandom();
 		byte[] values = new byte[20];
@@ -40,11 +40,11 @@ public class Problem {
 		return key;
 	}
 	
-	public ProblemStatus getStatus() {
+	public TaskStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(ProblemStatus status) {
+	public void setStatus(TaskStatus status) {
 		this.status = status;
 	}
 

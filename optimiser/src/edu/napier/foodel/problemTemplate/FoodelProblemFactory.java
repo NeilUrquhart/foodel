@@ -225,7 +225,7 @@ public abstract class  FoodelProblemFactory   {
 			String[] buffer = csvData.get(keyword);
 			System.out.println(buffer[1]);
 			Point2D p = Geocoder.find(buffer[1]);
-			FoodelVisit v = new FoodelVisit("Depot","","",p.getX(),p.getY(),0);
+			FoodelVisit v = new FoodelVisit("Base","","",p.getX(),p.getY(),0);
 			result.setStart(v);
 			result.setStartPcode(buffer[1]);
 		}

@@ -28,4 +28,34 @@ Further problems will be added to the solver in due course.
 
 *Solver Architecture*
 
+The solver built a around a Facade pattern. The class edu.napier.foodel.facade.FoodelSolver publishes a set of methods that can be used to solve problems.  FoodelSolver is based on the Singleton pattern and so cannot be instanciated, but should be accessed using 
+
+`FoodelSolver.getInstance()`
+
+The FoodelSolver class only handles one problem instance at a time. The queing of problems as well as any loading/saving is dealt with the the Server project.
+
+The methods available are:
+
+* `public FoodelProblem newProblem(HashMap<String, String[]> csvData,String ref) throws Exception` Create a new problem based on the problem contauned in csvData. Our CSV files are arranged so that column A contains a keyword which conveys the meaning of the remaining columns (see data file examples). Each <key,value> pair represents the keyword (col A) paired with a String array that represents the values in the columns on that row (including A). Ref is a String used as the problem reference.
+
+The method returns a FoodelProblem object (it will actually be a subclass such as CVRPProblem or VolunteerProblem).
+
+* `public  void setProblem(FoodelProblem aProb)`
+Used to pass a FoodelProblem object to the solver, which becomes the current problem.
+
+* `public  void solve()`
+Optimises the current problem and produces a solution, which may be accessed through the methods below. Note that this method may take some time to execute depening on the size and type of the current problem.
+
+* `public String getResultHTML(String key)` 
+Returns a string that contains an HTML representation of the answer (note not a complete page). The key parameter is required in order to correctly form the links to individual maps. The key parameter is generated within the Server project. Note that this method only returns a valid result the solve() method as been called.
+
+* `public String getGPX(int r)`
+
+Returns a string representing a GPX representation of route <r> of the current problem. Note that this method only returns a valid result the solve() method as been called.
+
+
+* `public String getHTMLMap(int route)`
+
+Returns a String containing an HTML representation (including a Leaflet OSM map) of route <route> of the current problem. Note that this method only returns a valid result the solve() method as been called.
+
 
