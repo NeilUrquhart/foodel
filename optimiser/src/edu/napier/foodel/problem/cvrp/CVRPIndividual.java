@@ -65,7 +65,7 @@ public class CVRPIndividual extends FoodelIndividual {
 		//System.out.println(fProblem.getTimeOnlyformatter().format(timeLimit));
 		long deliveryTime = fProblem.getDeliveryTimeMS();
 		int veh= fProblem.getVehicleQty();
-		//int split = fProblem.getVehicleCapacity()/veh;
+		int split = fProblem.getNoVisits()/veh;
 		
 		if (phenotype == null) {
 			phenotype = new ArrayList<ArrayList<FoodelVisit>> ();
@@ -82,10 +82,10 @@ public class CVRPIndividual extends FoodelIndividual {
 				count++;
 				curr = (FoodelVisit)v;
 				
+				double jt = GHopperInterface.getJourney(prev,curr, fProblem.getMode()).getTravelTimeMS();
+				double newTime = time + jt;
 
-				double newTime = time + GHopperInterface.getJourney(prev,curr, fProblem.getMode()).getTravelTimeMS();
-
-				//if ((v.getDemand() + routeDemand(newRoute) > problem.getVehicleCapacity())||((count%split)==0)){
+				//if ((v.getDemand() + routeDemand(newRoute) > problem.getVehicleCapacity())){//||((count%split)==0)){
 					if ((v.getDemand() + routeDemand(newRoute) > problem.getVehicleCapacity())||(newTime >timeLimit )){
 
 
@@ -116,25 +116,25 @@ public class CVRPIndividual extends FoodelIndividual {
 		//Get weighted distance
 
 
-		return ((fProblem.getWeightedDistance(this))); 
+		return this.rawDist;//((fProblem.getWeightedDistance(this))); 
 	}	
 
 
 
 	@Override
 	public void mutate() {
-		RandomSingleton rnd =RandomSingleton.getInstance();
-		float choice = rnd.getRnd().nextFloat();
-		if (choice>=0.8) {
+		//RandomSingleton rnd =RandomSingleton.getInstance();
+		//float choice = rnd.getRnd().nextFloat();
+		//if (choice>=0.8) {
 			super.mutate();
-		}
-		else {
-			//Mutate the genotype, by randomly swapping two adjacent genes
-			phenotype = null;
-			int rndGene = rnd.getRnd().nextInt(genotype.size()-1);
-			FoodelVisit v1 = genotype.remove(rndGene);
-			genotype.add(rndGene+1,v1);
-		}
+		//}
+		//else {
+		//	//Mutate the genotype, by randomly swapping two adjacent genes
+		//	phenotype = null;
+		//	int rndGene = rnd.getRnd().nextInt(genotype.size()-1);
+		//	FoodelVisit v1 = genotype.remove(rndGene);
+		//	genotype.add(rndGene+1,v1);
+		//}
 	}
 
 	

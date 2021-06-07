@@ -189,7 +189,7 @@ public abstract  class FoodelProblem  {
 		return dist;
 	}
 
-	private double getDistance(FoodelVisit x, FoodelVisit y){
+	public double getDistance(FoodelVisit x, FoodelVisit y){
 		//Get the distance between two visits
 		if ((x == null)||(y==null))
 			return 0;

@@ -12,42 +12,42 @@ public class CVRPsolver  extends FoodelSolver{
 	//Note that we use the RandomSingleton object to generate random numbers
 	protected ArrayList <FoodelIndividual> population = new ArrayList<FoodelIndividual>();
 	//population stores our pool of potential solutions
-	
+
 	private static int evalsChange = 1000000;//default
-	 private static DecimalFormat df2 = new DecimalFormat("#.##");
-	  private double end;
+	private static DecimalFormat df2 = new DecimalFormat("#.##");
+	private double end;
 
-	 
-		//EA Parameters
-		protected int POP_SIZE = 1000;
-		protected int TOUR_SIZE = 2;
-		protected double XO_RATE = 0.7;
-		protected int evalsBudget = 1000000;
-		
-	 protected int runs = 10;
-		
-	
-		public void solve() {
-			FoodelIndividual best = null;
-			for (int run = 0; run < runs; run ++) {
-				FoodelIndividual curr = this.runEA(run);
-				if (best != null) {
-					if (curr.evaluate() <  best.evaluate())
-						best = curr;
-				}else
+
+	//EA Parameters
+	protected int POP_SIZE = 500;
+	protected int TOUR_SIZE = 2;
+	protected double XO_RATE = 0.2;
+	protected int evalsBudget = 1000000;
+
+	protected int runs = 10;
+
+
+	public void solve() {
+		FoodelIndividual best = null;
+		for (int run = 0; run < runs; run ++) {
+			FoodelIndividual curr = this.runEA(run);
+			if (best != null) {
+				if (curr.evaluate() <  best.evaluate())
 					best = curr;
-			}
-			super.theProblem.setSolution(best.getPhenotype());
+			}else
+				best = curr;
 		}
+		super.theProblem.setSolution(best.getPhenotype());
+	}
 
-		
-		
-		
-    public CVRPsolver( double end) {
-    	this.end = end;
-    }
 
-    protected FoodelIndividual tournamentSelection(int poolSize){
+
+
+	public CVRPsolver( double end) {
+		this.end = end;
+	}
+
+	protected FoodelIndividual tournamentSelection(int poolSize){
 		//Return the best individual from a randomly selected pool of individuals
 		FoodelIndividual bestI = null;
 		double bestFit = Double.MAX_VALUE;
@@ -74,33 +74,33 @@ public class CVRPsolver  extends FoodelSolver{
 		}
 		return bestI;
 	}
-    
+
 	protected CVRPIndividual InitialisePopution() {
 		System.out.println("Setting up problem");
 		population.clear();
 
-		
-		CVRPIndividual init=null;
+
 		//Initialise population with (semi)random solutions
 		CVRPIndividual best = null;
 		for (int count=0; count < POP_SIZE; count++){
 			CVRPIndividual i;
-			if(init != null) {
-				if(rnd.getRnd().nextBoolean()) {
-					i = init.copy();
-					int m = rnd.getRnd().nextInt(10);
-					for (int x=0; x < m; x++)
-						i.mutate();
-				}
-			}
+//			if(init != null) {
+//				if(rnd.getRnd().nextBoolean()) {
+//					i = init.copy();
+//					int m = rnd.getRnd().nextInt(10);
+//					for (int x=0; x < m; x++)
+//						i.mutate();
+//				}
+//			}
 			i = new CVRPIndividual(super.theProblem);
+			if (count==0)
+				i.nn();
 
-			
 			if (best == null) 
 				best = i;
 			if (i.evaluate() < best.evaluate()) 
 				best = i;
-			
+
 			if((count%10)==0)
 				System.out.println(count);// +" "+best.evaluate() + " "+best.getDistance() +" "+ best.getVehicles());
 
@@ -109,7 +109,7 @@ public class CVRPsolver  extends FoodelSolver{
 		}
 		return best;
 	}
-	
+
 
 	public FoodelIndividual runEA(int run) {
 		if (super.theProblem.getNoVisits() <=2 ) {
@@ -122,7 +122,7 @@ public class CVRPsolver  extends FoodelSolver{
 		evalsChange = 1000000;
 		System.out.println("Time out = "+ evalsChange);
 		int timeOut = evalsChange;
-		
+
 		//Reference to the best individual in the population
 		CVRPIndividual bestSoFar = InitialisePopution();
 		while(timeOut >0) {	
@@ -136,17 +136,17 @@ public class CVRPsolver  extends FoodelSolver{
 				//Create a child by copying a single parent
 				child = (CVRPIndividual)tournamentSelection(TOUR_SIZE).copy();
 			}
-			
+
 			child.mutate();
 			child.evaluate();
-			
+
 			timeOut --;
-			
+
 			//Select an Individual with a poor fitness to be replaced
 			FoodelIndividual poor = tournamentSelectWorst(TOUR_SIZE);
 			if (poor.evaluate() > child.evaluate()){
 				//Only replace if the child is an improvement
-				
+
 				if (child.evaluate() < bestSoFar.evaluate()){
 					bestSoFar = child;
 					timeOut =evalsChange;
@@ -155,11 +155,11 @@ public class CVRPsolver  extends FoodelSolver{
 				population.remove(poor);
 				population.add(child);
 			}
-			
+
 
 			if ((timeOut %50000)==0) {
-			  System.out.print(run +"\tTo run "+(timeOut)+"\t ");
-			  System.out.println("\tVehicles "+bestSoFar.getVehicles() +"\tDist"+ df2.format(bestSoFar.getDistance())+"\tFitness "+ df2.format(bestSoFar.evaluate()));
+				System.out.print(run +"\tTo run "+(timeOut)+"\t ");
+				System.out.println("\tVehicles "+bestSoFar.getVehicles() +"\tDist"+ df2.format(bestSoFar.getDistance())+"\tFitness "+ df2.format(bestSoFar.evaluate()));
 			}
 			if (System.currentTimeMillis() > this.end) {//time out
 				timeOut=0;
@@ -168,6 +168,6 @@ public class CVRPsolver  extends FoodelSolver{
 		}
 
 		return bestSoFar;
-		
+
 	}
 }

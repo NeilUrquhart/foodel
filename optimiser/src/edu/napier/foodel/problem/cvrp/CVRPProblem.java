@@ -23,11 +23,11 @@ public class CVRPProblem extends FoodelProblem {
     
     //private FoodelVisit initialVisit;
   	
-  	private int vehicles=1;
+  	private int vehicles=2;
   	private transient SimpleDateFormat timeOnlyformatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
    
-	private boolean concurrentRoutes = false;
+	private boolean concurrentRoutes = true;
 	
 	public void setConcurrentRoutes(boolean val) {
 		concurrentRoutes = val;

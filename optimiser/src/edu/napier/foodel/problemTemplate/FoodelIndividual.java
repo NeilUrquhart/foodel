@@ -49,12 +49,12 @@ public abstract class  FoodelIndividual   {
 		problem = prob;
 		genotype = new ArrayList<>();
 		int xPoint = rnd.getRnd().nextInt(parent1.genotype.size());
-		
+
 		//copy all of p1 to the xover point
 		for (int count =0; count < xPoint; count++ ){
 			genotype.add(parent1.genotype.get(count));
 		}
-		
+
 		//Now add missing genes from p2
 		for (int count =0; count < parent2.genotype.size(); count++){
 			FoodelVisit v = parent2.genotype.get(count);
@@ -65,6 +65,31 @@ public abstract class  FoodelIndividual   {
 		}
 	}
 
+	public void nn() {
+		//Initialise using NN heuristic
+		FoodelVisit currentPos = problem.getStart();
+		ArrayList<FoodelVisit> temp = new ArrayList<FoodelVisit>(genotype);
+		genotype.clear();
+		
+		while(temp.size()>0) {
+			
+			//Find nearest n
+			int bestPos=0;
+			double bestDist = Double.MAX_VALUE;
+			for (int count =0; count < temp.size(); count ++) {
+				FoodelVisit v = temp.get(count);
+				double d = problem.getDistance(v,currentPos);
+				if (d < bestDist) {
+					bestDist = d;
+					bestPos = count;
+				}
+			}
+			currentPos = temp.remove(bestPos);
+			genotype.add(currentPos);
+
+			
+		}
+	}
 
 	private ArrayList randomize(ArrayList list) {
 		// Randomly shuffle the contents of <list>
@@ -76,38 +101,67 @@ public abstract class  FoodelIndividual   {
 		}
 		return list;
 	}
-	
+
 	public void mutate() {
 		//Mutate the genotype, by randomly moving a gene.
-		phenotype = null;
-		int rndGene = rnd.getRnd().nextInt(genotype.size());
-		FoodelVisit v = genotype.remove(rndGene);
-		int addPoint = rnd.getRnd().nextInt(genotype.size());
-		genotype.add(addPoint,v);
+		if (rnd.getRnd().nextDouble() <0.4) {
+			phenotype = null;
+			int rndGene = rnd.getRnd().nextInt(genotype.size());
+			FoodelVisit v = genotype.remove(rndGene);
+			int addPoint = rnd.getRnd().nextInt(genotype.size());
+			genotype.add(addPoint,v);
+		}else {
+			nnmutate();
+		}
 	}
 
+	private void nnmutate() {
+		//Mutate the genotype, by randomly moving a gene to its nearest neighbour
+		phenotype = null;
+		int sp = rnd.getRnd().nextInt(genotype.size()-1);
+		FoodelVisit gene = genotype.get(sp);
+
+		//Find nearest n
+		int bestPos=0;
+		double bestDist = Double.MAX_VALUE;
+		for (int count =0; count < genotype.size(); count ++) {
+			FoodelVisit v = genotype.get(count);
+			if (v != gene) {
+				double d = problem.getDistance(v,gene);
+				if (d < bestDist) {
+					bestDist = d;
+					bestPos = count;
+				}
+			}
+		}
+		gene = genotype.remove(bestPos);
+		sp++;
+		genotype.add(sp,gene);
+	}
+
+
 	public abstract double evaluate();// {
-//		/*
-//		 * Build a phenotype based upon the genotype
-//		 * Only build the genotyoe if the phenotype has been set to null
-//		 * Return the fitness (distance)
-//		 */
-//		if (phenotype == null) {
-//			phenotype = new ArrayList<ArrayList<FoodelVisit>> ();
-//			ArrayList<FoodelVisit> newRoute = new ArrayList<>();
-//			for (FoodelVisit v : genotype){
-//				if (v.getDemand() + routeDemand(newRoute) > problem.getVehicleCapacity()){
-//					//If next visit cannot be added  due to capacity constraint then
-//					//start new route.
-//					phenotype.add(newRoute);
-//					newRoute = new ArrayList<>();
-//				}
-//				newRoute.add(v);
-//			}
-//			phenotype.add(newRoute);
-//		}
-//		return problem.getSolutionDistance(phenotype);
-//	}
+	//		/*
+	//		 * Build a phenotype based upon the genotype
+	//		 * Only build the genotyoe if the phenotype has been set to null
+	//		 * Return the fitness (distance)
+	//		 */
+	//		if (phenotype == null) {
+	//			phenotype = new ArrayList<ArrayList<FoodelVisit>> ();
+	//			ArrayList<FoodelVisit> newRoute = new ArrayList<>();
+	//			for (FoodelVisit v : genotype){
+	//				if (v.getDemand() + routeDemand(newRoute) > problem.getVehicleCapacity()){
+	//					//If next visit cannot be added  due to capacity constraint then
+	//					//start new route.
+	//					phenotype.add(newRoute);
+	//					newRoute = new ArrayList<>();
+	//				}
+	//				newRoute.add(v);
+	//			}
+	//			phenotype.add(newRoute);
+	//		}
+	//		return problem.getSolutionDistance(phenotype);
+	//	}
 
 	public ArrayList<ArrayList<FoodelVisit>> getPhenotype(){
 		return phenotype;
@@ -130,20 +184,20 @@ public abstract class  FoodelIndividual   {
 
 
 	public abstract FoodelIndividual copy();// {
-//		//Create a new individual that is a direct copy of this individual
-//		FoodelIndividual copy = new FoodelIndividual(this.problem);
-//		copy.genotype = (ArrayList<FoodelVisit>) this.genotype.clone();
-//		return copy;
-//	}
+	//		//Create a new individual that is a direct copy of this individual
+	//		FoodelIndividual copy = new FoodelIndividual(this.problem);
+	//		copy.genotype = (ArrayList<FoodelVisit>) this.genotype.clone();
+	//		return copy;
+	//	}
 
-	
+
 	public String toString() {
 		StringBuilder res= new StringBuilder();
 		for (FoodelVisit v : genotype) {
 			res.append(v.toString()+":");
 		}
 		res.append("\n");
-		
+
 		if (phenotype != null) {
 			res.append("Phenotype\n");
 			for (ArrayList<FoodelVisit> route: phenotype) {
@@ -151,7 +205,7 @@ public abstract class  FoodelIndividual   {
 					res.append( v.toString()+":");
 				}
 				res.append("\n");
-				
+
 			}
 		}
 		return res.toString();
