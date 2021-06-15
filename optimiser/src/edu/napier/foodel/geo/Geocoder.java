@@ -22,15 +22,18 @@ public class Geocoder {
 		postcodes.setDirectory(aDataDir);
 	}
 
-	public static Point2D find(String addr){
+	public static Point2D find(String addr)throws Exception
+	{
 		Point2D result  = null;
-		if (addr.length()<10)
-			result = postcodes.find(addr);
+//		if (addr.length()<10)
+//			result = postcodes.find(addr);
 
-		if (result == null) {
+		//if (result == null) {
 			result = nominatim.find(addr);
-		}
-
+			
+	//	}
+		if (result == null)
+			throw new Exception("I don't understand the address " + addr);
 		return result;
 
 	}

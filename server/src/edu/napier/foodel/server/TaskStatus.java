@@ -4,7 +4,8 @@ public enum TaskStatus {
 	LOADING("loading"),
 	WAITING("waiting"),
 	RUNNING("running"),
-	SOLVED("solved");
+	SOLVED("solved"),
+	BROKEN("broken");//Used if there's any form of error -see Task.errMsg
 
 	private String status;
 

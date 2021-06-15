@@ -70,7 +70,7 @@ public class UploadProblem {
 					if (!filename.endsWith(".csv")) {
 						throw new Exception("Your problem file must be saved as a .CSV");
 					}
-					
+					newTask.setInputFile(filename);
 					//Check file can be parsed + extract id
 					
 					if (idInUse(filename)) {
@@ -80,15 +80,16 @@ public class UploadProblem {
 						
 						filename = filename +"-"+c;
 					}
-					HashMap<String,String[]> csvData = readStream(part.getBody());
+					newTask.setId(filename);
+					newTask.setRawData(readStream(part.getBody()));
+					//HashMap<String,String[]> csvData = readStream(part.getBody());
 					
-					FoodelProblem p= FoodelSolver.getInstance().newProblem(csvData,filename);//.buildProblem(part.getBody(), filename);	
-					newTask.setProblem(p);
+					//FoodelProblem p= FoodelSolver.getInstance().newProblem(csvData,filename);
+					//newTask.setProblem(p);
 					//set new task
-					newTask.setInputFile(filename);
+					
 					newTask.setStatus(TaskStatus.WAITING);
-					//newTask.setId(p.getReference());
-
+				
 				} catch(Exception e) {
 					e.printStackTrace();
 					resp.getHeaders().add("Content-Type", "text/html");
@@ -158,28 +159,4 @@ public class UploadProblem {
 		return false;
 	}
 
-	//	
-	//
-	//	private String getIndex(String key,String id) throws Exception{
-	//		String fName = "./"+key+"/summary.csv";
-	//		List<String>  tmp= Files.readAllLines(Paths.get(fName));
-	//		String html =  "<!DOCTYPE html>\n" + 
-	//				"<html>\n" + 
-	//				"<body>\n" + 
-	//				"\n"  ;
-	//		for (String line : tmp)
-	//		{
-	//			if (line.startsWith("Run")) {
-	//				int run = Integer.parseInt(line.split(" ")[1]);
-	//				line = "<h1><a href=\"http://"+Application.host()+"/result?id="+id+"&key="+key+"&run="+run+"\">"+line+"</a></h1>";
-	//				//
-	//			}
-	//			html += line +"<br>";
-	//			System.out.println(line);
-	//		}
-	//
-	//		html +=  "</body>\n" + 
-	//				"</html>";
-	//		return html;
-	//	}
 }

@@ -1,6 +1,9 @@
 package edu.napier.foodel.problemTemplate;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
+
+import edu.napier.foodel.geo.Haversine;
 
 
 /*
@@ -217,6 +220,16 @@ public abstract  class FoodelProblem  {
 			result += "No delivery capacity\n";
 		if (this.getStart() == null)
 			result += "You need to enter a start location <br>";
+		
+		//Check dists...
+		for (FoodelVisit v : this.visitList) {
+			
+			if (Haversine.haversine(v, this.getStart())>500) {
+				result += "I'm having trouble recognising an address (" + v.getAddress() +") <br> "
+						+ "If this address is valid, please check the start address";
+			}
+		}
+		
 		return result;
 	}
 
