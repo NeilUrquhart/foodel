@@ -190,35 +190,7 @@ public abstract class  FoodelProblemFactory   {
 		}
 
 		else if ((keyword.startsWith("Customer"))||(keyword.startsWith("Visit"))){
-			String[] buffer = csvData.get(keyword);
-			System.out.println(buffer[0]);//cust
-			System.out.println(buffer[1]);//Address
-			int bags =1;
-//			if (buffer.length >2) {
-//				System.out.println(buffer[2]);//Bags
-//				bags = Integer.parseInt(buffer[2]);
-//			}
-			String note = "";
-			if (buffer.length>4) {
-				note = buffer[4]; 
-				note = note.replace('<', ' ');
-				note = note.replace('>', ' ');
-				note = note.replace('(', ' ');
-				note = note.replace(')', ' ');
-				note = note.replace('&', ' ');
-				note = note.replace('+', ' ');
-				System.out.println(note);//Note
-			}
-			Point2D p = Geocoder.find(buffer[2]);
-			if (p== null) {
-				throw new Exception("Address not found " + buffer[2]);
-			}else {
-				FoodelVisit v = new FoodelVisit(buffer[1],buffer[2],note,p.getX(),p.getY(),bags);
-				//v.setOrder(note);
-				//v.setPostCode(buffer[1]);
-				//v.setAddress(buffer[1]);
-				result.addVisit(v);
-			}
+			addVisit(keyword, csvData, result);
 		}
 
 		else if (keyword.startsWith("Start")){
@@ -237,6 +209,31 @@ public abstract class  FoodelProblemFactory   {
 			FoodelVisit v = new FoodelVisit("End","","",p.getX(),p.getY(),0);
 			result.setEnd(v);
 			result.setEndPCode(buffer[1]);
+		}
+	}
+
+	protected void addVisit(String keyword, HashMap<String, String[]> csvData, FoodelProblem result) throws Exception {
+		String[] buffer = csvData.get(keyword);
+		System.out.println(buffer[0]);//cust
+		System.out.println(buffer[1]);//Address
+		int bags =1;
+		String note = "";
+		if (buffer.length>4) {
+			note = buffer[4]; 
+			note = note.replace('<', ' ');
+			note = note.replace('>', ' ');
+			note = note.replace('(', ' ');
+			note = note.replace(')', ' ');
+			note = note.replace('&', ' ');
+			note = note.replace('+', ' ');
+			System.out.println(note);//Note
+		}
+		Point2D p = Geocoder.find(buffer[2]);
+		if (p== null) {
+			throw new Exception("Address not found " + buffer[2]);
+		}else {
+			FoodelVisit v = new FoodelVisit(buffer[1],buffer[2],note,p.getX(),p.getY(),bags);
+			result.addVisit(v);
 		}
 	}
 }

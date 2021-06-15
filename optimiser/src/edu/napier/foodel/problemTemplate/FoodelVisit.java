@@ -11,8 +11,7 @@ public class FoodelVisit extends Point2D.Double {
  	protected String name;
 	private String address;
 	private String order;
-	//private String postCode;
-
+	
 	public FoodelVisit(String name, String address, String order,double lat, double lon, int demand) {
 		super(lat, lon);
 		this.demand = demand;
