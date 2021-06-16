@@ -103,6 +103,10 @@ public class TaskHandler implements ContextHandler {
 				page.addToBody("<p> Your problem is being solved at the moment. Please be patient, your result will be shown here in a few minutes.</p>");
 			}
 			
+			if (current.getStatus().equals(TaskStatus.BROKEN))	{
+				page.addToBody("<p> Something has gone wrong. The message below may help explain the issue </p><br>" + current.getErrMsg() + "<br>");
+			}
+			
 			if (!current.getStatus().equals(TaskStatus.SOLVED))	{
 				resp.getHeaders().add("Content-Type", "text/html");
 				resp.send(200,  page.html());

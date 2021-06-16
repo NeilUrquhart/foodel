@@ -1,6 +1,7 @@
 package edu.napier.foodel.server;
 
 import java.security.SecureRandom;
+import java.util.HashMap;
 
 import edu.napier.foodel.problem.cvrp.CVRPProblem;
 import edu.napier.foodel.problemTemplate.FoodelProblem;
@@ -12,9 +13,19 @@ public class Task {
 	private String inputFile;
 	private TaskStatus status;
 	private String key = "";
-	//private String id = "";
+	private HashMap<String,String[]> rawData;
+	private String id = "";
+	private String errMsg;
 	
 	
+	public String getErrMsg() {
+		return errMsg;
+	}
+
+	public void setErrMsg(String errMsg) {
+		this.errMsg = errMsg;
+	}
+
 	public Task() {
 		//Generate random key
 		SecureRandom random = new SecureRandom();
@@ -26,6 +37,14 @@ public class Task {
 	        sb.append(String.format("%02X", b));
 	    }
 		key = sb.toString();
+	}
+	
+	public void setRawData(HashMap<String,String[]> rawData) {//The basic data strucure read in from the CSV file
+		this.rawData = rawData;
+	}
+	
+	public HashMap<String,String[]>  getRawData() {//The basic data strucure read in from the CSV file
+		return this.rawData ;
 	}
 	
 	public void setProblem(FoodelProblem p) {
@@ -57,7 +76,10 @@ public class Task {
 	}
 
 	public String getId() {
-		return p.getReference();
+		return id;
 	}
 
+	public void setId(String id) {
+		this.id = id;
+	}
 }

@@ -18,7 +18,7 @@ import edu.napier.foodel.utils.RandomSingleton;
  */
 public abstract class  FoodelIndividual   {
 	//Use the RandomSingleton object to get access to a seeded random number generator
-	private RandomSingleton rnd =RandomSingleton.getInstance();
+	protected RandomSingleton rnd =RandomSingleton.getInstance();
 
 	//The genotype is a "grand tour" list of visits
 	protected ArrayList<FoodelVisit> genotype;
@@ -106,9 +106,9 @@ public abstract class  FoodelIndividual   {
 		//Mutate the genotype, by randomly moving a gene.
 		if (rnd.getRnd().nextDouble() <0.4) {
 			phenotype = null;
-			int rndGene = rnd.getRnd().nextInt(genotype.size());
+			int rndGene = rnd.getRnd().nextInt(genotype.size()-1);
 			FoodelVisit v = genotype.remove(rndGene);
-			int addPoint = rnd.getRnd().nextInt(genotype.size());
+			int addPoint = rnd.getRnd().nextInt(genotype.size()-1);
 			genotype.add(addPoint,v);
 		}else {
 			nnmutate();

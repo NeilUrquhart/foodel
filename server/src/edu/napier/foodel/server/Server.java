@@ -65,6 +65,7 @@ public class Server {
 			}
 
 			if (currentProblem != null){
+			
 				currentProblem = executeProblem(currentProblem);
 			}
 		}
@@ -73,6 +74,15 @@ public class Server {
 	private static Task executeProblem(Task currentTask) {
 		FoodelProblem p;
 		try {
+			LOGGER.info("Parsing raw data "+ currentTask.getInputFile());
+			try {
+				p= FoodelSolver.getInstance().newProblem(currentTask.getRawData(),currentTask.getInputFile());
+				currentTask.setProblem(p);
+			}catch(Exception e) {
+				currentTask.setStatus(TaskStatus.BROKEN);
+				currentTask.setErrMsg(e.getMessage());
+				return null;
+			}
 			LOGGER.info("Starting to solve "+ currentTask.getId());
 			p= currentTask.getProblem();
 			var f = FoodelSolver.getInstance();

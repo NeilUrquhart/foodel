@@ -15,7 +15,7 @@ import edu.napier.foodel.problemTemplate.FoodelVisit;
 public class VolunteerProblem extends CVRPProblem {
 	private ArrayList<Volunteer> volunteers = new ArrayList<Volunteer>();
 
-	public void addVolunteer(String name, String address) {
+	public void addVolunteer(String name, String address) throws Exception{
 		Point2D loc = Geocoder.find(address);
 		volunteers.add(new Volunteer(name, address,"",loc.getX(), loc.getY(),0 ));
 	}

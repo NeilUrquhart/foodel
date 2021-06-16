@@ -2,6 +2,8 @@ package edu.napier.foodel.problemTemplate;
 
 import java.awt.geom.Point2D;
 
+import edu.napier.foodel.geo.Geocoder;
+
 
 @SuppressWarnings("serial")
 public class FoodelVisit extends Point2D.Double {
@@ -11,8 +13,7 @@ public class FoodelVisit extends Point2D.Double {
  	protected String name;
 	private String address;
 	private String order;
-	//private String postCode;
-
+	
 	public FoodelVisit(String name, String address, String order,double lat, double lon, int demand) {
 		super(lat, lon);
 		this.demand = demand;
@@ -88,4 +89,5 @@ public class FoodelVisit extends Point2D.Double {
 	public int getDemand() {
 		return demand;
 	}
+	
 }

@@ -15,6 +15,9 @@ import edu.napier.foodel.geo.GHopperInterface;
 import edu.napier.foodel.problem.cvrp.CVRPProblem;
 import edu.napier.foodel.problem.cvrp.CVRPProblemFactory;
 import edu.napier.foodel.problem.cvrp.CVRPsolver;
+import edu.napier.foodel.problem.fixedvans.FixedVansProblem;
+import edu.napier.foodel.problem.fixedvans.FixedVansProblemFactory;
+import edu.napier.foodel.problem.fixedvans.FixedVansSolver;
 import edu.napier.foodel.problem.volunteers.VolunteerProblem;
 import edu.napier.foodel.problem.volunteers.VolunteerProblemFactory;
 import edu.napier.foodel.problem.volunteers.VolunteerSolver;
@@ -35,7 +38,7 @@ public class FoodelSolver {
 	//Done Singleton
 	
 	private  FoodelProblem myVRP;
-	private enum ProblemType {CVRP, Volunteer}
+	private enum ProblemType {CVRP, Volunteer, FixedVans}
 	private ProblemType problem;
 	
 	public  void setProblem(FoodelProblem aProb) {
@@ -47,15 +50,17 @@ public class FoodelSolver {
 		double runTime = 60000*15; //15 mins
 		double end = System.currentTimeMillis() + runTime;
 		GHopperInterface.setCacheSize();
-		CVRPsolver eaSolve=null;
+		FoodelSolver eaSolve=null;
 		
 		if (problem == ProblemType.CVRP)
-			eaSolve = new CVRPsolver(end);
+			myVRP.solve(new CVRPsolver(end));
 
 		if (problem == ProblemType.Volunteer)
-			eaSolve = new VolunteerSolver(end);
+			myVRP.solve(new VolunteerSolver(end));
 		
-		myVRP.solve(eaSolve);
+		if (problem == ProblemType.FixedVans)
+			myVRP.solve(new FixedVansSolver(end));
+
 		}
 
 	public String getGPX(int r) {
@@ -80,7 +85,18 @@ public class FoodelSolver {
 			myVRP.setReference(ref);
 			myVRP = (CVRPProblem) factory.parseData(csvData,myVRP);
 			return myVRP;
-		}else {
+		}
+		
+		else if (findKey(csvData,"Vehicle Capacity")) {
+			problem = ProblemType.FixedVans;
+			myVRP = new FixedVansProblem();
+			FoodelProblemFactory factory = new FixedVansProblemFactory();
+			myVRP.setReference(ref);
+			myVRP = (FixedVansProblem) factory.parseData(csvData,myVRP);
+			return myVRP;
+			
+		}
+		else {
 			//Default is CVRP problem
 			problem = ProblemType.CVRP;
 			FoodelProblemFactory factory = new CVRPProblemFactory();
