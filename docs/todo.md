@@ -5,7 +5,9 @@ This markdown file serves as a place to document bugs, problems and suggestions 
 ## Bugs
 - (known issue) Takes a long time to upload a problem file.
 - Maps can overflow (spill off page)
-
+- Solver throws an error if CSV file is malformed e.g:
+  - An empty CSV file 
+  - Date/time information is missing
 
 ## Problems
 - If map data missing, the page endlessly refreshes after a job has been
