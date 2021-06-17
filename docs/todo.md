@@ -1,6 +1,7 @@
 # Todo 
 
-This markdown file serves as a place to document bugs, problems and suggestions for Neil. 
+This markdown file serves as a place to document bugs, problems and suggestions
+for Neil. 
 
 ## Bugs
 - (known issue) Takes a long time to upload a problem file.
@@ -8,10 +9,14 @@ This markdown file serves as a place to document bugs, problems and suggestions 
 - Solver throws an error if CSV file is malformed e.g:
   - An empty CSV file 
   - Date/time information is missing
+- If you visit "/upload" directly from the browser (i.e. GET request) a 500
+  error occurs
+- Can sometimes take a while to redirect once job is done (even when the job is
+  already done)
 
 ## Problems
 - If map data missing, the page endlessly refreshes after a job has been
-  submitted. No message / indicator on web interface if map data missing. 
+  submitted. No message / indicator on web interface if map data missing.
 
 
 ## Suggestions
@@ -29,6 +34,7 @@ This markdown file serves as a place to document bugs, problems and suggestions 
   [https://github.com/github/gitignore/blob/master/Global/Eclipse.gitignore](https://github.com/github/gitignore/blob/master/Global/Eclipse.gitignore).
   Kind of feeds into point suggestion 1 so as few things as necessary are stored
   in the repository.
+- May also be helpful to ignore other non-essential files e.g: .DS_Store files
 - Minor CSS adjustments:
   - Change padding on page body so no gap
   - Maybe have the footer stick to the bottom of the window
