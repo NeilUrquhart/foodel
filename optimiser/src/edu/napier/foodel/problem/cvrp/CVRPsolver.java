@@ -24,7 +24,7 @@ public class CVRPsolver  extends FoodelSolver{
 	protected double XO_RATE = 0.2;
 	protected int evalsBudget = 1000000;
 
-	protected int runs = 10;
+	protected int runs = 3;
 
 
 	public void solve() {

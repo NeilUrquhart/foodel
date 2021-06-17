@@ -39,11 +39,8 @@ public class Server {
 		taskList = Collections.synchronizedList(taskList);
 		
 		startServer();
-		//Init OSM and pcode data
+		//Init OSM
 		setData();
-		
-		
-		
 		//main loop
 		processLoop();
 	}
@@ -103,7 +100,6 @@ public class Server {
 						e.printStackTrace();
 					}
 				}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -120,11 +116,9 @@ public class Server {
 		//start server
 
 		var port = Integer.parseInt(ServerProperties.getInstance().get("port"));
-	
 		var server = new HTTPServer(port);
 		try {
 			server.start();
-
 			var host = new VirtualHost(null);
 			host.addAlias("food"); // if it has aliases
 			server.addVirtualHost(host);
