@@ -10,10 +10,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
-
+import com.graphhopper.GraphHopper;
 import com.graphhopper.PathWrapper;
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.routing.util.EncodingManager;
+import com.graphhopper.util.Instruction;
 import com.graphhopper.util.PointList;
 
 import edu.napier.foodel.problemTemplate.FoodelVisit;
@@ -49,8 +50,6 @@ public class GHopperInterface {
 		FoodelVisit last = (FoodelVisit) vlast;
 		FoodelVisit next= (FoodelVisit) vnext;
 		try {
-
-	
 			res = cache[last.getIndex()][next.getIndex()];
 			if (res != null)
 				return res;
@@ -59,7 +58,7 @@ public class GHopperInterface {
 		}catch(Exception e) {
 			//if hopper fails, then calculate journey based on Euclidean dist
 			res = new Journey(last, next);
-			res.setDistanceKM(haversine(last,next));
+			res.setDistanceKM(Haversine.haversine(last,next));
 			ArrayList<Point2D.Double>path = new ArrayList<Point2D.Double>();
 			path.add(last);
 			path.add(next);
@@ -71,22 +70,22 @@ public class GHopperInterface {
 		return res;
 	}
 
-	private static Journey findJourney(FoodelVisit start, FoodelVisit end, String type) {
+	public static Journey findJourney(FoodelVisit start, FoodelVisit end, String type) {
 	
 		if (hopper==null)
 			init();
 		
 		GHRequest request = new GHRequest(start.getX(),start.getY(),end.getX(),end.getY()).setVehicle(type);
-	    GHResponse response = hopper.route(request);
+	 
+		GHResponse response = hopper.route(request);
 	    if (response.hasErrors()) {
 	        throw new IllegalStateException("S= " + start + "e= " + end +". GraphHopper gave " + response.getErrors().size()
 	                + " errors. First error chained.",
 	                response.getErrors().get(0)
 	        );
 	    }
-	    
+
 	    PathWrapper pw = response.getBest();
-	    
 	    Journey res = new Journey(start,end);
 	    res.setDistanceKM(pw.getDistance()/1000);//Check
 	    res.setTravelTimeMS( (long) (pw.getTime()*timeFactor));//Check
@@ -96,7 +95,6 @@ public class GHopperInterface {
 	    		path.add(new Point2D.Double(pl.getLatitude(c),pl.getLongitude(c)));
 	    }
 	    res.setPath(path);
-	    
 	    return res;
 	}
 
@@ -107,7 +105,9 @@ public class GHopperInterface {
 	}
 	
 	private static GraphHopperOSM init() {
+
 		hopper = new GraphHopperOSM();
+		
 		hopper.setOSMFile(folder+"/"+fileName);
 		hopper.setCHEnabled(false); // CH does not work with shortest weighting (at the moment)
 		
@@ -131,18 +131,6 @@ public class GHopperInterface {
 		hopper.importOrLoad();
 		return hopper;
 	}
-
-	private static double haversine(FoodelVisit start, FoodelVisit finish) {
-		/* from https://rosettacode.org/wiki/Haversine_formula */
-		final double R = 6372.8; // In kilometers
-	    
-        double dLat = Math.toRadians(finish.getX()- start.getX());
-        double dLon = Math.toRadians(finish.getY() - start.getY());
-        double lat1 = Math.toRadians(start.getX());
-        double lat2 = Math.toRadians(finish.getX());
- 
-        double a = Math.pow(Math.sin(dLat / 2),2) + Math.pow(Math.sin(dLon / 2),2) * Math.cos(lat1) * Math.cos(lat2);
-        double c = 2 * Math.asin(Math.sqrt(a));
-        return R * c;
-    }
+	
+	
 }

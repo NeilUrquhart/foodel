@@ -226,7 +226,7 @@ public abstract  class FoodelProblem  {
 			
 			if (Haversine.haversine(v, this.getStart())>500) {
 				result += "I'm having trouble recognising an address (" + v.getAddress() +") <br> "
-						+ "If this address is valid, please check the start address";
+						+ "If this address is valid, please check the start address <br>";
 			}
 		}
 		
@@ -249,4 +249,6 @@ public abstract  class FoodelProblem  {
 		}
 		return buffer;
 	}
+	
+	public abstract String getCSV(int run);
 }

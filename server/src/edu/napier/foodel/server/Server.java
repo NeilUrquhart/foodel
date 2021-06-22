@@ -14,6 +14,7 @@ import edu.napier.foodel.geo.GHopperInterface;
 import edu.napier.foodel.geo.Geocoder;
 import edu.napier.foodel.problem.cvrp.CVRPProblem;
 import edu.napier.foodel.problemTemplate.FoodelProblem;
+import edu.napier.foodel.server.handlers.CSVHandler;
 import edu.napier.foodel.server.handlers.Default;
 import edu.napier.foodel.server.handlers.GPXHandler;
 import edu.napier.foodel.server.handlers.TaskHandler;
@@ -126,6 +127,7 @@ public class Server {
 			UploadProblem.setTaskList(taskList);
 			host.addContext("/status", new ServerStatus(taskList));
 			host.addContext("/gpx", new GPXHandler(taskList));
+			host.addContext("/csv", new CSVHandler(taskList));
 			host.addContext("/job", new TaskHandler(taskList));
 			host.addContext("/map", new MapHandler(taskList));
 			host.addContext("/", new Default());
