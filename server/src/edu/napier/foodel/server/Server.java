@@ -8,6 +8,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
+
+import com.google.gson.Gson;
+
 import com.google.gson.Gson;
 import edu.napier.foodel.facade.FoodelSolver;
 import edu.napier.foodel.geo.GHopperInterface;
