@@ -8,13 +8,18 @@
 
 /* Footer */
 .footer {
-  position:sticky;
+  position:fixed;
   left: 0;
   bottom: 0;
   width: 100%;
   padding: 10px;
   text-align: center;
   background: #ddd;
+  z-index:1001;
+  
+}
+.mapid{
+	z-index: -1;
 }
 
 .button {
