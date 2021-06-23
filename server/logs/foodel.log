@@ -49,3 +49,15 @@
   <thread>1</thread>
   <message>Starting to solve cec-1.csv</message>
 </record>
+<record>
+  <date>2021-06-23T15:30:24.605398Z</date>
+  <millis>1624462224605</millis>
+  <nanos>398000</nanos>
+  <sequence>4</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>executeProblem</method>
+  <thread>1</thread>
+  <message>Solved cec-1.csv</message>
+</record>
