@@ -90,7 +90,7 @@ public class TaskHandler implements ContextHandler {
 
 			}
 			if (!current.getStatus().equals(TaskStatus.SOLVED)) {
-				page.addToHeader("  <meta http-equiv=\"refresh\" content=\"5\">\n");
+				page.addToHeader("  <meta http-equiv=\"refresh\" content=\"3\">\n");
 
 			}
 

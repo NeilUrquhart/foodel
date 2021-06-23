@@ -55,13 +55,23 @@ public class UploadProblem {
 		return 0;
 	}
 
-	@Context(value="/upload", methods={"GET", "POST"})
+	@Context(value="/upload", methods={"GET","POST"})
 	public int serveUpload(Request request, Response resp) throws IOException {
+		
+		System.out.println(request);
 		var page = new HTMLpage("New Foodel problem:");
 		
 		String filename;
+		
 		var newTask = new Task();
-		Iterator<Part> it = new MultipartIterator(request);
+		Iterator<Part> it=null;
+		try {
+			it = new MultipartIterator(request);
+		}catch(Exception e) {//If the MultipartIterator call fails then we can assume that the URL has been
+			resp.getHeaders().add("Content-Type", "text/html");
+			page.addToHeader("<meta http-equiv=\"refresh\" content=\"0; URL=/new \" />");
+			resp.send(200, page.html());
+		}
 		while (it.hasNext()) {
 			var part = it.next();
 			filename = part.getFilename();
@@ -150,6 +160,7 @@ public class UploadProblem {
 		
 		return res;
 	}
+	
 	
 	private boolean idInUse(String id) {
 		for (Task t : taskList) {
