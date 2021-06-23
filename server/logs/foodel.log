@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2021-06-22T15:49:49.539545Z</date>
-  <millis>1624376989539</millis>
-  <nanos>545000</nanos>
+  <date>2021-06-23T14:28:37.490917Z</date>
+  <millis>1624458517490</millis>
+  <nanos>917000</nanos>
   <sequence>0</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -14,9 +14,8 @@
   <message>Starting server</message>
 </record>
 <record>
-  <date>2021-06-22T15:49:49.885666Z</date>
-  <millis>1624376989885</millis>
-  <nanos>666000</nanos>
+  <date>2021-06-23T14:28:37.710Z</date>
+  <millis>1624458517710</millis>
   <sequence>1</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -26,9 +25,9 @@
   <message>Server running</message>
 </record>
 <record>
-  <date>2021-06-22T15:50:36.741958Z</date>
-  <millis>1624377036741</millis>
-  <nanos>958000</nanos>
+  <date>2021-06-23T14:29:59.244068Z</date>
+  <millis>1624458599244</millis>
+  <nanos>68000</nanos>
   <sequence>2</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -38,9 +37,9 @@
   <message>Parsing raw data cec-1.csv</message>
 </record>
 <record>
-  <date>2021-06-22T15:51:37.706392Z</date>
-  <millis>1624377097706</millis>
-  <nanos>392000</nanos>
+  <date>2021-06-23T14:31:00.166686Z</date>
+  <millis>1624458660166</millis>
+  <nanos>686000</nanos>
   <sequence>3</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -50,9 +49,9 @@
   <message>Starting to solve cec-1.csv</message>
 </record>
 <record>
-  <date>2021-06-22T15:53:38.403567Z</date>
-  <millis>1624377218403</millis>
-  <nanos>567000</nanos>
+  <date>2021-06-23T14:34:35.211160Z</date>
+  <millis>1624458875211</millis>
+  <nanos>160000</nanos>
   <sequence>4</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -61,3 +60,40 @@
   <thread>1</thread>
   <message>Solved cec-1.csv</message>
 </record>
+<record>
+  <date>2021-06-23T14:36:16.214668Z</date>
+  <millis>1624458976214</millis>
+  <nanos>668000</nanos>
+  <sequence>5</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>executeProblem</method>
+  <thread>1</thread>
+  <message>Parsing raw data cec-1.csv</message>
+</record>
+<record>
+  <date>2021-06-23T14:37:16.509016Z</date>
+  <millis>1624459036509</millis>
+  <nanos>16000</nanos>
+  <sequence>6</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>executeProblem</method>
+  <thread>1</thread>
+  <message>Starting to solve cec-1.csv-1</message>
+</record>
+<record>
+  <date>2021-06-23T14:39:15.203536Z</date>
+  <millis>1624459155203</millis>
+  <nanos>536000</nanos>
+  <sequence>7</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>executeProblem</method>
+  <thread>1</thread>
+  <message>Solved cec-1.csv-1</message>
+</record>
+</log>
