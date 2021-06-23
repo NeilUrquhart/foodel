@@ -114,4 +114,8 @@ public class FoodelSolver {
 		}
 		return false;
 	}
+
+	public String getCSV(int run) {
+		return myVRP.getCSV(run);
+	}
 }

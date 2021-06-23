@@ -1,49 +1,104 @@
+<!DOCTYPE html>
 <html>
   <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+
+    <title>Simple Map</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
   </head>
   <body>
+ 
+    <div id="caption"> C </div> 
+  
+       <b>Home address: </b>
+      <textarea id="addr" name="addr" rows="2" cols="20">Enter your home address </textarea>
+      <b>Travel Mode: </b>
+       <select id="mode">
+        <option value="DRIVING">Driving</option>
+        <option value="WALKING">Walking</option>
+        <option value="BICYCLING">Bicycling</option>
+        <option value="TRANSIT">Transit</option>
+      </select>
+      <input id="clickMe" type="button" value="Get directions to my billboard." onclick="showDirections();" />
+    </div>
 
-  <p>Edinburgh Napier University</p>
-
-<div id="caption"> C </div> 
-<div id="mapid" style="width: 1000px; height: 600px;"></div>
-
-<iframe src="https://www.travelinescotland.com/lts/plw-template?templateIndex=9" height="270" width="282" style="border:0;background:white;"></iframe>
-<iframe src="https://www.travelinescotland.com/lts/ttplw-template" height="237" width="400" style="border:0;background:white;"></iframe>
-<script>
-  const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    var lat = parseFloat(urlParams.get('lat'));
-    var lon = parseFloat(urlParams.get('lon'));
-
+  <div id="map" style="width: 1000px; height: 600px;"></div>
+  
    
-	var mymap = L.map('mapid').setView([lat,lon], 15);
+    
+   <div id="directions"> </div>
+  
+  
+  
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBjIHxRvfEqgJaJEE_cB3MvbgOxekTd7vc&callback=initMap&libraries=&v=weekly" async>  
+    </script>
+    
+    <script>
+    let map;
+	  var directionsService;
+	  var directionsRenderer;
+	  var lat;
+      var lon;
+      var loc;
+      
+    function initMap() {
+    	  directionsService = new google.maps.DirectionsService();
+    	  directionsRenderer = new google.maps.DirectionsRenderer();
+    	  directionsRenderer.setPanel(document.getElementById("directions"));
+    	
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        lat = parseFloat(urlParams.get('lat'));
+        lon = parseFloat(urlParams.get('lon'));
+        loc = urlParams.get('loc');
+        map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: lat , lng: lon },
+        zoom: 15,
+      });
+        directionsRenderer.setMap(map);
+        
+    const image = "http://localhost:8080/static/diplomavsm.png";
+      const beachMarker = new google.maps.Marker({
+        position: { lat: lat, lng: lon },
+        map,
+        icon: image,
+      });
+     
+      
+      document.getElementById("caption").innerHTML = "Your graduation billboard is at :" + loc +" <br> ";
+    }
+    
+    function showDirections(){
+    	 var dest = lat +"," + lon;
+         calculateAndDisplayRoute(directionsService, directionsRenderer,dest);
+    }
+    
+    function calculateAndDisplayRoute(directionsService, directionsRenderer,dest) {
+    	const selectedMode = document.getElementById("mode").value;
+    	const startAddr = document.getElementById("addr").value;
+    	
+    	
+    	  directionsService.route(
+    	    {
+    	      origin: {
+    	        query: startAddr,
+    	      },
+    	      destination: {
+    	        query: dest,
+    	      },
+    	      travelMode: google.maps.TravelMode[selectedMode],
+    	    },
+    	    (response, status) => {
+    	      if (status === "OK") {
+    	        directionsRenderer.setDirections(response);
+    	      } else {
+    	        window.alert("I can't find your addrress, please make sure that you have entered it fully.");
+    	      }
+    	    }
+    	  );
+    	}
 
-	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-		maxZoom: 18,
-		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-		id: 'mapbox/streets-v11',
-		tileSize: 512,
-		zoomOffset: -1
-	}).addTo(mymap);
-	
-	var marker = new L.marker([lat,lon], { opacity: 0.01 }); 
-	marker.bindTooltip("My graduation billboard! ", {permanent: true, className: "my-label", offset: [0, 0] });
- marker.addTo(mymap);
-
-
- document.getElementById("caption").innerHTML = "Your graduation billboard is at :" + urlParams.get('loc')+" <br> ";
- document.getElementById("caption").innerHTML += "You can find the location of the billboard below :  <br> ";
-	
-</script>
-
+    </script>
+    
   </body>
 </html>
-

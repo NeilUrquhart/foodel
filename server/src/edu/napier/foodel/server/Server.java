@@ -14,6 +14,7 @@ import edu.napier.foodel.geo.GHopperInterface;
 import edu.napier.foodel.geo.Geocoder;
 import edu.napier.foodel.problem.cvrp.CVRPProblem;
 import edu.napier.foodel.problemTemplate.FoodelProblem;
+import edu.napier.foodel.server.handlers.CSVHandler;
 import edu.napier.foodel.server.handlers.Default;
 import edu.napier.foodel.server.handlers.GPXHandler;
 import edu.napier.foodel.server.handlers.TaskHandler;
@@ -39,11 +40,8 @@ public class Server {
 		taskList = Collections.synchronizedList(taskList);
 		
 		startServer();
-		//Init OSM and pcode data
+		//Init OSM
 		setData();
-		
-		
-		
 		//main loop
 		processLoop();
 	}
@@ -103,7 +101,6 @@ public class Server {
 						e.printStackTrace();
 					}
 				}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -120,11 +117,9 @@ public class Server {
 		//start server
 
 		var port = Integer.parseInt(ServerProperties.getInstance().get("port"));
-	
 		var server = new HTTPServer(port);
 		try {
 			server.start();
-
 			var host = new VirtualHost(null);
 			host.addAlias("food"); // if it has aliases
 			server.addVirtualHost(host);
@@ -132,6 +127,7 @@ public class Server {
 			UploadProblem.setTaskList(taskList);
 			host.addContext("/status", new ServerStatus(taskList));
 			host.addContext("/gpx", new GPXHandler(taskList));
+			host.addContext("/csv", new CSVHandler(taskList));
 			host.addContext("/job", new TaskHandler(taskList));
 			host.addContext("/map", new MapHandler(taskList));
 			host.addContext("/", new Default());

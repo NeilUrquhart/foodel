@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-06-17T10:36:17.152990Z</date>
+  <millis>1623926177152</millis>
+  <nanos>990000</nanos>
+  <sequence>0</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Starting server</message>
+</record>
+<record>
+  <date>2021-06-17T10:36:17.343100Z</date>
+  <millis>1623926177343</millis>
+  <nanos>100000</nanos>
+  <sequence>1</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>startServer</method>
+  <thread>1</thread>
+  <message>Server running</message>
+</record>
