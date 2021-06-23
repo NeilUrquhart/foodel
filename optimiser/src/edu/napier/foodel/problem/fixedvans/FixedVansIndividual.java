@@ -61,19 +61,19 @@ public class FixedVansIndividual extends FoodelIndividual {
 		 * Add in code to ensure that route is not over the allowed time
 		 * 
 		 */
-		if (genotype.size() != 60) System.exit(-1);
+	//	if (genotype.size() != 60) System.exit(-1);
 		FixedVansProblem fProblem = (FixedVansProblem)problem;
-		long timeLimit = fProblem.getTimeLimitMS();
+	//	long timeLimit = fProblem.getTimeLimitMS();
 		//System.out.println(fProblem.getTimeOnlyformatter().format(timeLimit));
 		long deliveryTime = fProblem.getDeliveryTimeMS();
 		int veh= fProblem.getVehicleQty();
-		int split = fProblem.getNoVisits()/veh;
+	//	int split = fProblem.getNoVisits()/veh;
 
 		if (phenotype == null) {
 			phenotype = new ArrayList<ArrayList<FoodelVisit>> ();
 
-			FoodelVisit depot = (FoodelVisit) problem.getStart();
-			FoodelVisit finish = (FoodelVisit) fProblem.getEnd();
+	//		FoodelVisit depot = (FoodelVisit) problem.getStart();
+	//		FoodelVisit finish = (FoodelVisit) fProblem.getEnd();
 
 			//1 Check and correct demand
 			for (int v=0; v < ((FixedVansProblem)this.problem).getVans(); v++) {

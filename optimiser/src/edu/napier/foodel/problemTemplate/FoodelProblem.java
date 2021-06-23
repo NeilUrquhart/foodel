@@ -210,8 +210,8 @@ public abstract  class FoodelProblem  {
 		String result  = "";
 		if (reference == null)
 			result += "No problem reference <br>";
-		if (timeLimitMS == 0)
-			result += "No round time limit entered <br>";
+		//if (timeLimitMS == 0)
+		//	result += "No round time limit entered <br>";
 		if (dateTime.equals(""))
 			result += "No start date entered\n";
 		if (this.getNoVisits() < 2)

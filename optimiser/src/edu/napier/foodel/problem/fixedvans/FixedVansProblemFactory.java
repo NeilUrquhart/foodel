@@ -29,11 +29,12 @@ public class FixedVansProblemFactory extends FoodelProblemFactory {
 	protected void addVisit(String keyword, HashMap<String, String[]> csvData, FoodelProblem result) throws Exception {
 		String[] buffer = csvData.get(keyword);
 		System.out.println(buffer[0]);//cust
-		System.out.println(buffer[1]);//Address
+		System.out.println(buffer[1]);//name
+		System.out.println(buffer[2]);//address
 		int bags =1;
 		String note = "";
 		if (buffer.length>4) {
-			note = buffer[4]; 
+			note = buffer[5]; 
 			note = note.replace('<', ' ');
 			note = note.replace('>', ' ');
 			note = note.replace('(', ' ');
@@ -42,11 +43,11 @@ public class FixedVansProblemFactory extends FoodelProblemFactory {
 			note = note.replace('+', ' ');
 			System.out.println(note);//Note
 		}
-		Point2D p = Geocoder.find(buffer[2]);
+		Point2D p = Geocoder.find(buffer[2] +" "+buffer[3]);//Address + Postcode
 		if (p== null) {
-			throw new Exception("Address not found " + buffer[2]);
+			throw new Exception("Address not found " + buffer[2]+" "+buffer[3]);
 		}else {
-			FVGene v = new FVGene(buffer[1],buffer[2],note,p.getX(),p.getY(),bags,0);
+			FVGene v = new FVGene(buffer[1],buffer[2]+" "+buffer[3],note,p.getX(),p.getY(),bags,0);
 			result.addVisit(v);
 		}
 	}

@@ -5,9 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import edu.napier.foodel.geo.GHopperInterface;
+import edu.napier.foodel.geo.Haversine;
 import edu.napier.foodel.geo.Journey;
 import edu.napier.foodel.ioutils.GPXWriter;
 import edu.napier.foodel.ioutils.HTMmapwriter;
+import edu.napier.foodel.problem.fixedvans.FixedVansProblem;
 import edu.napier.foodel.problemTemplate.FoodelVisit;
 import edu.napier.foodel.problemTemplate.FoodelProblem;
 
@@ -37,6 +39,13 @@ public class CVRPProblem extends FoodelProblem {
 		return concurrentRoutes;
 	}
 
+	@Override
+	public String isValid() {
+		String result  = super.isValid();
+		if ((getTimeLimitMS() == 0 )&& !(this instanceof FixedVansProblem))
+			result += "No round time limit entered <br>";
+		return result;
+	}
 
 
 	public void setMode(String aMode) {

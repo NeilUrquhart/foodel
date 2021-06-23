@@ -32,16 +32,16 @@ public class Server {
 	private static List<Task> taskList;
 	//private static int port;
 	private static final Logger LOGGER = Logger.getLogger(Server.class.getName());
-    
+
 	public static void main(String[] args) throws SecurityException, IOException {
 
-		
+
 		LOGGER.addHandler(new FileHandler(ServerProperties.getInstance().get("logdir")+"foodel.log"));
 		LOGGER.info("Starting server");
 		//Init task list
 		taskList =new ArrayList<Task>();
 		taskList = Collections.synchronizedList(taskList);
-		
+
 		startServer();
 		//Init OSM
 		setData();
@@ -66,7 +66,7 @@ public class Server {
 			}
 
 			if (currentProblem != null){
-			
+
 				currentProblem = executeProblem(currentProblem);
 			}
 		}
@@ -91,7 +91,7 @@ public class Server {
 			f.solve();	
 			currentTask.setStatus(TaskStatus.SOLVED);
 			LOGGER.info("Solved "+ currentTask.getId());
-			
+
 			String save  = ServerProperties.getInstance().get("savesolutions");
 			if (save != null)
 				if (save.equals("true")) {
@@ -114,6 +114,18 @@ public class Server {
 	private static void setData() {
 		Geocoder.setDirectory(ServerProperties.getInstance().get("datadir")+ServerProperties.getInstance().get("postcodedir"));
 		GHopperInterface.init(ServerProperties.getInstance().get("datadir"),ServerProperties.getInstance().get("osmfile"));
+		if (ServerProperties.getInstance().get("customrouting") != null)
+			if (Boolean.parseBoolean(ServerProperties.getInstance().get("customrouting"))==true) {
+				GHopperInterface.useCustomProile();
+				int c=1;
+				String rd  = ServerProperties.getInstance().get("roadclass"+c);
+				while (rd != null) {
+					double weight = Double.parseDouble(ServerProperties.getInstance().get("roadweight"+c));
+					GHopperInterface.addRoadWeightToModel(rd, weight);
+					c++;
+					rd  = ServerProperties.getInstance().get("roadclass"+c);
+				}
+			}
 	}
 
 	private static void startServer() {
