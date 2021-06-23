@@ -4,11 +4,11 @@ This markdown file serves as a place to document bugs, problems and suggestions
 for Neil. 
 
 ## Bugs
-- (known issue) Takes a long time to upload a problem file.
-- Maps can overflow (spill off page)
-- Solver throws an error if CSV file is malformed e.g:
-  - An empty CSV file 
-  - Date/time information is missing
+- ~~(known issue) Takes a long time to upload a problem file.  ~~ Fixed
+- ~~ Maps can overflow (spill off page) ~~ Fixed
+- ~~Solver throws an error if CSV file is malformed e.g:  - Fixed
+  - ~~An empty CSV file 
+  - Date/time information is missing 
 - If you visit "/upload" directly from the browser (i.e. GET request) a 500
   error occurs
 - Can sometimes take a while to redirect once job is done (even when the job is
