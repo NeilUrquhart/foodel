@@ -4,15 +4,15 @@ This markdown file serves as a place to document bugs, problems and suggestions
 for Neil. 
 
 ## Bugs
-- (known issue) Takes a long time to upload a problem file.
-- Maps can overflow (spill off page)
-- Solver throws an error if CSV file is malformed e.g:
-  - An empty CSV file 
-  - Date/time information is missing
-- If you visit "/upload" directly from the browser (i.e. GET request) a 500
+- ~~(known issue) Takes a long time to upload a problem file.  ~~ Fixed
+- ~~ Maps can overflow (spill off page) ~~ Fixed
+- ~~Solver throws an error if CSV file is malformed e.g:  - Fixed
+  - ~~An empty CSV file 
+  - Date/time information is missing 
+- ~~ If you visit "/upload" directly from the browser (i.e. GET request) a 500 - fixed
   error occurs
-- Can sometimes take a while to redirect once job is done (even when the job is
-  already done)
+-~~  Can sometimes take a while to redirect once job is done (even when the job is
+  already done) - fixed (refresh is now 3 sec)
 - Cannot find cause of issue:
   - Sorry, I cannot find that job. - root cause undefined
   - ![image](https://user-images.githubusercontent.com/15977217/121962214-59147700-cd60-11eb-84aa-c417bdd608a1.png) - (when ran with 2 bags it is fine), although it runs in Eclipse)
@@ -29,9 +29,9 @@ for Neil.
   - ran experiment with adress having 4 bags and it did not change the output when an address has 10 bags or 1 
   - there is no difference it time either between these experiments (if car has a capacity of 4 bags per vehicle it would need 1 run just to the address and multiple to the one with 10 bags)
   - Extended: if we input the same addresses so they repeat though out the spreadsheet it considers them as additions and makes more runs but not if they are inputted in the same column as more than 1 bag per address
-- Inputting for example an Bulgarian location should be producing an error message for example (highly unlikely that such an address will be inputed) but it is good to be considered for out of UK distances where it is quite making the impossible run: 
+- ~~Inputting for example an Bulgarian location should be producing an error message for example (highly unlikely that such an address will be inputed) but it is good to be considered for out of UK distances where it is quite making the impossible run: ~~ fixed rejects any adresses that are > 500km from the start
  - ![image](https://user-images.githubusercontent.com/15977217/121967579-8cf39a80-cd68-11eb-945b-c1651ebc3fd4.png) ![image](https://user-images.githubusercontent.com/15977217/121967624-9d0b7a00-cd68-11eb-8005-2071f2e81748.png)
- - tested with a location in Glasgow and works quite well
+ - tested with a location in Glasgow and works quite well :-)
  
 ## Problems
 - If map data missing, the page endlessly refreshes after a job has been
