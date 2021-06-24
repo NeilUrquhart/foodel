@@ -70,6 +70,13 @@ Configuration File:
   *   Some items such as `nokeys=true` have security implications.
   *  Please ask for advice before editing this file!
  
+You can create custom road weightings for use by the GraphHopper routing system used within Foodel. Do not attempt this unless you understand the implications of the weights. The example entries show how to bias against the use of mototways and trunk roads.  
+
+If you enable or disable custom routing e.g.
+
+`customrouting = false` 
+
+then you must delete the contents of \data\osm\ before running the system. This will cause GraphHopper to rebuild the street graph with the revised weights. You will also need to supply an .osm.pbf file in /data/ for GraphHopper to read.
 
 Data files
 

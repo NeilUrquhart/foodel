@@ -75,7 +75,7 @@ public class CVRPsolver  extends FoodelSolver{
 		return bestI;
 	}
 
-	protected CVRPIndividual InitialisePopution() {
+	protected FoodelIndividual InitialisePopution() {
 		System.out.println("Setting up problem");
 		population.clear();
 
@@ -124,17 +124,17 @@ public class CVRPsolver  extends FoodelSolver{
 		int timeOut = evalsChange;
 
 		//Reference to the best individual in the population
-		CVRPIndividual bestSoFar = InitialisePopution();
+		FoodelIndividual bestSoFar = InitialisePopution();
 		while(timeOut >0) {	
 			//Create child
-			CVRPIndividual child = null;
+			FoodelIndividual child = null;
 			if (rnd.getRnd().nextDouble() < XO_RATE){
 				//Create a new Individual using recombination, randomly selecting the parents
 				child = new CVRPIndividual(super.theProblem, tournamentSelection(TOUR_SIZE),tournamentSelection(TOUR_SIZE));				
 			}
 			else{
 				//Create a child by copying a single parent
-				child = (CVRPIndividual)tournamentSelection(TOUR_SIZE).copy();
+				child = (FoodelIndividual)tournamentSelection(TOUR_SIZE).copy();
 			}
 
 			child.mutate();

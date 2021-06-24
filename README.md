@@ -18,6 +18,8 @@ As a Java applicaton it should run on Mac/Linux/Windows etc without any problems
 
 * Shared: The Foodel application is run on a server with the Foodel port open and connections can be made from other hosts via the web.
 
+The source code in this repo can be compiled into a single JAR archive which contains everything except the data and config files. We don't need any 3rd party software for the webserver, the HTTP server is contained within Foodel for simplicity.
+
 (Before sharing foodel access, be sure that you have set the appropriate options in server.properties   to keep your data secure.  Look into the /docs/ folder for detailed information.)
 
 *Ths archive*

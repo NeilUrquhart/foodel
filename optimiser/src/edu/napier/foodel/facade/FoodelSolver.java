@@ -87,7 +87,7 @@ public class FoodelSolver {
 			return myVRP;
 		}
 		
-		else if (findKey(csvData,"Vehicle Capacity")) {
+		else if (findKey(csvData,"Vehicles Available")) {
 			problem = ProblemType.FixedVans;
 			myVRP = new FixedVansProblem();
 			FoodelProblemFactory factory = new FixedVansProblemFactory();

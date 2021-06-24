@@ -78,32 +78,33 @@ public class FixedVansSolver  extends CVRPsolver{
 //		return bestI;
 //	}
 
-//	protected FoodelIndividual InitialisePopution() {
-//		System.out.println("Setting up problem");
-//		population.clear();
-//
-//
-//		//Initialise population with (semi)random solutions
-//		FixedVansIndividual best = null;
-//		for (int count=0; count < POP_SIZE; count++){
-//			FixedVansIndividual i;
-//
-//			i = new FixedVansIndividual(super.theProblem);
-//			if (count==0)
-//				i.nn();
-//
-//			if (best == null) 
-//				best = i;
-//			if (i.evaluate() < best.evaluate()) 
-//				best = i;
-//
-//			if((count%10)==0)
-//				System.out.println(count);
-//			population.add(i);
-//			evalsBudget--;
-//		}
-//		return best;
-//	}
+	@Override
+	protected FoodelIndividual InitialisePopution() {
+		System.out.println("Setting up problem");
+		population.clear();
+
+
+		//Initialise population with (semi)random solutions
+		FixedVansIndividual best = null;
+		for (int count=0; count < POP_SIZE; count++){
+			FixedVansIndividual i;
+
+			i = new FixedVansIndividual(super.theProblem);
+			if (count==0)
+				i.nn();
+
+			if (best == null) 
+				best = i;
+			if (i.evaluate() < best.evaluate()) 
+				best = i;
+
+			if((count%10)==0)
+				System.out.println(count);
+			population.add(i);
+			evalsBudget--;
+		}
+		return best;
+	}
 
 
 //	public FoodelIndividual runEA(int run) {
