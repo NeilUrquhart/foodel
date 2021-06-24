@@ -24,6 +24,7 @@ import edu.napier.foodel.server.handlers.TaskHandler;
 import edu.napier.foodel.server.handlers.MapHandler;
 import edu.napier.foodel.server.handlers.UploadProblem;
 import edu.napier.foodel.server.handlers.ServerStatus;
+import edu.napier.foodel.server.handlers.Home;
 import net.freeutils.httpserver.HTTPServer;
 import net.freeutils.httpserver.HTTPServer.VirtualHost;
 import net.freeutils.httpserver.HTTPServer.FileContextHandler;
@@ -51,7 +52,7 @@ public class Server {
 
 	private static void processLoop() {
 		Task currentProblem = null;
-		while(true) {			
+		while(true) {
 			//read problem
 			synchronized(taskList){
 				if (taskList.size() >0) {
@@ -145,7 +146,8 @@ public class Server {
 			host.addContext("/csv", new CSVHandler(taskList));
 			host.addContext("/job", new TaskHandler(taskList));
 			host.addContext("/map", new MapHandler(taskList));
-			host.addContext("/", new Default());
+			host.addContext("/try", new Default());
+			host.addContext("/", new Home());
 			host.addContext("/static", new FileContextHandler( new File("public_html/")));
 			//Allow the public_html/ folder to host static content
 			LOGGER.info("Server running");

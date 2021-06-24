@@ -1,0 +1,81 @@
+/*
+ * Home page specific styling
+ * Feel free to do with it as you wish!
+ * - Chris
+ */
+
+body {
+    margin: 0;
+}
+
+.home-body {
+    padding: 1rem 3rem;
+    margin-bottom: 100px;
+}
+
+
+.home-cols {
+    justify-content: center;
+    /*width: 100%;*/
+    min-width: 100%;
+    display: flex;
+}
+
+
+.card {
+    position: relative;
+    justify-content: space-between;
+    background-color: white;
+    box-shadow: 0 0 5px -3px rgba(0, 0, 0, 0.5);
+    width: auto;
+    padding: 1rem;
+}
+
+.card-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.card-body {
+    padding: 10px;
+}
+
+.grid {
+    display: grid;
+    gap: 10px;
+    grid-auto-flow: column;
+    column-gap: 1rem;
+    row-gap: 1rem;
+}
+
+.grid-center {
+    display: grid;
+    justify-items: center;
+}
+
+.grid-col-auto {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.button {
+    display: inline-block;
+    border: none;
+    background-color: #1abc9c;
+    padding: 0.5rem;
+}
+
+.button:hover, .button:focus {
+    background-color: #16846d;
+}
+
+section {
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 1150px) {
+
+    .grid-center {
+        grid-template-columns: 1fr;
+
+    }
+}
