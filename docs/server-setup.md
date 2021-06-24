@@ -20,9 +20,9 @@ The following will need to be installed on the server:
 ### IIS Setup
 
 - Enable IIS if it's not already done. This is done from Windows Server Manager
-  - Go to 'manage'
-  - 'Add roles and features'
-  - Follow the instruction wizard to install relevant IIS components
+    - Go to 'manage'
+    - 'Add roles and features'
+    - Follow the instruction wizard to install relevant IIS components
 - Download and install the [Microsoft Web Platform Installer(https://www.microsoft.com/web/downloads/platform.aspx)
     - From this,
       install [Application Request Routing](https://www.iis.net/downloads/microsoft/application-request-routing). This
@@ -44,9 +44,12 @@ The following will need to be installed on the server:
     - Create an empty folder somewhere and point it there.
     - Make sure to bind the site to a specific hostname otherwise you can access it by IP as well.
 - From the main server menu, click into ARR.
-- On the right-hand side, click ``server proxy settings''
+- On the right-hand side, click "server proxy settings"
     - Enable the proxy
     - Scroll to the field called "reverse proxy" and put the hostname and port of the application to proxy
+
+![image](resources/images/server_proxy.png)
+![image](resources/images/server_proxy_2.png)
 
 ### Java App Setup
 
@@ -59,14 +62,21 @@ The following will need to be installed on the server:
 nssm install <service_name> java -jar <path_to_jar> <additional_arguments>
 ```
 
-For pimps, the following command was used:
+For foodel, the following command was used:
 
 ```powershell
-nssm install spring java -jar C:\inetpub\pimps\server-0.0.1.jar --spring.config.location=file:\\\C:\inetpub\pimps\application.properties
+nssm install foodelserver java -jar C:\Foodel2\server.jar
 ```
 
-Notice how an additional parameter was used to specify an alternative properties file. This has specific overrides for
-the server environment e.g. where to upload files, where to place experiments, and so on...
+The server won't start unless the service is edited slightly further. I belive it's because the startup directory needs
+to be specified. You can launch a GUI to do this:
+
+```powershell
+nssm edit foodelserver
+```
+
+![img](resources/images/nssm.png)
+![img](resources/images/nssm_io.png)
 
 If you experience any issues, you can delete the service with the following:
 
