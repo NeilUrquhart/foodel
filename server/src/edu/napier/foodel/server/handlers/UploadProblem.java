@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -58,7 +59,6 @@ public class UploadProblem {
 	@Context(value="/upload", methods={"GET","POST"})
 	public int serveUpload(Request request, Response resp) throws IOException {
 		
-		System.out.println(request);
 		var page = new HTMLpage("New Foodel problem:");
 		
 		String filename;
@@ -143,9 +143,9 @@ public class UploadProblem {
 		String readLine = "";
 	
 		while ((readLine = b.readLine()) != null) {
-			System.out.println(readLine);
 			readLine =readLine.trim();
-			String[] data = readLine.split(",");
+			readLine =readLine.toLowerCase();
+			String[] data = split(readLine);//readLine.split(",");
 			if (data.length >= 2) {
 				String key = data[0];
 				int count = 0;
@@ -161,6 +161,36 @@ public class UploadProblem {
 		return res;
 	}
 	
+	private String[] split(String csv) {
+		//Split line by , - ignore any within quotes
+		ArrayList<String> parsed = new ArrayList<String>();
+		StringBuilder buffer = new StringBuilder();
+		boolean inQuotes =false;
+		
+		for(char c : csv.toCharArray()) {
+			if (c=='"')
+				inQuotes = !inQuotes;
+			
+			if (c==',') {
+				if (!inQuotes) {
+					parsed.add(buffer.toString());
+					buffer = new StringBuilder();
+					c=' ';
+				}
+			}
+			buffer.append(c);
+		
+		}
+		parsed.add(buffer.toString());
+		
+		String[] res = new String[parsed.size()];
+		int c=0;
+		for (String item : parsed) {
+			res[c] = item.strip().toLowerCase();
+			c++;
+		}
+		return res;
+	}
 	
 	private boolean idInUse(String id) {
 		for (Task t : taskList) {

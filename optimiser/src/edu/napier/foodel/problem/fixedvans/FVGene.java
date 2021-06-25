@@ -4,8 +4,8 @@ import edu.napier.foodel.problemTemplate.FoodelVisit;
 
 public class FVGene extends FoodelVisit{
 	
-	public FVGene(String name, String address, String order, double lat, double lon, int demand, int van) {
-		super(name, address, order, lat, lon, demand);
+	public FVGene(String name, String address, String postcode, String order, double lat, double lon, int demand, int van) {
+		super(name, address,postcode, order, lat, lon, demand);
 		this.van = van;
 	}
 

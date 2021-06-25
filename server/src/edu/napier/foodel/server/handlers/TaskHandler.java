@@ -132,7 +132,7 @@ public class TaskHandler implements ContextHandler {
 		resp.getHeaders().add("Content-Type", "text/html");	
 		page.addToBody("<h1>Please enter the problem key to view your problem</h1>\n"
 				+ "Problem Key: <input type=\"text\" id=\"key\" value=\"xxx\">\n"
-				+ "<button onclick=\"myFunction()\">Find Problem  class =\"button\" </button>\n"
+				+ "<button onclick=\"myFunction()\">Find Problem   </button>\n"
 				+ "\n"
 				+ "<script>\n"
 				+ "function myFunction() {\n"

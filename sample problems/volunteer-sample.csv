@@ -6,13 +6,11 @@ Round time limit (mins),60,Maximum time per round,,
 Delivery time per house (mins),5,Minutes to allow at each house,,
 Speed factor,1.6,Multiplier over default journey times ,,
 ,,,,
-,Name,Home Addr,,
+Header,Name,Address,Bags,Note
 Volunteer,James,8 Greenbank Park  Edinburgh,,
 Volunteer,Mark,71 Comiston Drive Edinburgh,,
 Volunteer,Scott,14 Caiystane Gardens Edinburgh,,
 Volunteer,Mary,66 Warrender Park Rd Edinburgh,,
-,,,,
-,Name,Postcode/address,Bags,Order
 Customer,Mr Smith,102 Morningside Road Edinburgh,1,Mr Smith's lunch.
 Customer,Mrs Smith,12 Comiston Road Edinburgh,1,
 Customer,Mr Fawlty,8 Comiston Avenue Edinburgh,1,Ring bell and run.
