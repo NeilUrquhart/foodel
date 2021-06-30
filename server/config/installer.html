@@ -1,0 +1,72 @@
+<main>
+    <div class="container">
+
+        <section>
+            <div class="card">
+                This page will guide you through the process of creating an installer for Foodle which you can use
+                on your own machine(s). The details entered on this form are not stored on our servers; they are used
+                only to tailor your install.
+            </div>
+        </section>
+
+        <noscript>
+            <section>
+                This installer won't work without JavaScript enabled. Please enable JavaScript via your browser
+                settings.
+            </section>
+        </noscript>
+
+        <section>
+            <div class="card">
+                <h2 class="card-title">
+                    Installer
+                </h2>
+                <form id="installer-form">
+                    <hr class="separator">
+                    <h3>Operating System</h3>
+                    <div class="radio-select">
+                        <input type="radio" id="windows" name="os" value="windows" aria-checked="true" checked>
+                        <label for="windows">Windows</label><br>
+                        <input type="radio" id="macos" name="os" value="macos">
+                        <label for="macos">Mac OS</label><br>
+                        <input type="radio" id="linux" name="os" value="linux">
+                        <label for="linux">Linux</label><br>
+                        <input type="radio" id="other_os" name="os" value="other_os">
+                        <label for="other_os">Other</label>
+                    </div>
+
+                    <hr class="separator">
+                    <h3>Organisation Details</h3>
+
+                    <div class="input-group">
+                        <label for="org-name">Organisation name:</label>
+                        <input type="text" name="org-name" id="org-name" placeholder="Joe Bloggs">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="org-contact">Organisation contact:</label>
+                        <input type="email" name="org-contact" id="org-contact" placeholder="info@organisation.org">
+                    </div>
+
+                    <hr class="separator">
+                    <h3>Device Install</h3>
+                    <div class="input-group">
+                        <div id="radio-select">
+                            <input type="radio" id="shared" name="device_install_type" value="shared"
+                                   aria-checked="true" checked>
+                            <label for="shared">Shared installation</label><br>
+                            <input type="radio" id="local" name="device_install_type" value="local">
+                            <label for="local">Local installation</label>
+                        </div>
+                    </div>
+
+                    <div class="input-group" style="margin-top: 1rem">
+                        <button type="submit" class="button">Get Installer</button>
+                        <a class="button" type="button" href="/">Cancel</a>
+                    </div>
+
+                </form>
+            </div>
+        </section>
+    </div>
+</main>

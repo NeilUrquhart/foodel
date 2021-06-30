@@ -8,9 +8,16 @@ body {
     margin: 0;
 }
 
-.home-body {
+.container {
     padding: 1rem 3rem;
     margin-bottom: 100px;
+}
+
+hr.separator {
+    border-top: 0.5px solid #eee;
+    border-radius: 1px;
+    height: 0;
+    overflow: visible;
 }
 
 
@@ -58,18 +65,45 @@ body {
 }
 
 .button {
-    display: inline-block;
-    border: none;
+    box-sizing: border-box !important;
     background-color: #1abc9c;
-    padding: 0.5rem;
+    font-size: 16px;
+    padding: 5px;
+    margin: 0;
+    line-height: 1.5;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
 }
 
 .button:hover, .button:focus {
     background-color: #16846d;
+    cursor: pointer;
 }
 
 section {
     margin-bottom: 1rem;
+}
+
+.input-group > label, .input-group > input {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.input-group > label {
+    font-weight: bold;
+}
+
+.input-group > input {
+    width: 100%;
+    padding: 10px 0;
 }
 
 @media (max-width: 1150px) {

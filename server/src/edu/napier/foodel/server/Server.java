@@ -17,14 +17,7 @@ import edu.napier.foodel.geo.GHopperInterface;
 import edu.napier.foodel.geo.Geocoder;
 import edu.napier.foodel.problem.cvrp.CVRPProblem;
 import edu.napier.foodel.problemTemplate.FoodelProblem;
-import edu.napier.foodel.server.handlers.CSVHandler;
-import edu.napier.foodel.server.handlers.Default;
-import edu.napier.foodel.server.handlers.GPXHandler;
-import edu.napier.foodel.server.handlers.TaskHandler;
-import edu.napier.foodel.server.handlers.MapHandler;
-import edu.napier.foodel.server.handlers.UploadProblem;
-import edu.napier.foodel.server.handlers.ServerStatus;
-import edu.napier.foodel.server.handlers.Home;
+import edu.napier.foodel.server.handlers.*;
 import net.freeutils.httpserver.HTTPServer;
 import net.freeutils.httpserver.HTTPServer.VirtualHost;
 import net.freeutils.httpserver.HTTPServer.FileContextHandler;
@@ -148,6 +141,7 @@ public class Server {
 			host.addContext("/map", new MapHandler(taskList));
 			host.addContext("/try", new Default());
 			host.addContext("/", new Home());
+			host.addContext("/install", new Installer());
 			host.addContext("/static", new FileContextHandler( new File("public_html/")));
 			//Allow the public_html/ folder to host static content
 			LOGGER.info("Server running");
