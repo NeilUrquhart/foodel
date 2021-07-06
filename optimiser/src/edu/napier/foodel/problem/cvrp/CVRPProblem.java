@@ -449,7 +449,6 @@ public class CVRPProblem extends FoodelProblem {
 
 		ArrayList<ArrayList<FoodelVisit>> solution = getCVRPSolution();
 
-
 		for(ArrayList<FoodelVisit> run :solution){
 			
 			int c=0;
