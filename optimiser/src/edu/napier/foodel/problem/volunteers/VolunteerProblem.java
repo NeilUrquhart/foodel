@@ -17,12 +17,12 @@ public class VolunteerProblem extends CVRPProblem {
 
 	public void addVolunteer(String name, String address) throws Exception{
 		Point2D loc = Geocoder.find(address);
-		volunteers.add(new Volunteer(name, address,"",loc.getX(), loc.getY(),0 ));
+		volunteers.add(new Volunteer(name, address,"","",loc.getX(), loc.getY(),0 ));
 	}
 
 	public class Volunteer extends FoodelVisit{
-		public Volunteer(String name, String address, String order, double lat, double lon, int demand) {
-			super(name, address, order, lat, lon, demand);
+		public Volunteer(String name, String address,String postcode, String order, double lat, double lon, int demand) {
+			super(name, address,postcode, order, lat, lon, demand);
 		}
 	}
 
@@ -213,14 +213,14 @@ public class VolunteerProblem extends CVRPProblem {
 	public String getHTMLMap(int route) {
 		Volunteer volunteer = null;
 		if (route < volunteers.size())
-			volunteer = volunteers.get(route-1);
+			volunteer = volunteers.get(route);
 		
 		long deliveryTime = getDeliveryTimeMS();
 		long time = getStartTime();
 
 		ArrayList<ArrayList<FoodelVisit>> solution = getCVRPSolution();
 
-		ArrayList<FoodelVisit> run  = solution.get(route-1);
+		ArrayList<FoodelVisit> run  = solution.get(route);
 		int c=0;
 		
 		time = getStartTime();
@@ -320,7 +320,7 @@ public class VolunteerProblem extends CVRPProblem {
 			else
 				html = html += "<h2> No volunteer allocated </h2>";
 
-			html = html += "<a href=\"map?id="+getReference() +"&key="+key+"&run="+r+"\">View Map</a>  <a href=\"gpx?key="+key+"&run="+r+"\">GPX File</a>  <br> \n";
+			html = html += "<a href=\"map?id="+getReference() +"&key="+key+"&run="+(r-1)+"\">View Map</a>  <a href=\"gpx?key="+key+"&run="+r+"\">GPX File</a>  <br> \n";
 
 			FoodelVisit prev = getStart();
 

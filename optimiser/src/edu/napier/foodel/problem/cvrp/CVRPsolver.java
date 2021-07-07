@@ -13,9 +13,9 @@ public class CVRPsolver  extends FoodelSolver{
 	protected ArrayList <FoodelIndividual> population = new ArrayList<FoodelIndividual>();
 	//population stores our pool of potential solutions
 
-	private static int evalsChange = 1000000;//default
-	private static DecimalFormat df2 = new DecimalFormat("#.##");
-	private double end;
+	protected static int evalsChange = 1000000;//default
+	protected static DecimalFormat df2 = new DecimalFormat("#.##");
+	protected double end;
 
 
 	//EA Parameters

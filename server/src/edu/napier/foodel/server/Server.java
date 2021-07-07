@@ -1,13 +1,18 @@
 package edu.napier.foodel.server;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
+
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
 
 import com.google.gson.Gson;
 
@@ -128,6 +133,8 @@ public class Server {
 		var port = Integer.parseInt(ServerProperties.getInstance().get("port"));
 		var server = new HTTPServer(port);
 		try {
+	
+
 			server.start();
 			var host = new VirtualHost(null);
 			host.addAlias("food"); // if it has aliases
