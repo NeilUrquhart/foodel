@@ -47,6 +47,42 @@
                     </descriptorRefs>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>l4j-clui</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>console</headerType>
+                            <outfile>target/foodel.exe</outfile>
+                            <jar>target/server-${version}-jar-with-dependencies.jar</jar>
+                            <classPath>
+                                <mainClass>edu.napier.foodel.server.Server</mainClass>
+                                <addDependencies>true</addDependencies>
+                            </classPath>
+                            <jre>
+                                <minVersion>1.8.0</minVersion>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>0.0.0.1</fileVersion>
+                                <txtFileVersion>Foodel</txtFileVersion>
+                                <fileDescription>Foodel</fileDescription>
+                                <copyright>Neil Urquhart</copyright>
+                                <productVersion>0.0.0.1</productVersion>
+                                <txtProductVersion>Foodel</txtProductVersion>
+                                <productName>Foodel</productName>
+                                <internalName>foodel</internalName>
+                                <originalFilename>foodel.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <dependencies>

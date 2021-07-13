@@ -57,3 +57,4 @@ jobs:
           title: "Development Build"
           files: |
             server/target/*.jar
+            server/target/*.exe
