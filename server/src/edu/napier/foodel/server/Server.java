@@ -148,7 +148,7 @@ public class Server {
 			host.addContext("/map", new MapHandler(taskList));
 			host.addContext("/try", new Default());
 			host.addContext("/", new Home());
-			host.addContext("/install", new Installer());
+			host.addContexts(new Installer());
 			host.addContext("/static", new FileContextHandler( new File("public_html/")));
 			//Allow the public_html/ folder to host static content
 			LOGGER.info("Server running");

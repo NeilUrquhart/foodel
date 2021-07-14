@@ -5,54 +5,101 @@
 window.addEventListener("DOMContentLoaded", _ => {
 
     let installForm = document.getElementById('installer-form');
+    const confirmDiv = document.createElement("div");
+    const downloadDiv = document.createElement("div");
 
     installForm.addEventListener('submit', e => {
         e.preventDefault();
 
         let formData = new FormData(installForm);
-        console.log(formData.get('os-choice'));
 
         if (confirm("Are you sure you want to go ahead?")) {
-            showDownloadPage({
+            confirmDetails({
                 os: formData.get('os'),
                 orgName: formData.get('org-name'),
-                orgEmail: formData.get('org-contact'),
-                deviceInstallType: formData.get('device_install_type')
+                deviceInstallType: formData.get('device_install_type'),
+                mapArea: formData.get("map-area")
             });
         }
-
     });
 
-    function showDownloadPage(userSelection) {
+    function confirmDetails(userSelection) {
 
-        const downloadDiv = document.createElement("div");
-        downloadDiv.setAttribute("style", "padding-top: 10px");
+        confirmDiv.setAttribute("style", "padding-top: 10px");
         const p = document.createElement("p");
         p.innerHTML = `Your chosen Operationg System: <b>${userSelection.os}</b><br>
              Your organisation's name: <b>${userSelection.orgName}</b><br>
-             Your organisation's contact email: <b>${userSelection.orgEmail}</b><br/>
              Install type: <b>${userSelection.deviceInstallType}</b>`;
 
-        const downloadButton = document.createElement('a');
+        const downloadButton = document.createElement('button');
         downloadButton.setAttribute("class", "button");
         downloadButton.setAttribute("href", "#");
         downloadButton.setAttribute("type", "button");
-        downloadButton.text = "Download";
+        downloadButton.innerText = "Download";
 
-        const editButton = document.createElement('a');
+        downloadButton.addEventListener("click", _ => {
+            let postUrl = new URL("/installer/create", window.location.origin);
+            postUrl.searchParams.set("os", userSelection.os);
+            postUrl.searchParams.set("org", userSelection.orgName);
+            postUrl.searchParams.set("deviceInstallType", userSelection.deviceInstallType);
+            postUrl.searchParams.set("mapArea", userSelection.mapArea);
+
+            fetch(postUrl, {
+                method: "POST",
+            }).then(
+                res => res.json()
+            ).then(res => presentDownload(res))
+
+        });
+
+        const editButton = document.createElement('button');
         editButton.setAttribute("class", "button");
-        editButton.setAttribute("href", "#");
         editButton.setAttribute("type", "button");
-        editButton.text = "Edit Install";
+        editButton.textContent = "Edit Install";
+        editButton.addEventListener("click", _ => {
+            confirmDiv.replaceWith(installForm);
+        })
 
         const buttonInputGroup = document.createElement('div');
-        downloadDiv.append(p);
-
+        confirmDiv.append(p);
+        const confP = document.createElement("p");
+        confP.innerHTML
+            = `If you are happy with the above settings, you can proceed with the installation. 
+            Otherwise, you can go back and edit them.`;
+        confirmDiv.append(confP);
         buttonInputGroup.setAttribute('class', 'input-group');
         buttonInputGroup.append(downloadButton);
         buttonInputGroup.append(editButton);
-        downloadDiv.append(buttonInputGroup);
-        installForm.replaceWith(downloadDiv);
+        confirmDiv.append(buttonInputGroup);
+        installForm.replaceWith(confirmDiv);
+    }
+
+    function presentDownload(userSelection) {
+        console.log(userSelection);
+        downloadDiv.setAttribute("id", "download-form");
+        downloadDiv.innerHTML = "hello";
+
+        const backToHome = document.createElement("a");
+        backToHome.text = "here";
+        backToHome.href = "/";
+
+        const backToHomeText = document.createElement("p");
+        backToHomeText.innerHTML = `Click ${backToHome.outerHTML} to go back to the home page.`;
+
+        const installInstructions = document.createElement("a");
+        installInstructions.text = "here";
+        installInstructions.href = "/"
+
+        const downloadText = document.createElement("p");
+        downloadText.innerHTML
+            = `You can find install instructions ${installInstructions.outerHTML}.`;
+
+
+
+
+        downloadDiv.appendChild(downloadText)
+        confirmDiv.replaceWith(downloadDiv);
+        downloadDiv.appendChild(backToHomeText);
     }
 });
 
