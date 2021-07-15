@@ -3,6 +3,7 @@ package edu.napier.foodel.server.handlers;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import edu.napier.foodel.server.HTMLpage;
+import edu.napier.foodel.server.ServerProperties;
 import net.freeutils.httpserver.HTTPServer.Context;
 import net.freeutils.httpserver.HTTPServer.Request;
 import net.freeutils.httpserver.HTTPServer.Response;
@@ -25,7 +26,7 @@ import org.apache.commons.io.IOUtils;
 
 public class Installer {
 
-    private static Map<String, Path> installs = new HashMap<>();
+    private static final Map<String, Path> installs = new HashMap<>();
 
 
     @Context("/install")
@@ -231,6 +232,38 @@ public class Installer {
                     Path.of(newLogsDirectory.toString(), "foodel.log.lck"));
 
             zipFile.addFolder(newLogsDirectory.toFile());
+
+            // add osm data
+            Path dataDirectory = Files.createDirectory(Paths.get(zipDir.toString(), "data"));
+            Path osmDirectory = Files.createDirectory(Paths.get(dataDirectory.toString(), "osm"));
+
+            // Find out if we have local osm that we can give the user based on their choice
+            ServerProperties properties = ServerProperties.getInstance();
+
+            if (properties.get("osm_data") != null) {
+                String osmFileName = properties.get("osmfile");
+                Path osmLocation = new File(properties.get("osm_data")).toPath();
+                Path chosenOsmFile = null;
+
+                switch (params.get("mapArea")) {
+                    case "scotland":
+                        chosenOsmFile = Paths.get(osmLocation.toString(), "scotland-latest.osm.pbf");
+                        break;
+                    case "england":
+                        chosenOsmFile = Paths.get(osmLocation.toString(), "england-latest.osm.pbf");
+                        break;
+                    case "wales":
+                        chosenOsmFile = Paths.get(osmLocation.toString(), "wales-latest.osm.pbf");
+                        break;
+                    default:
+                        chosenOsmFile = Paths.get(osmLocation.toString(), "great-britain-latest.osm.pbf");
+                        break;
+                }
+                Files.copy(chosenOsmFile, Paths.get(osmDirectory.toString(), osmFileName));
+                zipFile.addFolder(dataDirectory.toFile());
+            }
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }

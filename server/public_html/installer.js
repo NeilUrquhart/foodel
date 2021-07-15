@@ -74,8 +74,7 @@ window.addEventListener("DOMContentLoaded", _ => {
         installForm.replaceWith(confirmDiv);
     }
 
-    function presentDownload(userSelection) {
-        console.log(userSelection);
+    function presentDownload(result) {
         downloadDiv.setAttribute("id", "download-form");
         downloadDiv.innerHTML = "hello";
 
@@ -90,16 +89,20 @@ window.addEventListener("DOMContentLoaded", _ => {
         installInstructions.text = "here";
         installInstructions.href = "/"
 
+        const downloadButton = document.createElement("a");
+        downloadButton.text = "Click to download";
+        downloadButton.setAttribute("class", "button");
+        downloadButton.href = `/installer/zip?id=${result.zip_hash}`;
+
         const downloadText = document.createElement("p");
         downloadText.innerHTML
             = `You can find install instructions ${installInstructions.outerHTML}.`;
 
 
-
-
         downloadDiv.appendChild(downloadText)
-        confirmDiv.replaceWith(downloadDiv);
+        downloadDiv.appendChild(downloadButton)
         downloadDiv.appendChild(backToHomeText);
+        confirmDiv.replaceWith(downloadDiv);
     }
 });
 
