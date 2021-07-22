@@ -24,8 +24,14 @@ import java.util.stream.Collectors;
 import net.lingala.zip4j.ZipFile;
 import org.apache.commons.io.IOUtils;
 
+/**
+ * Encapsulates all the functionality required to allow users to get an install
+ */
 public class Installer {
 
+    /**
+     * Hashmap to store installs and their location
+     */
     private static final Map<String, Path> installs = new HashMap<>();
 
 
@@ -45,16 +51,26 @@ public class Installer {
         return 0;
     }
 
+    /**
+     * create an install via a POST request
+     */
     @Context(value = "/installer/create", methods = {"POST"})
     public int createInstall(Request req, Response res) throws IOException {
 
-        HTMLpage page = new HTMLpage("Your Install");
+        // get params from the post request
+        Map<String, String> params = req.getParams();
+
+        // Return JSON since the job was created from a javascript function
+        // easier to deal with json
         res.getHeaders().add("Content-Type", "application/json");
 
-        Map<String, String> params = req.getParams();
+        // Create a temporary directory for the install. Don't necessarily want to store it forever.
         Path tempDir = Files.createTempDirectory("foodel_");
+
+        // use directory as a hash id for the job. Will allow us to retrieve it later
         String randomHash = tempDir.getFileName().toString();
         installs.put(randomHash, tempDir);
+
         HashMap<String, String> k = new HashMap<>();
         createInstaller(params, randomHash);
 
@@ -65,32 +81,55 @@ public class Installer {
         return 0;
     }
 
-    @Context("/installer/zip")
+    /**
+     * Download a zip of an install
+     */
+    @Context("/installer/download")
     public int downloadZip(Request req, Response res) throws IOException {
 
+        // id of the zip is contained in the headers
         if (req.getParams().containsKey("id")) {
             String hash = req.getParams().get("id");
 
+            // get the zip file
             File zip = Path.of(installs.get(hash).toString(), "foodel.zip").toFile();
+
+            // set the required headers to send a file
             res.getHeaders().add("Content-Disposition", "attachment; filename=\"foodel.zip\"");
+            res.getHeaders().add("Content-Length", String.valueOf(zip.length()));
             res.getHeaders().add("Content-Type", "application/zip");
 
+            // get an input stream of the zip
             InputStream fs = new FileInputStream(zip);
+
+            // can't use the send method because we're not sending text
+            // send the headers and status first and then send the body
             res.sendHeaders(200);
             res.sendBody(fs, -1, null);
         } else {
-            res.send(404, ":/");
+            res.send(404, "This install archive doesn't exist or is no longer available.");
         }
 
         return 0;
     }
 
-    private Path createInstaller(Map<String, String> map, String hash) throws IOException {
+    /**
+     * Create an install
+     *
+     * @param map  the parameters submitted through the post request
+     * @param hash the id of the install job
+     * @throws IOException ioexception
+     */
+    private void createInstaller(Map<String, String> map, String hash) throws IOException {
 
+        // get resources via http. may be worth caching the results
         HttpURLConnection connection = null;
+
+        // this is the github API endpoint
         final URL releasesEndpoint = new URL("https://api.github.com/repos/chriswales95/FoodelFake/releases/latest");
         String accessToken = null;
 
+        // open the HTTP connection
         connection = (HttpURLConnection) releasesEndpoint.openConnection();
         connection.setRequestMethod("GET");
 
@@ -107,12 +146,15 @@ public class Installer {
             connection.setRequestProperty("Authorization", String.format("token %s", accessToken));
         }
 
+        // set the HTTP headers.
         connection.setRequestProperty("Accept", "application/vnd.github.v3+json");
 
+        // get the JSON string
         InputStream is = connection.getInputStream();
         String json = IOUtils.toString(is, "UTF-8");
         is.close();
 
+        // use Gson to get a map of the results
         HashMap<String, Object> resultMap = new Gson().fromJson(
                 json, new TypeToken<HashMap<String, Object>>() {
                 }.getType()
@@ -120,33 +162,49 @@ public class Installer {
 
         String exeId = null;
         String jarId = null;
+        String jreId = null;
 
+        // 200 signals that the request finished normally
         if (connection.getResponseCode() == 200) {
             HashMap<String, Path> assets = new HashMap<>();
 
+            // the response includes a key called 'assets' which details files from the release.
             if (resultMap.containsKey("assets")) {
                 ArrayList<Map<String, Object>> treemap = (ArrayList<Map<String, Object>>) resultMap.get("assets");
 
+                // iterate over the map entries and pick out relevant assets
                 for (Map<String, Object> entry : treemap) {
                     if (entry.containsKey("name")) {
                         if (entry.get("name").equals("foodel.exe")) {
                             exeId = new DecimalFormat("#").format(entry.get("id"));
                         } else if (entry.get("name").toString().endsWith("dependencies.jar")) {
                             jarId = new DecimalFormat("#").format(entry.get("id"));
+                        } else if (entry.get("name").toString().endsWith("jre.zip")) {
+                            jreId = new DecimalFormat("#").format(entry.get("id"));
                         }
                     }
                 }
             }
 
-            // download assets
-            ;
+            // get the directory
             Path tempDir = installs.get(hash);
 
+            // Get exe or jar
             if (map.get("os").equals("windows")) {
+
+                // if windows, get the exe and jre
                 Path exe = Paths.get(tempDir.toString(), "foodel.exe");
+                Path jre = Paths.get(tempDir.toString(), "jre.zip");
+
                 downloadAsset(accessToken, exeId, exe);
+                downloadAsset(accessToken, jreId, jre);
+
                 assets.put("exe", exe);
+                assets.put("jre", jre);
             } else {
+
+                // if mac, only get the jar
+                // would be good to have a dmg file at some point
                 Path jar = Paths.get(tempDir.toString(), "foodel.jar");
                 downloadAsset(accessToken, jarId, jar);
                 assets.put("jar", jar);
@@ -157,25 +215,37 @@ public class Installer {
             assets.put("html", new File("public_html").toPath());
             assets.put("logs", new File("logs").toPath());
 
-            // zip everything
-            return zipFolders(tempDir, assets, map);
+            // zip assets
+            zipFolders(tempDir, assets, map);
         }
-        return null;
     }
 
-    private void downloadAsset(String accessToken, String jarId, Path location) throws IOException {
-        HttpURLConnection connection;
-        final URL assetEndpoint = new URL(
-                String.format("https://api.github.com/repos/chriswales95/FoodelFake/releases/assets/%s", jarId));
+    /**
+     * @param accessToken the access token for GitHub
+     * @param assetId     the id of the asset to download via GitHub
+     * @param location    where to download the asset
+     * @throws IOException ioexception
+     */
+    private void downloadAsset(String accessToken, String assetId, Path location) throws IOException {
 
+        // Create a HTTP connection
+        HttpURLConnection connection;
+
+        // Github asset endpoint
+        final URL assetEndpoint = new URL(
+                String.format("https://api.github.com/repos/chriswales95/FoodelFake/releases/assets/%s", assetId));
+
+        // Open connection and set headers
         connection = (HttpURLConnection) assetEndpoint.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Accept", "application/octet-stream");
 
+        // Add the access token if we have one
         if (accessToken != null) {
             connection.setRequestProperty("Authorization", String.format("token %s", accessToken));
         }
 
+        // Try and get an input stream and copy it to the file system
         try (InputStream is = connection.getInputStream()) {
             Files.copy(is, location);
         } catch (Exception e) {
@@ -183,7 +253,15 @@ public class Installer {
         }
     }
 
-    private Path zipFolders(Path zipDir, HashMap<String, Path> resources, Map<String, String> params) throws MalformedURLException {
+    /**
+     * Create zip folder
+     *
+     * @param zipDir    where to create the zip
+     * @param resources resources downloaded from github
+     * @param params    the details from the POST request
+     * @return the path of the zip
+     */
+    private Path zipFolders(Path zipDir, HashMap<String, Path> resources, Map<String, String> params) {
         String zipName = Paths.get(zipDir.toString(), "foodel.zip").toString();
         ZipFile zipFile = new ZipFile(zipName);
 
@@ -196,10 +274,18 @@ public class Installer {
             if (resources.containsKey("exe")) {
                 zipFile.addFile(resources.get("exe").toFile());
                 Files.delete(resources.get("exe"));
+
+                ZipFile j = new ZipFile(resources.get("jre").toFile());
+                j.extractAll(zipDir.toString());
+
+                // add the JRE
+                zipFile.addFolder(Paths.get(zipDir.toString(), "jdk-16.0.2").toFile());
             }
 
             zipFile.addFolder(resources.get("html").toFile());
 
+            // loop through the html files and filter to the files we need.
+            // basically filter out the footer and default properties
             List<Path> htmlFiles = Files.walk(Path.of(new File("config").toURI()))
                     .filter(Files::isRegularFile)
                     .filter(path ->
@@ -208,12 +294,14 @@ public class Installer {
                     ).filter(path -> !path.getFileName().toString().equals("footer.html"))
                     .collect(Collectors.toList());
 
+            // copy filtered files
             Path newConfigirectory = Files.createDirectory(Paths.get(zipDir.toString(), "config"));
             for (Path p : htmlFiles) {
                 Path tartget = Path.of(newConfigirectory.toString(), p.getFileName().toString());
                 Files.copy(p, tartget);
             }
 
+            // Rather than copy and edit footer, just write a new one since it's small.
             File footer = new File(String.valueOf(Path.of(newConfigirectory.toString(), "footer.html")));
             FileWriter myWriter = new FileWriter(footer);
             myWriter.write("<br><br><br><br><br><br><br>\n" +
@@ -240,6 +328,7 @@ public class Installer {
             // Find out if we have local osm that we can give the user based on their choice
             ServerProperties properties = ServerProperties.getInstance();
 
+            // Check if osm location is described in the properties file
             if (properties.get("osm_data") != null) {
                 String osmFileName = properties.get("osmfile");
                 Path osmLocation = new File(properties.get("osm_data")).toPath();
@@ -255,27 +344,34 @@ public class Installer {
                     case "wales":
                         chosenOsmFile = Paths.get(osmLocation.toString(), "wales-latest.osm.pbf");
                         break;
+                    case "ireland":
+                        chosenOsmFile = Paths.get(osmLocation.toString(), "ireland-and-northern-ireland-latest");
+                        break;
                     default:
                         chosenOsmFile = Paths.get(osmLocation.toString(), "great-britain-latest.osm.pbf");
                         break;
                 }
-                Files.copy(chosenOsmFile, Paths.get(osmDirectory.toString(), osmFileName));
-                zipFile.addFolder(dataDirectory.toFile());
+
+                // if we have the chosen file, copy it to the zip.
+                if (Files.exists(chosenOsmFile)) {
+                    Files.copy(chosenOsmFile, Paths.get(osmDirectory.toString(), osmFileName));
+                    zipFile.addFolder(dataDirectory.toFile());
+                }
             }
 
+            // Add the necessary configuration file
+            // shared and local configurations are slightly different
+
+
+            // add sample files for people to play with
+            Path sampleData = Path.of(properties.get("sample_data"));
+            zipFile.addFolder(sampleData.toFile());
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return zipFile.getFile().toPath();
-    }
-
-    public static Path getDownload(String hash) {
-        if (Installer.installs.containsKey(hash)) {
-            int i = 1;
-        }
-        return null;
     }
 
 }

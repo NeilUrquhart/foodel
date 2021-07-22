@@ -66,3 +66,4 @@ jobs:
           files: |
             server/target/*.jar
             server/target/*.exe
+            server/target/jre.zip

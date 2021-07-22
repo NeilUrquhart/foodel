@@ -92,7 +92,7 @@ window.addEventListener("DOMContentLoaded", _ => {
         const downloadButton = document.createElement("a");
         downloadButton.text = "Click to download";
         downloadButton.setAttribute("class", "button");
-        downloadButton.href = `/installer/zip?id=${result.zip_hash}`;
+        downloadButton.href = `/installer/download?id=${result.zip_hash}`;
 
         const downloadText = document.createElement("p");
         downloadText.innerHTML
