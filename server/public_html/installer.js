@@ -2,9 +2,12 @@
  * Installer
  */
 
+/**
+ * Wait for the DOM to load
+ */
 window.addEventListener("DOMContentLoaded", _ => {
-
-    let installForm = document.getElementById('installer-form');
+    const container = document.getElementById('install-page');
+    const installForm = document.getElementById('installer-form');
     const confirmDiv = document.createElement("div");
     const downloadDiv = document.createElement("div");
 
@@ -18,22 +21,27 @@ window.addEventListener("DOMContentLoaded", _ => {
                 os: formData.get('os'),
                 orgName: formData.get('org-name'),
                 deviceInstallType: formData.get('device_install_type'),
-                mapArea: formData.get("map-area")
+                mapArea: formData.get("map_area")
             });
         }
     });
 
+    /**
+     * Confirm with the user if everything is correct
+     *
+     * @param userSelection
+     */
     function confirmDetails(userSelection) {
 
         confirmDiv.setAttribute("style", "padding-top: 10px");
         const p = document.createElement("p");
-        p.innerHTML = `Your chosen Operationg System: <b>${userSelection.os}</b><br>
+        p.innerHTML = `<div class="card"> Your chosen Operationg System: <b>${userSelection.os}</b><br>
              Your organisation's name: <b>${userSelection.orgName}</b><br>
-             Install type: <b>${userSelection.deviceInstallType}</b>`;
+             Install type: <b>${userSelection.deviceInstallType}</b><br>
+             Map area: <b>${userSelection.mapArea}</b></div>`;
 
         const downloadButton = document.createElement('button');
         downloadButton.setAttribute("class", "button");
-        downloadButton.setAttribute("href", "#");
         downloadButton.setAttribute("type", "button");
         downloadButton.innerText = "Download";
 
@@ -44,12 +52,17 @@ window.addEventListener("DOMContentLoaded", _ => {
             postUrl.searchParams.set("deviceInstallType", userSelection.deviceInstallType);
             postUrl.searchParams.set("mapArea", userSelection.mapArea);
 
+            confirmDiv.innerHTML = "<div class='card' style='text-align: center; min-height: 400px; justify-content: center;'>" +
+                "<h2>Working on it</h2>" +
+                "<p>Your download link will appear here when it's ready. Please be patient whilst we get it ready for you.</p><br><br>" +
+                "<p>Please <b>do not</b> refresh the page.</p>" +
+                "</div>";
+
             fetch(postUrl, {
                 method: "POST",
             }).then(
                 res => res.json()
-            ).then(res => presentDownload(res))
-
+            ).then(res => presentDownload(res));
         });
 
         const editButton = document.createElement('button');
@@ -57,26 +70,38 @@ window.addEventListener("DOMContentLoaded", _ => {
         editButton.setAttribute("type", "button");
         editButton.textContent = "Edit Install";
         editButton.addEventListener("click", _ => {
-            confirmDiv.replaceWith(installForm);
-        })
+            container.removeChild(confirmDiv);
+            container.appendChild(installForm)
+        });
 
         const buttonInputGroup = document.createElement('div');
-        confirmDiv.append(p);
+
         const confP = document.createElement("p");
         confP.innerHTML
             = `If you are happy with the above settings, you can proceed with the installation. 
             Otherwise, you can go back and edit them.`;
-        confirmDiv.append(confP);
-        buttonInputGroup.setAttribute('class', 'input-group');
-        buttonInputGroup.append(downloadButton);
-        buttonInputGroup.append(editButton);
-        confirmDiv.append(buttonInputGroup);
-        installForm.replaceWith(confirmDiv);
+
+        if (confirmDiv.childElementCount === 0) {
+            confirmDiv.append(p);
+            confirmDiv.append(confP);
+            buttonInputGroup.setAttribute('class', 'input-group');
+            buttonInputGroup.append(downloadButton);
+            buttonInputGroup.append(editButton);
+            confirmDiv.append(buttonInputGroup);
+        }
+        container.removeChild(installForm);
+        container.appendChild(confirmDiv);
     }
 
+    /**
+     * Present the download
+     *
+     * @param result
+     */
     function presentDownload(result) {
         downloadDiv.setAttribute("id", "download-form");
-        downloadDiv.innerHTML = "hello";
+        downloadDiv.setAttribute("class", "card");
+        downloadDiv.innerHTML = "<b>Your download is ready.</b>"
 
         const backToHome = document.createElement("a");
         backToHome.text = "here";
@@ -87,7 +112,7 @@ window.addEventListener("DOMContentLoaded", _ => {
 
         const installInstructions = document.createElement("a");
         installInstructions.text = "here";
-        installInstructions.href = "/"
+        installInstructions.href = "/";
 
         const downloadButton = document.createElement("a");
         downloadButton.text = "Click to download";
@@ -98,12 +123,9 @@ window.addEventListener("DOMContentLoaded", _ => {
         downloadText.innerHTML
             = `You can find install instructions ${installInstructions.outerHTML}.`;
 
-
         downloadDiv.appendChild(downloadText)
         downloadDiv.appendChild(downloadButton)
         downloadDiv.appendChild(backToHomeText);
         confirmDiv.replaceWith(downloadDiv);
     }
 });
-
-

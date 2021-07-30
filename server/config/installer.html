@@ -1,8 +1,11 @@
 <main>
     <div class="container">
 
-        <section>
+        <section class="section-margin">
             <div class="card">
+                <h2 class="card-title">
+                    Installer
+                </h2>
                 This page will guide you through the process of creating an installer for Foodle which you can use
                 on your own machine(s). The details entered on this form are not stored on our servers; they are used
                 only to tailor your install.
@@ -16,58 +19,112 @@
             </section>
         </noscript>
 
-        <section>
-            <div class="card">
-                <h2 class="card-title">
-                    Installer
-                </h2>
-                <form id="installer-form">
-                    <hr class="separator">
-                    <h3>Operating System</h3>
-                    <div class="radio-select">
-                        <input type="radio" id="windows" name="os" value="windows" aria-checked="true" checked>
-                        <label for="windows">Windows</label><br>
-                        <input type="radio" id="macos" name="os" value="macos">
-                        <label for="macos">Mac OS</label><br>
+        <div id="install-page">
+            <form id="installer-form">
+                <section class="section-margin">
+                    <div class="card">
+                        <h3 class="card-title">Operating System</h3>
+                        <div class="input-group">
+                            <p>What type of operating system (OS) will you be running Foodel on?</p>
+                            <fieldset class="form-fieldset">
+                                <input type="radio" id="windows" name="os" value="windows" class="radio"
+                                       aria-checked="true"
+                                       checked>
+                                <label for="windows">Windows</label><br>
+                                <input type="radio" id="macos" name="os" value="macos" class="radio">
+                                <label for="macos">Mac OS</label><br>
+                            </fieldset>
+                        </div>
+                        <div class="help-text">
+                            <p><b>Why is this information required?</b></p>
+                            If you choose Windows, you will recieve an .exe file which works natively on Windows. Mac
+                            users
+                            will recieve a JAR file which can be used on Mac's with Java installed. Other operating
+                            systems
+                            should work too, but this has not been tested.
+                        </div>
+                    </div>
+                </section>
 
-                        <h3>Organisation Details</h3>
-
+                <section class="section-margin">
+                    <div class="card">
+                        <h3 class="card-title">Organisation Details</h3>
                         <div class="input-group">
                             <label for="org-name">Organisation name:</label>
-                            <input type="text" name="org-name" id="org-name" placeholder="Joe Bloggs" required>
+                            <input type="text" name="org-name" id="org-name" class="input-item" placeholder="Joe Bloggs"
+                                   required>
                         </div>
+                        <div class="help-text">
+                            <p><b>Why is this information required?</b></p>
+                            Your organisation's name will appear in the footer of your site.
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-margin">
+                    <div class="card">
+                        <h3 class="card-title">Map Area</h3>
 
                         <div class="input-group">
-                            <label for="map-area">Part of the UK for which map data is required:</label>
-                            <select id="map-area" name="map-area">
-                                <option value="scotland" selected>Scotland</option>
-                                <option value="england">England</option>
-                                <option value="wales">Wales</option>
-                                <option value="northern_ireland">Nothern Ireland</option>
-                                <option value="uk">Entire UK</option>
-                            </select>
+                            <div class="form-fieldset">
+                                <input id="scotland" name="map_area" type="radio" value="scotland" checked>
+                                <label for="scotland">Scotland</label> <br>
+
+                                <input type="radio" name="map_area" id="england" value="england">
+                                <label for="england">England</label><br>
+
+                                <input type="radio" name="map_area" id="wales" value="wales">
+                                <label for="wales">Wales</label><br>
+
+                                <input type="radio" name="map_area" id="ireland" value="ireland">
+                                <label for="ireland">Ireland and Nothern Ireland</label><br>
+
+                                <input type="radio" name="map_area" id="uk" value="uk">
+                                <label for="uk">UK</label>
+                            </div>
                         </div>
+                        <div class="help-text">
+                            <p><b>Why is this information required?</b></p>
+                            <p>We need to know the rough location of where Foodel will be used to provide you with
+                                accurate
+                                routing information. </p>
+                            <p>You can pick the relevant map area to your location. The UK option includes Scotland,
+                                England, and Wales but incurs a larger file size.</p>
+                        </div>
+                    </div>
+                </section>
 
-
+                <section class="section-margin">
+                    <div class="card">
                         <h3>Device Install</h3>
                         <div class="input-group">
                             <div id="radio-select">
-                                <input type="radio" id="shared" name="device_install_type" value="shared"
-                                       aria-checked="true" checked>
-                                <label for="shared">Shared installation</label><br>
-                                <input type="radio" id="local" name="device_install_type" value="local">
-                                <label for="local">Local installation</label>
+                                <div class="form-fieldset">
+                                    <input type="radio" id="shared" name="device_install_type" value="shared"
+                                           aria-checked="true" checked>
+                                    <label for="shared">Shared installation</label><br>
+                                    <input type="radio" id="local" name="device_install_type" value="local">
+                                    <label for="local">Local installation</label>
+                                </div>
+                            </div>
+                            <div class="help-text">
+                                <p><b>What is the difference?</b></p>
+                                <p>A local installation is on your own machine and is most likely not accessible from
+                                    the
+                                    internet. In this install, you don't need to keep track of your job key to access
+                                    your
+                                    job.
+                                    On a shared install, one that is likely accessible from the internet, the job key is
+                                    required.</p>
                             </div>
                         </div>
-
-                        <hr class="separator">
-                        <div class="input-group" style="margin-top: 1rem">
-                            <button type="submit" class="button">Get Installer</button>
-                            <a class="button" type="button" href="/">Cancel</a>
-                        </div>
-
-                </form>
-            </div>
-        </section>
+                    </div>
+                </section>
+                <div class="input-group" style="margin-top: 1rem">
+                    <button type="submit" class="button">Get Installer</button>
+                    <a class="button" type="button" href="/">Cancel</a>
+                </div>
+            </form>
+        </div>
     </div>
 </main>

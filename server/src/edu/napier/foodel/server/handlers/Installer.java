@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import net.lingala.zip4j.ZipFile;
+import net.lingala.zip4j.model.ZipParameters;
 import org.apache.commons.io.IOUtils;
 
 /**
@@ -41,6 +42,7 @@ public class Installer {
 
         // Add specific styling for the home page
         page.addToHeader("<link rel='stylesheet' href='/static/home.css'>");
+        page.addToHeader("<link rel='stylesheet' href='/static/installer.css'>");
         page.addToHeader("<script type=\"text/javascript\" src='/static/installer.js'></script");
 
         String content = Files.readString(Paths.get("config/installer.html"), StandardCharsets.UTF_8);
@@ -259,9 +261,8 @@ public class Installer {
      * @param zipDir    where to create the zip
      * @param resources resources downloaded from github
      * @param params    the details from the POST request
-     * @return the path of the zip
      */
-    private Path zipFolders(Path zipDir, HashMap<String, Path> resources, Map<String, String> params) {
+    private void zipFolders(Path zipDir, HashMap<String, Path> resources, Map<String, String> params) {
         String zipName = Paths.get(zipDir.toString(), "foodel.zip").toString();
         ZipFile zipFile = new ZipFile(zipName);
 
@@ -289,8 +290,8 @@ public class Installer {
             List<Path> htmlFiles = Files.walk(Path.of(new File("config").toURI()))
                     .filter(Files::isRegularFile)
                     .filter(path ->
-                            path.getFileName().toString().contains(".html") ||
-                                    path.getFileName().toString().contains(".properties")
+                            path.getFileName().toString().contains(".html") &&
+                                    !path.getFileName().toString().contains(".properties")
                     ).filter(path -> !path.getFileName().toString().equals("footer.html"))
                     .collect(Collectors.toList());
 
@@ -332,7 +333,7 @@ public class Installer {
             if (properties.get("osm_data") != null) {
                 String osmFileName = properties.get("osmfile");
                 Path osmLocation = new File(properties.get("osm_data")).toPath();
-                Path chosenOsmFile = null;
+                Path chosenOsmFile;
 
                 switch (params.get("mapArea")) {
                     case "scotland":
@@ -363,6 +364,18 @@ public class Installer {
             // shared and local configurations are slightly different
 
 
+            String chosenConfiguration = params.get("deviceInstallType") + "_config";
+            if (properties.get(chosenConfiguration) != null) {
+                ZipParameters parameters = new ZipParameters();
+                parameters.setFileNameInZip("config/server.properties");
+
+                Path configPath;
+
+                configPath = Path.of(properties.get(chosenConfiguration));
+
+                zipFile.addFile(configPath.toFile(), parameters);
+            }
+
             // add sample files for people to play with
             Path sampleData = Path.of(properties.get("sample_data"));
             zipFile.addFolder(sampleData.toFile());
@@ -370,8 +383,6 @@ public class Installer {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return zipFile.getFile().toPath();
     }
 
 }
