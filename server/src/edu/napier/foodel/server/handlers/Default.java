@@ -38,6 +38,7 @@ public class Default implements ContextHandler {
 				+ "<li><span style=\"color: #339966;\"><span style=\"color: #000000;\">Click on the button \"<span style=\"color: #339966;\"><strong>Solve my problem</strong></span>\"</span></span></li>"
 				+ "<li><span style=\"color: #339966;\"><span style=\"color: #000000;\">Wait a few seconds until you see \"Your file appears to have been understood\" - that means your problem is currently being solved</span></span></li>"
 				+ "<li><span style=\"color: #339966;\"><span style=\"color: #000000;\">Click the button \"<strong><span style=\"color: #339966;\">Continue</span></strong>\"</span></span></li>"
+				+ "<li><span style=\"color: #339966;\"><span style=\"color: #000000;\">You may see \"<strong>Your problem is being solved at the moment</strong>\" and it may take a while for the problem to be solved&nbsp;</span></span></li>"
 				+ "<li><span style=\"color: #339966;\"><span style=\"color: #000000;\">You should be able to see the solution for the provided .csv file and you can click:</span></span>"
 				+ "<ul>"
 				+ "<li>\"<span style=\"color: #339966;\"><strong>View Map</strong></span>\" - which will show you the exact route&nbsp;"
