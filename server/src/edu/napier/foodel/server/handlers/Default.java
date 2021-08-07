@@ -24,7 +24,7 @@ public class Default implements ContextHandler {
 				
 				+ "<p> <a href=\"/new\" class =\"button\">Upload a new problem </a> </p>"
 				+ "<p><a href=\"/status\" class =\"button\" >Check the status of your machine</a> </p>"
-				+ ""
+				+ "<p>&nbsp;</p>"
 				+ "<p><strong>Simple guidance to uploading a new problem in Foodel: (\"<span style=\"color: #339966;\">Upload a new problem</span>\")</strong></p>\n"
 				+"<ol>"
 				+ "<li>Click on the button \"<span style=\"color: #339966;\"><strong>Upload a new problem</strong><span style=\"color: #000000;\">\"</span></span></li>"
