@@ -3,6 +3,7 @@ package edu.napier.foodel.server.handlers;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import edu.napier.foodel.server.HTMLpage;
+import edu.napier.foodel.server.Server;
 import edu.napier.foodel.server.ServerProperties;
 import net.freeutils.httpserver.HTTPServer.Context;
 import net.freeutils.httpserver.HTTPServer.Request;
@@ -15,18 +16,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.model.ZipParameters;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 /**
- * Encapsulates all the functionality required to allow users to get an install
+ * Encapsulates all the functionality required to allow users to get an install of Foodel
  */
 public class Installer {
 
@@ -35,7 +37,19 @@ public class Installer {
      */
     private static final Map<String, Path> installs = new HashMap<>();
 
+    /**
+     * Keep track of recently downloaded assets to avoid constantly download them
+     */
+    private static final Map<String, Object> cache = new HashMap<>();
 
+    /**
+     * Logger
+     */
+    private static final Logger LOGGER = Logger.getLogger(Server.class.getName());
+
+    /**
+     * Shows install page
+     */
     @Context("/install")
     public int install(Request req, Response res) throws IOException {
         HTMLpage page = new HTMLpage("Foodel Installer");
@@ -219,6 +233,7 @@ public class Installer {
 
             // zip assets
             zipFolders(tempDir, assets, map);
+            LOGGER.info("done creating install");
         }
     }
 
@@ -230,6 +245,35 @@ public class Installer {
      */
     private void downloadAsset(String accessToken, String assetId, Path location) throws IOException {
 
+        if (!cache.isEmpty()) {
+            if (location.getFileName().endsWith("foodel.exe")) {
+                if (cache.containsKey("exe")) {
+                    if (Duration.between(((Instant) cache.get("exeDownloadTime")), Instant.now()).toHours() < 1) {
+                        Files.copy(Path.of(cache.get("exe").toString()), location);
+                        LOGGER.info("Got cached exe");
+                        return;
+                    }
+                }
+            } else if (location.getFileName().endsWith("jre.zip")) {
+                if (cache.containsKey("jre")) {
+                    if (Duration.between(((Instant) cache.get("jreDownloadTime")), Instant.now()).toHours() < 1) {
+                        Files.copy(Path.of(cache.get("jre").toString()), location);
+                        LOGGER.info("Got cached jre");
+                        return;
+                    }
+                }
+            } else if (location.getFileName().endsWith("foodel.jar")) {
+                if (cache.containsKey("jar")) {
+                    if (Duration.between(((Instant) cache.get("jarDownloadTime")), Instant.now()).toHours() < 1) {
+                        Files.copy(Path.of(cache.get("jar").toString()), location);
+                        LOGGER.info("Got cached JAR");
+                        return;
+                    }
+                }
+            }
+        }
+
+        LOGGER.info("downloading asset");
         // Create a HTTP connection
         HttpURLConnection connection;
 
@@ -250,6 +294,26 @@ public class Installer {
         // Try and get an input stream and copy it to the file system
         try (InputStream is = connection.getInputStream()) {
             Files.copy(is, location);
+
+            // keep a cached copy
+            Path tempFile = Files.createTempDirectory("foodel_");
+
+            if (location.getFileName().endsWith("foodel.exe")) {
+                tempFile = Path.of(tempFile.toString(), "foodel.exe");
+                Files.copy(location, tempFile);
+                cache.put("exe", tempFile);
+                cache.put("exeDownloadTime", Instant.now());
+            } else if (location.getFileName().endsWith("jre.zip")) {
+                tempFile = Path.of(tempFile.toString(), "jre.zip");
+                Files.copy(location, tempFile);
+                cache.put("jre", tempFile);
+                cache.put("jreDownloadTime", Instant.now());
+            } else if (location.getFileName().endsWith("foodel.jar")) {
+                tempFile = Path.of(tempFile.toString(), "foodel.jar");
+                Files.copy(location, tempFile);
+                cache.put("jar", tempFile);
+                cache.put("jarDownloadTime", Instant.now());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -281,6 +345,8 @@ public class Installer {
 
                 // add the JRE
                 zipFile.addFolder(Paths.get(zipDir.toString(), "jdk-16.0.2").toFile());
+                Files.delete(resources.get("jre"));
+                FileUtils.deleteDirectory(Paths.get(zipDir.toString(), "jdk-16.0.2").toFile());
             }
 
             zipFile.addFolder(resources.get("html").toFile());
@@ -298,8 +364,9 @@ public class Installer {
             // copy filtered files
             Path newConfigirectory = Files.createDirectory(Paths.get(zipDir.toString(), "config"));
             for (Path p : htmlFiles) {
-                Path tartget = Path.of(newConfigirectory.toString(), p.getFileName().toString());
-                Files.copy(p, tartget);
+                ZipParameters parameters = new ZipParameters();
+                parameters.setFileNameInZip("config/" + p.getFileName().toString());
+                zipFile.addFile(p.toFile(), parameters);
             }
 
             // Rather than copy and edit footer, just write a new one since it's small.
@@ -313,6 +380,7 @@ public class Installer {
 
             // get the relevant files and add a custom footer
             zipFile.addFolder(newConfigirectory.toFile());
+            FileUtils.deleteDirectory(newConfigirectory.toFile());
 
             // only add necessary log file
             Path newLogsDirectory = Files.createDirectory(Paths.get(zipDir.toString(), "logs"));
@@ -321,17 +389,13 @@ public class Installer {
                     Path.of(newLogsDirectory.toString(), "foodel.log.lck"));
 
             zipFile.addFolder(newLogsDirectory.toFile());
-
-            // add osm data
-            Path dataDirectory = Files.createDirectory(Paths.get(zipDir.toString(), "data"));
-            Path osmDirectory = Files.createDirectory(Paths.get(dataDirectory.toString(), "osm"));
+            FileUtils.deleteDirectory(newLogsDirectory.toFile());
 
             // Find out if we have local osm that we can give the user based on their choice
             ServerProperties properties = ServerProperties.getInstance();
 
             // Check if osm location is described in the properties file
             if (properties.get("osm_data") != null) {
-                String osmFileName = properties.get("osmfile");
                 Path osmLocation = new File(properties.get("osm_data")).toPath();
                 Path chosenOsmFile;
 
@@ -355,8 +419,10 @@ public class Installer {
 
                 // if we have the chosen file, copy it to the zip.
                 if (Files.exists(chosenOsmFile)) {
-                    Files.copy(chosenOsmFile, Paths.get(osmDirectory.toString(), osmFileName));
-                    zipFile.addFolder(dataDirectory.toFile());
+                    ZipParameters parameters = new ZipParameters();
+                    parameters.setFileNameInZip("data/osm/mapdata.osm.pbf")
+                    ;
+                    zipFile.addFile(chosenOsmFile.toFile(), parameters);
                 }
             }
 
@@ -364,15 +430,12 @@ public class Installer {
             // shared and local configurations are slightly different
 
 
+            // Get chosen config for the install. Relies on having alternate config specified in our config.
             String chosenConfiguration = params.get("deviceInstallType") + "_config";
             if (properties.get(chosenConfiguration) != null) {
                 ZipParameters parameters = new ZipParameters();
                 parameters.setFileNameInZip("config/server.properties");
-
-                Path configPath;
-
-                configPath = Path.of(properties.get(chosenConfiguration));
-
+                Path configPath = Path.of(properties.get(chosenConfiguration));
                 zipFile.addFile(configPath.toFile(), parameters);
             }
 

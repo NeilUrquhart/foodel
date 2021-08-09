@@ -6,6 +6,8 @@
  * Wait for the DOM to load
  */
 window.addEventListener("DOMContentLoaded", _ => {
+
+    // Various HTML elements that we interact with
     const container = document.getElementById('install-page');
     const installForm = document.getElementById('installer-form');
     const confirmDiv = document.createElement("div");
@@ -46,12 +48,15 @@ window.addEventListener("DOMContentLoaded", _ => {
         downloadButton.innerText = "Download";
 
         downloadButton.addEventListener("click", _ => {
+
+            // Create the query parameters we need
             let postUrl = new URL("/installer/create", window.location.origin);
             postUrl.searchParams.set("os", userSelection.os);
             postUrl.searchParams.set("org", userSelection.orgName);
             postUrl.searchParams.set("deviceInstallType", userSelection.deviceInstallType);
             postUrl.searchParams.set("mapArea", userSelection.mapArea);
 
+            // Tell the user we're working on getting things ready for them
             confirmDiv.innerHTML = "<div class='card' style='text-align: center; min-height: 400px; justify-content: center;'>" +
                 "<h2>Working on it</h2>" +
                 "<p>Your download link will appear here when it's ready. Please be patient whilst we get it ready for you.</p><br><br>" +
