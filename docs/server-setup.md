@@ -35,21 +35,46 @@ The following will need to be installed on the server:
   </em>
 </p>
 
+- Open IIS
+
+![iis](resources/images/iis_app.png)
 - From IIS, open the Web Platform Installer (red icon)
     - Go to the "applications" tab and search for "Application Request Routing" (ARR) and choose version 3.0
     - Follow install instructions. **You may need to exit and reopen IIS for the ARR menu(s) to appear.**
 - Delete the default site on IIS
 - Create a blank site. You shouldn't need to change any values in the form
-    - You need to give it a path -- however -- it doesn't really matter where you put it
+    - You need to give it a path -- however -- it doesn't really matter where you put it since we are proxying a Java
+      application
     - Create an empty folder somewhere and point it there.
     - Make sure to bind the site to a specific hostname otherwise you can access it by IP as well.
-- From the main server menu, click into ARR.
-- On the right-hand side, click "server proxy settings"
-    - Enable the proxy
-    - Scroll to the field called "reverse proxy" and put the hostname and port of the application to proxy
+    - When asked what bindings you want, you'll want HTTP and HTTPS most likely. These are port 80 and 443.
 
-![image](resources/images/server_proxy.png)
-![image](resources/images/server_proxy_2.png)
+![bindings](resources/images/bindings.png "Bindings")
+Bindings
+
+
+![web platform installer](resources/images/wpi.png "Red ARR button")
+Red ARR button
+
+
+- From the main server menu, click the site you're working on under 'sites'
+  - Click on URL Rewrite. This is how we will configure the reverse proxy and HTTPS.
+  - On the right side, click add rules.
+  - If you're proxying something, click on 'reverse proxy'. 
+  - For HTTPS, I recommend this tutorial: https://www.ssl.com/how-to/redirect-http-to-https-with-windows-iis-10/ 
+  - Once done, your rules will look like below. Note the rules order as this matters.
+
+![Rules](resources/images/rules.png)
+
+#### Reverse Proxy Settings
+The reverse proxy rules are as follows:
+
+![proxy settings](resources/images/reverse_proxy.png)
+
+
+#### HTTPS Settings
+![HTTPS 1](resources/images/https1.png)
+![HTTPS 2](resources/images/https2.png)
 
 ### Java App Setup
 
