@@ -14,7 +14,6 @@ public class FixedVansProblemFactory extends FoodelProblemFactory {
 	
 	@Override
 	public FoodelProblem parseData(HashMap<String, String[]> csvData, FoodelProblem result) throws Exception {
-			super.parseData(csvData, result);
 			FixedVansProblem resultV = (FixedVansProblem) result;
 			for(String keyword : csvData.keySet()) {
 				if (keyword.startsWith("vehicles available")){
@@ -22,6 +21,7 @@ public class FixedVansProblemFactory extends FoodelProblemFactory {
 					resultV.setVans(Integer.parseInt(buffer[1]));
 				}
 			}
+			super.parseData(csvData, result);
 			return resultV;
 		}
 	

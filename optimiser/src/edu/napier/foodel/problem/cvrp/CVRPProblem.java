@@ -300,12 +300,8 @@ public class CVRPProblem extends FoodelProblem {
 		long time = getStartTime();
 
 		ArrayList<ArrayList<FoodelVisit>> solution = getCVRPSolution();
-		//		if (getInitialVisit()!= null) {
-		//			ArrayList<FoodelVisit> run =solution.get(0);
-		//			run.add(0,getInitialVisit());
-		//		}
 
-		ArrayList<FoodelVisit> run  = solution.get(r-1);
+		ArrayList<FoodelVisit> run  = solution.get(r);
 		int c=0;
 		if (isConcurrent())
 			time =getStartTime();

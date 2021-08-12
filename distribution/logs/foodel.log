@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2021-06-23T19:28:32.321062500Z</date>
-  <millis>1624476512321</millis>
-  <nanos>62500</nanos>
+  <date>2021-07-06T15:19:59.354658100Z</date>
+  <millis>1625584799354</millis>
+  <nanos>658100</nanos>
   <sequence>0</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -14,9 +14,9 @@
   <message>Starting server</message>
 </record>
 <record>
-  <date>2021-06-23T19:28:32.430058800Z</date>
-  <millis>1624476512430</millis>
-  <nanos>58800</nanos>
+  <date>2021-07-06T15:19:59.463657Z</date>
+  <millis>1625584799463</millis>
+  <nanos>657000</nanos>
   <sequence>1</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>

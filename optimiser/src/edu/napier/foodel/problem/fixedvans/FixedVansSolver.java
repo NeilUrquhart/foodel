@@ -10,37 +10,7 @@ import edu.napier.foodel.utils.RandomSingleton;
 
 
 public class FixedVansSolver  extends CVRPsolver{
-//	protected RandomSingleton rnd = RandomSingleton.getInstance();
-//	//Note that we use the RandomSingleton object to generate random numbers
-//	protected ArrayList <FoodelIndividual> population = new ArrayList<FoodelIndividual>();
-//	//population stores our pool of potential solutions
-//
-//	private static int evalsChange = 1000000;//default
-//	private static DecimalFormat df2 = new DecimalFormat("#.##");
-//	private double end;
-//
-//
-//	//EA Parameters
-//	protected int POP_SIZE = 500;
-//	protected int TOUR_SIZE = 2;
-//	protected double XO_RATE = 0.2;
-//	protected int evalsBudget = 1000000;
-//
-//	protected int runs = 10;
 
-
-//	public void solve() {
-//		FoodelIndividual best = null;
-//		for (int run = 0; run < runs; run ++) {
-//			FoodelIndividual curr = this.runEA(run);
-//			if (best != null) {
-//				if (curr.evaluate() <  best.evaluate())
-//					best = curr;
-//			}else
-//				best = curr;
-//		}
-//		super.theProblem.setSolution(best.getPhenotype());
-//	}
 
 
 
@@ -50,33 +20,7 @@ public class FixedVansSolver  extends CVRPsolver{
 		//this.end = end;
 	}
 
-//	protected FoodelIndividual tournamentSelection(int poolSize){
-//		//Return the best individual from a randomly selected pool of individuals
-//		FoodelIndividual bestI = null;
-//		double bestFit = Double.MAX_VALUE;
-//		for (int tries=0; tries < poolSize; tries++){
-//			FoodelIndividual i = population.get(rnd.getRnd().nextInt(population.size()));
-//			if (i.getDistance() < bestFit){
-//				bestFit = i.getDistance();
-//				bestI = i;
-//			}
-//		}
-//		return bestI;
-//	}
 
-//	protected FoodelIndividual tournamentSelectWorst(int poolSize){
-//		//Return the worst individual from a ransomly selected pool of individuals
-//		FoodelIndividual bestI = null;
-//		double bestFit = 0;
-//		for (int tries=0; tries < poolSize; tries++){
-//			FoodelIndividual i = population.get(rnd.getRnd().nextInt(population.size()));
-//			if (i.getDistance() > bestFit){
-//				bestFit = i.getDistance();
-//				bestI = i;
-//			}
-//		}
-//		return bestI;
-//	}
 
 	@Override
 	protected FoodelIndividual InitialisePopution() {
@@ -163,6 +107,7 @@ public class FixedVansSolver  extends CVRPsolver{
 				System.out.println("Timer expired.");
 			}
 		}
+
 		return bestSoFar;
 	}
 }

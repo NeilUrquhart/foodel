@@ -164,6 +164,13 @@ public abstract  class FoodelProblem  {
 		return this.startPCode;
 	}
 
+	public int getTotalDemand() {
+		int d=0;
+		for (FoodelVisit v :visitList) {
+			d = d + v.getDemand();
+		}
+		return d;
+	}
 	public double getSolutionDistance(){
 		//Return the total distance travelled by all of the vehicles
 		return getSolutionDistance(solution);
