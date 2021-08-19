@@ -61,49 +61,61 @@ public class FixedVansIndividual extends FoodelIndividual {
 		 * Add in code to ensure that route is not over the allowed time
 		 * 
 		 */
-	//	if (genotype.size() != 60) System.exit(-1);
 		FixedVansProblem fProblem = (FixedVansProblem)problem;
-	//	long timeLimit = fProblem.getTimeLimitMS();
-		//System.out.println(fProblem.getTimeOnlyformatter().format(timeLimit));
-		long deliveryTime = fProblem.getDeliveryTimeMS();
-		int veh= fProblem.getVehicleQty();
-	//	int split = fProblem.getNoVisits()/veh;
-
+	
 		if (phenotype == null) {
 			phenotype = new ArrayList<ArrayList<FoodelVisit>> ();
 
-	//		FoodelVisit depot = (FoodelVisit) problem.getStart();
-	//		FoodelVisit finish = (FoodelVisit) fProblem.getEnd();
-
-			//1 Check and correct demand
-			for (int v=0; v < ((FixedVansProblem)this.problem).getVans(); v++) {
-				int demand =0;
-				for (FoodelVisit visit : this.genotype) {
-					FVGene g = (FVGene) visit;
-					if (g.getVan() == v) {
-						demand = demand + g.getDemand();
-					}
-					if (demand > this.problem.getVehicleCapacity()) {
-						//Correct
-						g.setVan(v+1);//Move to next route
-						demand = demand - g.getDemand();
+			//1 Add empty routes
+			for (int c=0;  c< fProblem.getVans(); c++) {
+				phenotype.add(new ArrayList<FoodelVisit>());
+			}
+			//2 Add visits to routes
+			for(FoodelVisit visit : genotype) {
+			// - try prefferred route
+				FVGene g = (FVGene) visit;
+				ArrayList<FoodelVisit> pref = phenotype.get(g.getVan());
+//			//1 Check and correct demand
+				if ((getDemand(pref)+g.getDemand())<= this.problem.getVehicleCapacity())
+					pref.add(g);
+				else {//Find a route
+					for (ArrayList<FoodelVisit> r : phenotype) {
+						if ((getDemand(r)+g.getDemand())<= this.problem.getVehicleCapacity()) {
+							pref.add(g);
+							break;
+						}
 					}
 				}
 			}
-
-			//2 Build Genotype
-
-			for (int v=0; v < ((FixedVansProblem)this.problem).getVans(); v++) {
-				ArrayList<FoodelVisit> route = new ArrayList<FoodelVisit>();
-				
-				for (FoodelVisit visit : this.genotype) {
-					FVGene g = (FVGene) visit;
-					if (g.getVan() == v) {
-						route.add(visit);
-					}
-				}
-				phenotype.add(route);
-			}
+//			
+//			for (int v=0; v < ((FixedVansProblem)this.problem).getVans(); v++) {
+//				int demand =0;
+//				for (FoodelVisit visit : this.genotype) {
+//					FVGene g = (FVGene) visit;
+//					if (g.getVan() == v) {
+//						demand = demand + g.getDemand();
+//					}
+//					if (demand > this.problem.getVehicleCapacity()) {
+//						//Correct
+//						g.setVan(v+1);//Move to next route
+//						demand = demand - g.getDemand();
+//					}
+//				}
+//			}
+//
+//			//2 Build Genotype
+//
+//			for (int v=0; v < ((FixedVansProblem)this.problem).getVans(); v++) {
+//				ArrayList<FoodelVisit> route = new ArrayList<FoodelVisit>();
+//				
+//				for (FoodelVisit visit : this.genotype) {
+//					FVGene g = (FVGene) visit;
+//					if (g.getVan() == v) {
+//						route.add(visit);
+//					}
+//				}
+//				phenotype.add(route);
+//			}
 		this.rawDist = fProblem.getSolutionDistance(phenotype);
 		}
 	
@@ -113,7 +125,13 @@ public class FixedVansIndividual extends FoodelIndividual {
 	return this.rawDist;
 }	
 
-
+private int getDemand(ArrayList<FoodelVisit> route ) {
+	int res=0;
+	for (FoodelVisit v : route)
+		res = res + v.getDemand();
+	return res;
+}
+//				)
 
 @Override
 public void mutate() {
@@ -128,7 +146,6 @@ public void mutate() {
 		int rndGene = rnd.getRnd().nextInt(genotype.size());
 		FVGene g= (FVGene) genotype.get(rndGene);
 		g.setVan(rnd.getRnd().nextInt(((FixedVansProblem)this.problem).getVans()));
-
 	}
 
 }

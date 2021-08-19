@@ -29,5 +29,18 @@ public class FixedVansProblem extends CVRPProblem {
    public int getVans() {
 	   return vans;
    }
-	
+   
+   @Override
+   public String isValid() {
+	   String buffer =  super.isValid();
+	   
+	   int totalCapacity = this.getVehicleCapacity() * this.vans;
+	   int d = this.getTotalDemand();
+	   if (totalCapacity < d) {
+		   buffer = buffer +" The total demand of your deliveries is greater than the capacity of your fleet <br>"
+		   		+ "(HINT - increase the number of vehicles to create extra routes, or increase the vehicle capacity, or remove some deliveries)";
+	   }
+	   
+	   return buffer;
+   }
 }

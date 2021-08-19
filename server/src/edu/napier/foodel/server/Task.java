@@ -16,6 +16,8 @@ public class Task {
 	private HashMap<String,String[]> rawData;
 	private String id = "";
 	private String errMsg;
+	private long removalTime;
+	private int lifeTime= 2;  //Hours to live for on the server
 	
 	
 	public String getErrMsg() {
@@ -37,8 +39,12 @@ public class Task {
 	        sb.append(String.format("%02X", b));
 	    }
 		key = sb.toString();
+		removalTime = System.currentTimeMillis() + (3600000*lifeTime);
 	}
 	
+	public long getRemovalTime() {
+		return removalTime;
+	}
 	public void setRawData(HashMap<String,String[]> rawData) {//The basic data strucure read in from the CSV file
 		this.rawData = rawData;
 	}

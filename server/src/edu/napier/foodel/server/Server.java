@@ -50,7 +50,8 @@ public class Server {
 
 	private static void processLoop() {
 		Task currentProblem = null;
-		while(true) {
+		Task rip = null; //Task to be removed due to age
+		while(true) {			
 			//read problem
 			synchronized(taskList){
 				if (taskList.size() >0) {
@@ -60,12 +61,16 @@ public class Server {
 							currentProblem.setStatus(TaskStatus.RUNNING);
 							break;
 						}
+						if (t.getRemovalTime()<System.currentTimeMillis())
+							rip = t;
 					}
 				}
 			}
 
+			if (rip != null)
+				taskList.remove(rip);
+			
 			if (currentProblem != null){
-
 				currentProblem = executeProblem(currentProblem);
 			}
 		}
