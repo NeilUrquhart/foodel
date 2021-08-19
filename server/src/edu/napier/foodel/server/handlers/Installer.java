@@ -78,7 +78,6 @@ public class Installer {
 
         // Return JSON since the job was created from a javascript function
         // easier to deal with json
-        res.getHeaders().add("Content-Type", "application/json");
 
         // Create a temporary directory for the install. Don't necessarily want to store it forever.
         Path tempDir = Files.createTempDirectory("foodel_");
@@ -88,12 +87,17 @@ public class Installer {
         installs.put(randomHash, tempDir);
 
         HashMap<String, String> k = new HashMap<>();
-        createInstaller(params, randomHash);
-
-        k.put("zip_hash", randomHash);
-
-        String json = new Gson().toJson(k);
-        res.send(200, json);
+        boolean installerCreated = createInstaller(params, randomHash);
+        if (installerCreated) {
+            LOGGER.info("installer created: " + randomHash);
+            res.getHeaders().add("Content-Type", "application/json");
+            k.put("zip_hash", randomHash);
+            String json = new Gson().toJson(k);
+            res.send(200, json);
+        } else {
+            LOGGER.warning("Installer failed.");
+            res.send(500, "An error occurred when creating your install.");
+        }
         return 0;
     }
 
@@ -136,7 +140,7 @@ public class Installer {
      * @param hash the id of the install job
      * @throws IOException ioexception
      */
-    private void createInstaller(Map<String, String> map, String hash) throws IOException {
+    private Boolean createInstaller(Map<String, String> map, String hash) throws IOException {
 
         // get resources via http. may be worth caching the results
         HttpURLConnection connection = null;
@@ -232,9 +236,15 @@ public class Installer {
             assets.put("logs", new File("logs").toPath());
 
             // zip assets
-            zipFolders(tempDir, assets, map);
-            LOGGER.info("done creating install");
+            try {
+                zipFolders(tempDir, assets, map);
+                LOGGER.info("done creating install");
+            } catch (InstallerException e) {
+                LOGGER.severe(e.toString());
+                return false;
+            }
         }
+        return true;
     }
 
     /**
@@ -326,7 +336,7 @@ public class Installer {
      * @param resources resources downloaded from github
      * @param params    the details from the POST request
      */
-    private void zipFolders(Path zipDir, HashMap<String, Path> resources, Map<String, String> params) {
+    private void zipFolders(Path zipDir, HashMap<String, Path> resources, Map<String, String> params) throws InstallerException {
         String zipName = Paths.get(zipDir.toString(), "foodel.zip").toString();
         ZipFile zipFile = new ZipFile(zipName);
 
@@ -420,33 +430,47 @@ public class Installer {
                 // if we have the chosen file, copy it to the zip.
                 if (Files.exists(chosenOsmFile)) {
                     ZipParameters parameters = new ZipParameters();
-                    parameters.setFileNameInZip("data/osm/mapdata.osm.pbf")
-                    ;
+                    parameters.setFileNameInZip("data/osm/mapdata.osm.pbf");
                     zipFile.addFile(chosenOsmFile.toFile(), parameters);
                 }
+            } else {
+                LOGGER.warning("No osm data. It will not be present in the download.");
             }
 
             // Add the necessary configuration file
             // shared and local configurations are slightly different
-
-
-            // Get chosen config for the install. Relies on having alternate config specified in our config.
+            // Relies on having alternate config specified in our config.
             String chosenConfiguration = params.get("deviceInstallType") + "_config";
             if (properties.get(chosenConfiguration) != null) {
                 ZipParameters parameters = new ZipParameters();
                 parameters.setFileNameInZip("config/server.properties");
                 Path configPath = Path.of(properties.get(chosenConfiguration));
                 zipFile.addFile(configPath.toFile(), parameters);
+            } else {
+                LOGGER.warning("Configuration not included.");
             }
 
             // add sample files for people to play with
-            Path sampleData = Path.of(properties.get("sample_data"));
-            zipFile.addFolder(sampleData.toFile());
+            if (properties.get("sample_data") != null) {
+                Path sampleData = Path.of(properties.get("sample_data"));
+                zipFile.addFolder(sampleData.toFile());
+            } else {
+                LOGGER.warning("No sample data.");
+            }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.severe("Error occurred.");
+            LOGGER.severe(e.toString());
+            throw new InstallerException("Error occurred creating zip");
         }
     }
-
 }
 
+class InstallerException extends Exception {
+    public InstallerException() {
+    }
+
+    public InstallerException(String message) {
+        super(message);
+    }
+}

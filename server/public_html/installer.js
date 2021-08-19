@@ -66,8 +66,25 @@ window.addEventListener("DOMContentLoaded", _ => {
             fetch(postUrl, {
                 method: "POST",
             }).then(
-                res => res.json()
-            ).then(res => presentDownload(res));
+                res => {
+                    if (res.status === 200) {
+                        return res.json().then(res => presentDownload(res));
+                    } else {
+                        let responseText = res.text().then(text => {
+                            confirmDiv.innerHTML = "<div class='card' style='text-align: center; min-height: 400px; justify-content: center;'>" +
+                                "<h2>The server experienced an error</h2>" +
+                                "<p>Apologies, we experienced an error when creating the install.</p><br><br>" +
+                                `<p>Error message from server: <i>${text}</p></i>` +
+                                "</div>";
+                        });
+                    }
+                }
+            ).catch(error => {
+                confirmDiv.innerHTML = "<div class='card' style='text-align: center; min-height: 400px; justify-content: center;'>" +
+                    "<h2>The server experienced an error</h2>" +
+                    "<p>Apologies, we experienced an error when creating the install.</p><br><br>" +
+                    "</div>";
+            });
         });
 
         const editButton = document.createElement('button');
