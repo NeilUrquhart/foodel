@@ -87,16 +87,22 @@ public class Installer {
         installs.put(randomHash, tempDir);
 
         HashMap<String, String> k = new HashMap<>();
-        boolean installerCreated = createInstaller(params, randomHash);
-        if (installerCreated) {
-            LOGGER.info("installer created: " + randomHash);
-            res.getHeaders().add("Content-Type", "application/json");
-            k.put("zip_hash", randomHash);
-            String json = new Gson().toJson(k);
-            res.send(200, json);
-        } else {
+        try {
+            boolean installerCreated = createInstaller(params, randomHash);
+
+            if (installerCreated) {
+                LOGGER.info("installer created: " + randomHash);
+                res.getHeaders().add("Content-Type", "application/json");
+                k.put("zip_hash", randomHash);
+                String json = new Gson().toJson(k);
+                res.send(200, json);
+            } else {
+                LOGGER.warning("Installer failed.");
+                res.send(500, "An error occurred when creating your install.");
+            }
+        } catch (InstallerException e) {
             LOGGER.warning("Installer failed.");
-            res.send(500, "An error occurred when creating your install.");
+            res.send(500, "An error occurred when creating your install. " + e.toString());
         }
         return 0;
     }
@@ -140,13 +146,21 @@ public class Installer {
      * @param hash the id of the install job
      * @throws IOException ioexception
      */
-    private Boolean createInstaller(Map<String, String> map, String hash) throws IOException {
+    private Boolean createInstaller(Map<String, String> map, String hash) throws IOException, InstallerException {
+
+        ServerProperties properties = ServerProperties.getInstance();
+        if (properties.get("asset_repository") == null) {
+            throw new InstallerException("No asset repository in server.properties");
+        }
 
         // get resources via http. may be worth caching the results
         HttpURLConnection connection = null;
 
+        String endpoint = String.format("https://api.github.com/repos/%s/releases/latest",
+                properties.get("asset_repository"));
+
         // this is the github API endpoint
-        final URL releasesEndpoint = new URL("https://api.github.com/repos/chriswales95/FoodelFake/releases/latest");
+        final URL releasesEndpoint = new URL(endpoint);
         String accessToken = null;
 
         // open the HTTP connection
@@ -286,10 +300,12 @@ public class Installer {
         LOGGER.info("downloading asset");
         // Create a HTTP connection
         HttpURLConnection connection;
+        ServerProperties properties = ServerProperties.getInstance();
 
         // Github asset endpoint
         final URL assetEndpoint = new URL(
-                String.format("https://api.github.com/repos/chriswales95/FoodelFake/releases/assets/%s", assetId));
+                String.format("https://api.github.com/repos/%s/releases/assets/%s",
+                        properties.get("asset_repository"), assetId));
 
         // Open connection and set headers
         connection = (HttpURLConnection) assetEndpoint.openConnection();
