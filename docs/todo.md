@@ -33,6 +33,10 @@ for Neil.
  - ![image](https://user-images.githubusercontent.com/15977217/121967579-8cf39a80-cd68-11eb-945b-c1651ebc3fd4.png) ![image](https://user-images.githubusercontent.com/15977217/121967624-9d0b7a00-cd68-11eb-8005-2071f2e81748.png)
  - tested with a location in Glasgow and works quite well :-)
  
+ 
+ Continued ----
+ - On check status if a solutio is done it takes a while to update the actual status of the problem to "solved"
+ - 
 ## Problems
 - If map data missing, the page endlessly refreshes after a job has been
   submitted. No message / indicator on web interface if map data missing.
@@ -89,3 +93,15 @@ for Neil.
       - ![image](https://user-images.githubusercontent.com/15977217/121972005-fb892600-cd71-11eb-8833-5e8b0172055f.png)
       - jobs indeed go in the quueue as all are run one after the other which can create an issue for the program 
       - ![image](https://user-images.githubusercontent.com/15977217/121972044-13f94080-cd72-11eb-9b90-afec4357f6d2.png)
+
+
+
+Gifs that we may include in website and github: 
+1. Upload file
+- Modified version:
+![alt text](https://github.com/NeilUrquhart/foodel/blob/main/docs/FoodelExampleModified.gif)
+- Non-Modified
+![alt text](https://github.com/NeilUrquhart/foodel/blob/main/docs/FoodelExample.gif)
+2. Check Status
+- Non-modified
+![alt text](https://github.com/NeilUrquhart/foodel/blob/main/docs/FoodelCheckStatus.gif)
