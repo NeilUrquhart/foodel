@@ -1,13 +1,18 @@
 package edu.napier.foodel.server;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
+
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
 
 import com.google.gson.Gson;
 
@@ -17,13 +22,7 @@ import edu.napier.foodel.geo.GHopperInterface;
 import edu.napier.foodel.geo.Geocoder;
 import edu.napier.foodel.problem.cvrp.CVRPProblem;
 import edu.napier.foodel.problemTemplate.FoodelProblem;
-import edu.napier.foodel.server.handlers.CSVHandler;
-import edu.napier.foodel.server.handlers.Default;
-import edu.napier.foodel.server.handlers.GPXHandler;
-import edu.napier.foodel.server.handlers.TaskHandler;
-import edu.napier.foodel.server.handlers.MapHandler;
-import edu.napier.foodel.server.handlers.UploadProblem;
-import edu.napier.foodel.server.handlers.ServerStatus;
+import edu.napier.foodel.server.handlers.*;
 import net.freeutils.httpserver.HTTPServer;
 import net.freeutils.httpserver.HTTPServer.VirtualHost;
 import net.freeutils.httpserver.HTTPServer.FileContextHandler;
@@ -51,6 +50,7 @@ public class Server {
 
 	private static void processLoop() {
 		Task currentProblem = null;
+		Task rip = null; //Task to be removed due to age
 		while(true) {			
 			//read problem
 			synchronized(taskList){
@@ -61,12 +61,16 @@ public class Server {
 							currentProblem.setStatus(TaskStatus.RUNNING);
 							break;
 						}
+						if (t.getRemovalTime()<System.currentTimeMillis())
+							rip = t;
 					}
 				}
 			}
 
+			if (rip != null)
+				taskList.remove(rip);
+			
 			if (currentProblem != null){
-
 				currentProblem = executeProblem(currentProblem);
 			}
 		}
@@ -134,6 +138,8 @@ public class Server {
 		var port = Integer.parseInt(ServerProperties.getInstance().get("port"));
 		var server = new HTTPServer(port);
 		try {
+	
+
 			server.start();
 			var host = new VirtualHost(null);
 			host.addAlias("food"); // if it has aliases
@@ -145,7 +151,9 @@ public class Server {
 			host.addContext("/csv", new CSVHandler(taskList));
 			host.addContext("/job", new TaskHandler(taskList));
 			host.addContext("/map", new MapHandler(taskList));
-			host.addContext("/", new Default());
+			host.addContext("/try", new Default());
+			host.addContext("/", new Home());
+			host.addContexts(new Installer());
 			host.addContext("/static", new FileContextHandler( new File("public_html/")));
 			//Allow the public_html/ folder to host static content
 			LOGGER.info("Server running");

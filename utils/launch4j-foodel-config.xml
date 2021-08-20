@@ -3,7 +3,7 @@
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
   <jar>C:\dropbox\Dropbox\git\foodel\distribution\foodel.jar</jar>
-  <outfile>foodel.exe</outfile>
+  <outfile>C:\dropbox\Dropbox\git\foodel\distribution\foodel.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
@@ -15,12 +15,12 @@
   <manifest></manifest>
   <icon></icon>
   <jre>
-    <path>C:\dropbox\Dropbox\git\foodel\utils\jdk-16.0.1\</path>
+    <path>C:\openJDK\openjdk-16.0.1\jdk-16.0.1\</path>
     <bundledJre64Bit>false</bundledJre64Bit>
     <bundledJreAsFallback>true</bundledJreAsFallback>
     <minVersion></minVersion>
     <maxVersion></maxVersion>
-    <jdkPreference>preferJre</jdkPreference>
+    <jdkPreference>jreOnly</jdkPreference>
     <runtimeBits>64/32</runtimeBits>
   </jre>
 </launch4jConfig>

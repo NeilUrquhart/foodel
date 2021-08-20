@@ -17,12 +17,12 @@ public class VolunteerProblem extends CVRPProblem {
 
 	public void addVolunteer(String name, String address) throws Exception{
 		Point2D loc = Geocoder.find(address);
-		volunteers.add(new Volunteer(name, address,"",loc.getX(), loc.getY(),0 ));
+		volunteers.add(new Volunteer(name, address,"","",loc.getX(), loc.getY(),0 ));
 	}
 
 	public class Volunteer extends FoodelVisit{
-		public Volunteer(String name, String address, String order, double lat, double lon, int demand) {
-			super(name, address, order, lat, lon, demand);
+		public Volunteer(String name, String address,String postcode, String order, double lat, double lon, int demand) {
+			super(name, address,postcode, order, lat, lon, demand);
 		}
 	}
 
@@ -143,7 +143,27 @@ public class VolunteerProblem extends CVRPProblem {
 			time =getStartTime();
 
 		GPXWriter gpx = new GPXWriter();
-		gpx.addWayPoint(getStart().getX(), getStart().getY(), "Start");
+		
+		Volunteer volunteer = null;
+		if (r < volunteers.size()) {
+			volunteer = volunteers.get(r);
+			
+			gpx.addWayPoint(volunteer.x,volunteer.y, "Start: Home");
+			Journey j = GHopperInterface.getJourney(volunteer, getStart(), getMode());
+			ArrayList<Point2D.Double> p = j.getPath();
+			ArrayList<Double> lat = new ArrayList<Double>();
+			ArrayList<Double> lon = new ArrayList<Double>();
+
+			for (Point2D l : p){
+				lat.add(l.getX());
+				lon.add(l.getY());	
+			}
+			gpx.addPath(lat, lon);
+			
+
+		}
+		
+		gpx.addWayPoint(getStart().getX(), getStart().getY(), "Base: Pickup deliveries");
 
 		FoodelVisit prev = getStart();
 		for (FoodelVisit v : run){
@@ -185,14 +205,11 @@ public class VolunteerProblem extends CVRPProblem {
 		 * Add journey to end...
 		 */
 
-		if (getEnd() != null) {
-			Journey j = GHopperInterface.getJourney(prev, getEnd(), getMode());
-			time = time + ( j.getTravelTimeMS()) ;
-
-
-			time  = time + deliveryTime;
-
-
+		if (r < volunteers.size()) {
+			volunteer = volunteers.get(r);
+			
+			gpx.addWayPoint(volunteer.x,volunteer.y, "End: Home");
+			Journey j = GHopperInterface.getJourney(prev, volunteer, getMode());
 			ArrayList<Point2D.Double> p = j.getPath();
 			ArrayList<Double> lat = new ArrayList<Double>();
 			ArrayList<Double> lon = new ArrayList<Double>();
@@ -201,8 +218,9 @@ public class VolunteerProblem extends CVRPProblem {
 				lat.add(l.getX());
 				lon.add(l.getY());	
 			}
-			gpx.addPath(lat, lon);	
-			gpx.addWayPoint(getEnd().getX(), getEnd().getY(), "End");
+			gpx.addPath(lat, lon);
+			
+
 		}
 		//Done end
 		return gpx.getText(getReference() + " "+r);
@@ -213,14 +231,14 @@ public class VolunteerProblem extends CVRPProblem {
 	public String getHTMLMap(int route) {
 		Volunteer volunteer = null;
 		if (route < volunteers.size())
-			volunteer = volunteers.get(route-1);
+			volunteer = volunteers.get(route);
 		
 		long deliveryTime = getDeliveryTimeMS();
 		long time = getStartTime();
 
 		ArrayList<ArrayList<FoodelVisit>> solution = getCVRPSolution();
 
-		ArrayList<FoodelVisit> run  = solution.get(route-1);
+		ArrayList<FoodelVisit> run  = solution.get(route);
 		int c=0;
 		
 		time = getStartTime();
@@ -320,7 +338,9 @@ public class VolunteerProblem extends CVRPProblem {
 			else
 				html = html += "<h2> No volunteer allocated </h2>";
 
-			html = html += "<a href=\"map?id="+getReference() +"&key="+key+"&run="+r+"\">View Map</a>  <a href=\"gpx?key="+key+"&run="+r+"\">GPX File</a>  <br> \n";
+			html = html += "<a href=\"map?id="+getReference() +"&key="+key+"&run="+(r-1)+"\" class =\"button\" >View Map</a>  <a href=\"gpx?key="+key+"&run="+r+"\" class =\"button\" >GPX File</a>"+
+			"<a href=\"csv?key="+key+"&run="+(r-1)+"\" class =\"button\" >CSV File</a>"+
+					"  <br> <br>\n";
 
 			FoodelVisit prev = getStart();
 

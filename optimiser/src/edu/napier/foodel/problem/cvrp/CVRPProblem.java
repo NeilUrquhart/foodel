@@ -300,12 +300,8 @@ public class CVRPProblem extends FoodelProblem {
 		long time = getStartTime();
 
 		ArrayList<ArrayList<FoodelVisit>> solution = getCVRPSolution();
-		//		if (getInitialVisit()!= null) {
-		//			ArrayList<FoodelVisit> run =solution.get(0);
-		//			run.add(0,getInitialVisit());
-		//		}
 
-		ArrayList<FoodelVisit> run  = solution.get(r-1);
+		ArrayList<FoodelVisit> run  = solution.get(r);
 		int c=0;
 		if (isConcurrent())
 			time =getStartTime();
@@ -387,7 +383,7 @@ public class CVRPProblem extends FoodelProblem {
 		//			run.add(0,getInitialVisit());
 		//		}
 
-		ArrayList<FoodelVisit> run  = solution.get(route-1);
+		ArrayList<FoodelVisit> run  = solution.get(route);
 		int c=0;
 		if (isConcurrent())
 			time = getStartTime();
@@ -449,9 +445,8 @@ public class CVRPProblem extends FoodelProblem {
 
 		ArrayList<ArrayList<FoodelVisit>> solution = getCVRPSolution();
 
-
 		for(ArrayList<FoodelVisit> run :solution){
-			r++;
+			
 			int c=0;
 			if (this.isConcurrent())
 				time = getStartTime();
@@ -487,7 +482,7 @@ public class CVRPProblem extends FoodelProblem {
 				//done
 				time  = time + deliveryTime;
 			}
-
+			r++;
 		}
 
 		return html;
@@ -508,8 +503,8 @@ public class CVRPProblem extends FoodelProblem {
 			if (this.isConcurrent())
 				time = getStartTime();
 
-			csv.append(",Time,Address,Instructions\n");
-			csv.append("," + getTimeOnlyformatter().format(time) + ","+ this.getStart().getAddress()+", Start\n");
+			csv.append(",Time,Name,Address,Postcode,Instructions\n");
+			csv.append("," + getTimeOnlyformatter().format(time) + ",Start"+ this.getStart().getAddress()+"\n");
 			FoodelVisit prev = getStart();
 
 			
@@ -530,7 +525,7 @@ public class CVRPProblem extends FoodelProblem {
 //				}else 
 //					description += v.getName();
 
-				csv.append(c +","  + getTimeOnlyformatter().format(time) +"," + v.getName() + " " + v.getAddress() +","+v.getOrder()+"\n") ;
+				csv.append(c +","  + getTimeOnlyformatter().format(time) +"," + v.getName() + "," + v.getAddress()+","+v.getPostcode() +","+v.getOrder()+"\n") ;
 
 				FoodelVisit curr = v;
 

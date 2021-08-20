@@ -78,7 +78,7 @@ public class FoodelSolver {
 	public FoodelProblem newProblem(HashMap<String, String[]> csvData,String ref) throws Exception {
 		//Establish Problem Type...
 		
-		if (findKey(csvData,"Volunteer")) {
+		if (findKey(csvData,"volunteer")) {
 			problem = ProblemType.Volunteer;
 			myVRP = new VolunteerProblem();
 			FoodelProblemFactory factory = new VolunteerProblemFactory();
@@ -87,7 +87,7 @@ public class FoodelSolver {
 			return myVRP;
 		}
 		
-		else if (findKey(csvData,"Vehicles Available")) {
+		else if (findKey(csvData,"vehicles available")) {
 			problem = ProblemType.FixedVans;
 			myVRP = new FixedVansProblem();
 			FoodelProblemFactory factory = new FixedVansProblemFactory();

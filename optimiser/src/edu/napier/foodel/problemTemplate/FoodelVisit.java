@@ -12,14 +12,16 @@ public class FoodelVisit extends Point2D.Double {
 	protected int demand;
  	protected String name;
 	private String address;
+	private String postcode;
 	private String order;
 	
-	public FoodelVisit(String name, String address, String order,double lat, double lon, int demand) {
+	public FoodelVisit(String name, String address, String postcode, String order,double lat, double lon, int demand) {
 		super(lat, lon);
 		this.demand = demand;
 		this.name = name;
 		this.address = address;
 		this.order = order;
+		this.postcode = postcode;
 		counter++;
 		index=counter;
 		
@@ -29,6 +31,10 @@ public class FoodelVisit extends Point2D.Double {
 		return index;
 	}
 
+	public String getPostcode() {
+		return postcode;
+	}
+	
 	public static int getCounter() {
 		return counter;
 	}

@@ -25,7 +25,7 @@ public abstract class  FoodelIndividual   {
 
 	//The phenotype is a set of routes created from the genotype
 	protected ArrayList<ArrayList<FoodelVisit>> phenotype;
-
+	
 	//THe problem being solved
 	protected FoodelProblem problem;
 

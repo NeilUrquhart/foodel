@@ -1,0 +1,115 @@
+/*
+ * Home page specific styling
+ * Feel free to do with it as you wish!
+ * - Chris
+ */
+
+body {
+    margin: 0;
+}
+
+.container {
+    padding: 1rem 3rem;
+    margin-bottom: 100px;
+}
+
+hr.separator {
+    border-top: 0.5px solid #eee;
+    border-radius: 1px;
+    height: 0;
+    overflow: visible;
+}
+
+
+.home-cols {
+    justify-content: center;
+    /*width: 100%;*/
+    min-width: 100%;
+    display: flex;
+}
+
+
+.card {
+    position: relative;
+    justify-content: space-between;
+    background-color: white;
+    box-shadow: 0 0 5px -3px rgba(0, 0, 0, 0.5);
+    width: auto;
+    padding: 1rem;
+}
+
+.card-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.card-body {
+    padding: 10px;
+}
+
+.grid {
+    display: grid;
+    gap: 10px;
+    grid-auto-flow: column;
+    column-gap: 1rem;
+    row-gap: 1rem;
+}
+
+.grid-center {
+    display: grid;
+    justify-items: center;
+}
+
+.grid-col-auto {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.button {
+    box-sizing: border-box !important;
+    background-color: #1abc9c;
+    font-size: 16px;
+    padding: 5px;
+    margin: 0;
+    line-height: 1.5;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+}
+
+.button:hover, .button:focus {
+    background-color: #16846d;
+    cursor: pointer;
+}
+
+section {
+    margin-bottom: 1rem;
+}
+
+.input-group > label, .input-group > input {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.input-group > label {
+    font-weight: bold;
+}
+
+.input-group > input {
+    width: 100%;
+    padding: 10px 0;
+}
+
+@media (max-width: 1150px) {
+
+    .grid-center {
+        grid-template-columns: 1fr;
+
+    }
+}

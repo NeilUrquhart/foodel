@@ -2,7 +2,10 @@ package edu.napier.foodel.server.handlers;
 
 
 import java.io.IOException;
-
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,17 +40,19 @@ public class ServerStatus implements ContextHandler {
 
 		}else {
 			page.addToBody("<p> Here are the problems that you have loaded so far in this session: </p>");
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss  dd MMMM YYYY");
+			synchronized(taskList){ 
+				Iterator<Task> myIterator = taskList.iterator(); 
+				String removal = "";
+				while(myIterator.hasNext()){ 
+					Task t = myIterator.next();
+					Date date = new Date(t.getRemovalTime());
+					removal = simpleDateFormat.format(date);
+					page.addToBody("<a href=\"/job?id="+t.getId()+" \">" +t.getId() + ":"+ t.getStatus()  + " To be removed at "+removal+ "</a><br>");
+				} 
+			}
 
-		synchronized(taskList){ 
-			Iterator<Task> myIterator = taskList.iterator(); 
-			while(myIterator.hasNext()){ 
-				Task t = myIterator.next();
-
-				page.addToBody("<a href=\"/job?id="+t.getId()+" \">" +t.getId() + ":"+ t.getStatus()  +"</a><br>");
-			} 
-		}
-
-		page.addToBody("<p>Click on a problem to look at the solution.</p>");
+			page.addToBody("<p>Click on a problem to look at the solution.</p>");
 		}
 
 		resp.getHeaders().add("Content-Type", "text/html");
