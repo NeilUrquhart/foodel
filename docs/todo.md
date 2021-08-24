@@ -43,24 +43,25 @@ for Neil.
 
 
 ## Suggestions
-- We could maybe convert the project to a Maven project so dependencies are
+- Add a "home button" or make the Foodel title clickable so it redirects back to the home page
+- ~~We could maybe convert the project to a Maven project so dependencies are
   fetched when needed as opposed to being bundled with the repository.
   Dependencies would be listed in a pom.xml file. This is currently how the
   Pimps project repository is set up:
-  [https://github.com/PIMPS-Napier/PIMPS-Server/blob/development/pom.xml](https://github.com/PIMPS-Napier/PIMPS-Server/blob/development/pom.xml).
-- Write some code to fetch the map data from the web so the user doesn't need to
+  [https://github.com/PIMPS-Napier/PIMPS-Server/blob/development/pom.xml](https://github.com/PIMPS-Napier/PIMPS-Server/blob/development/pom.xml)~~.
+- ~~Write some code to fetch the map data from the web so the user doesn't need to
   download it themselves. Thus avoids bundling map data with the repository and
   also means the user doesn't need to download it and place it in the data
-  folder themselves.
+  folder themselves~~.
 - Set up git repo to ignore java and eclipse generated files. An example is
   here:
   [https://github.com/github/gitignore/blob/master/Global/Eclipse.gitignore](https://github.com/github/gitignore/blob/master/Global/Eclipse.gitignore).
   Kind of feeds into point suggestion 1 so as few things as necessary are stored
   in the repository.
 - May also be helpful to ignore other non-essential files e.g: .DS_Store files
-- Minor CSS adjustments:
-  - Change padding on page body so no gap
-  - Maybe have the footer stick to the bottom of the window so there's no whitespace at the bottom
+- ~~Minor CSS adjustments~~:
+  - ~~Change padding on page body so no gap~~
+  - ~~Maybe have the footer stick to the bottom of the window so there's no whitespace at the bottom~~
 - Providing guidance on how to launch the program as a programmer would be useful as well as it depends how the program is loaded as well: (if not fixed at least detailed)
    - when launching Ecliplse as a workspace I had to choose the folder the project was in so it recognises the optimiser and solver otherwise it would recognise more folder and when building the path it creates issues as it cannot find the optimizer (or anything within the project)
    - an extra step would be to add the optimizer to the build path to solver (right click on solver (named "server") -> build parth -> configure build path -> Projects -> Select optimizer (named "Foodel")
