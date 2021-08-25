@@ -106,3 +106,5 @@ Gifs that we may include in website and github:
 2. Check Status
 - Non-modified
 ![alt text](https://github.com/NeilUrquhart/foodel/blob/main/docs/FoodelCheckStatus.gif)
+3. Install Foodel
+![alt text](https://github.com/NeilUrquhart/foodel/blob/guide/docs/FoodelInstallationGuide.gif)
