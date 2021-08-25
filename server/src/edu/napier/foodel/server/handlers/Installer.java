@@ -47,6 +47,14 @@ public class Installer {
      */
     private static final Logger LOGGER = Logger.getLogger(Server.class.getName());
 
+    public Installer() {
+        if (getGithubPat() == null) {
+            LOGGER.warning("No GitHub Personal Access Token found");
+        } else {
+            LOGGER.info("Retrieved GitHub Personal Access Token");
+        }
+    }
+
     /**
      * Shows install page
      */
@@ -161,7 +169,7 @@ public class Installer {
 
         // this is the github API endpoint
         final URL releasesEndpoint = new URL(endpoint);
-        String accessToken = null;
+        String accessToken = getGithubPat();
 
         // open the HTTP connection
         connection = (HttpURLConnection) releasesEndpoint.openConnection();
@@ -169,11 +177,7 @@ public class Installer {
 
         // If the repository is private, you'll need a personal access token.
         // Don't hardcode this value as this allows people to access your account with elevated access rights
-        if (System.getProperty("GITHUB_PAT") != null) {
-            accessToken = System.getProperty("GITHUB_PAT");
-        } else if (System.getenv("GITHUB_PAT") != null) {
-            accessToken = System.getenv("GITHUB_PAT");
-        }
+
 
         // Add the access token to the HTTP header
         if (accessToken != null) {
@@ -479,6 +483,15 @@ public class Installer {
             LOGGER.severe(e.toString());
             throw new InstallerException("Error occurred creating zip");
         }
+    }
+
+    private String getGithubPat() {
+        if (System.getProperty("gitHubPat") != null) {
+            return System.getProperty("gitHubPat");
+        } else if (System.getenv("GITHUB_PAT") != null) {
+            return System.getenv("GITHUB_PAT");
+        }
+        return null;
     }
 }
 
