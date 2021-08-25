@@ -49,9 +49,13 @@ user will be presented with a link to their unique download as a zip archive.
 
 If the GitHub repository is private, Foodel will not be able to retrieve assets.
 To deal with this, you can provide Foodel a Personal Access Token. This allows
-Foodel to retrieve assets from private repositories. A token is also required if
+Foodel to retrieve assets from private repositories (and do other things if you give it access). A token is also required if
 there will be more than 60 requests within an hour without using authentication.
 
 More details can be found here:
 - https://docs.github.com/en/rest/guides/getting-started-with-the-rest-api#authentication
 - https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token
+
+For Foodel, the only scopes required are the repository ones. It's worth keeping in mind the token expiration date. If you set an expiration date, you'll need to update the token. This can likely be automated somehow I'm sure. 
+
+![github token](resources/images/github_token.png)
