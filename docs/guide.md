@@ -44,6 +44,43 @@
   	   * If you would like to save the page on the dropbox below "Printer" you would have to choose "Save as PDF"
     * "GPX File" - this button will prompt you to save the file in .gpx type in a location you prefer.
 
+## Simple guidance to view uploaded problems in Foodel: ("Check the status of your machine")
+
+<p><strong>Simple guidance to view uploaded problems in Foodel: ("Check the status of your machine")<br /></strong></p>
+<ol>
+<li>Click on the button "<span style="color: #339966;"><strong>Check the status of your machine</strong></span>"</li>
+<li>If you have any uploaded problems currently being solved or solved already they will show up on the<strong>&nbsp;Foodel Status</strong>&nbsp;page
+<ul>
+<li>If you have a problem solved (it will have "<span style="color: #3366ff;"><strong>:solved</strong></span>") you will be able to&nbsp;click on&nbsp;the file name and open it<br />
+<ul>
+<li>You should be able to see the solution for the provided .csv file and you can click:
+<ul>
+<li>"<strong>View Map</strong>" - which will show you the exact route&nbsp;
+<ul>
+<li>You will be able to "<strong>Print or save this page</strong>" which shows the route on the map and the schedule
+<ul>
+<li>If you would like to "<strong>Print</strong>" the page on the dropbox below "<strong>Printer</strong>" you would have to choose a printer</li>
+<li>If you would like to save the page on the dropbox below "Printer" you would have to choose "<strong>Save as PDF</strong>"</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>"<strong>GPX File</strong>" - this button will prompt you to save the file in .gpx type in a location you prefer.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>If you have a problem that is still running (it will have "<span style="color: #3366ff;"><strong>:running</strong></span>")
+<ul>
+<li>you would be able to click on it and wait until it is solved&nbsp;</li>
+<li>the page will update to "<span style="color: #3366ff;"><strong>:solved</strong></span>" automatically without needing to refresh the page</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+
+
 
 # Gifs:
 - ## Install
