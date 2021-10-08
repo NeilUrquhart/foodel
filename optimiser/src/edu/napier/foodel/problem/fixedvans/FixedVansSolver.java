@@ -11,10 +11,6 @@ import edu.napier.foodel.utils.RandomSingleton;
 
 public class FixedVansSolver  extends CVRPsolver{
 
-
-
-
-
 	public FixedVansSolver( double end) {
 		super(end);
 		//this.end = end;

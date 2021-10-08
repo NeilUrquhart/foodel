@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2021-07-15T16:56:49.015399Z</date>
-  <millis>1626368209015</millis>
-  <nanos>399000</nanos>
+  <date>2021-10-05T08:11:50.003909Z</date>
+  <millis>1633421510003</millis>
+  <nanos>909000</nanos>
   <sequence>0</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -14,9 +14,9 @@
   <message>Starting server</message>
 </record>
 <record>
-  <date>2021-07-15T16:56:49.336557Z</date>
-  <millis>1626368209336</millis>
-  <nanos>557000</nanos>
+  <date>2021-10-05T08:11:50.268717Z</date>
+  <millis>1633421510268</millis>
+  <nanos>717000</nanos>
   <sequence>1</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -25,76 +25,3 @@
   <thread>1</thread>
   <message>Server running</message>
 </record>
-<record>
-  <date>2021-07-15T16:56:54.238185Z</date>
-  <millis>1626368214238</millis>
-  <nanos>185000</nanos>
-  <sequence>2</sequence>
-  <logger>edu.napier.foodel.server.Server</logger>
-  <level>INFO</level>
-  <class>edu.napier.foodel.server.Server</class>
-  <method>executeProblem</method>
-  <thread>1</thread>
-  <message>Parsing raw data fixed-sample.csv</message>
-</record>
-<record>
-  <date>2021-07-15T16:57:03.085228Z</date>
-  <millis>1626368223085</millis>
-  <nanos>228000</nanos>
-  <sequence>3</sequence>
-  <logger>edu.napier.foodel.server.Server</logger>
-  <level>INFO</level>
-  <class>edu.napier.foodel.server.Server</class>
-  <method>executeProblem</method>
-  <thread>1</thread>
-  <message>Starting to solve fixed-sample.csv</message>
-</record>
-<record>
-  <date>2021-07-15T16:57:14.141180Z</date>
-  <millis>1626368234141</millis>
-  <nanos>180000</nanos>
-  <sequence>4</sequence>
-  <logger>edu.napier.foodel.server.Server</logger>
-  <level>INFO</level>
-  <class>edu.napier.foodel.server.Server</class>
-  <method>executeProblem</method>
-  <thread>1</thread>
-  <message>Solved fixed-sample.csv</message>
-</record>
-<record>
-  <date>2021-07-15T16:57:14.144669Z</date>
-  <millis>1626368234144</millis>
-  <nanos>669000</nanos>
-  <sequence>5</sequence>
-  <logger>edu.napier.foodel.server.Server</logger>
-  <level>INFO</level>
-  <class>edu.napier.foodel.server.Server</class>
-  <method>executeProblem</method>
-  <thread>1</thread>
-  <message>Parsing raw data fixed-sample.csv</message>
-</record>
-<record>
-  <date>2021-07-15T16:57:22.336803Z</date>
-  <millis>1626368242336</millis>
-  <nanos>803000</nanos>
-  <sequence>6</sequence>
-  <logger>edu.napier.foodel.server.Server</logger>
-  <level>INFO</level>
-  <class>edu.napier.foodel.server.Server</class>
-  <method>executeProblem</method>
-  <thread>1</thread>
-  <message>Starting to solve fixed-sample.csv-1</message>
-</record>
-<record>
-  <date>2021-07-15T16:57:32.017660Z</date>
-  <millis>1626368252017</millis>
-  <nanos>660000</nanos>
-  <sequence>7</sequence>
-  <logger>edu.napier.foodel.server.Server</logger>
-  <level>INFO</level>
-  <class>edu.napier.foodel.server.Server</class>
-  <method>executeProblem</method>
-  <thread>1</thread>
-  <message>Solved fixed-sample.csv-1</message>
-</record>
-</log>

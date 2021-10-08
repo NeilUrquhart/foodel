@@ -453,8 +453,8 @@ public class CVRPProblem extends FoodelProblem {
 
 			html = html += "<h2> Run:"+r+"</h2>";
 			html = html += "<a href=\"map?id="+getReference() +"&key="+key+"&run="+r+"\" class =\"button\"  >View Map</a>  "
-					+ "<a href=\"gpx?key="+key+"&run="+r+"\" class =\"button\" >GPX File</a>"
-					+ "<a href=\"csv?key="+key+"&run="+r+"\" class =\"button\" >CSV File</a>"
+					+ "<a href=\"gpx?id="+this.getReference()+"&key="+key+"&run="+r+"\" class =\"button\" >GPX File</a>"
+					+ "<a href=\"csv?id="+this.getReference()+"&key="+key+"&run="+r+"\" class =\"button\" >CSV File</a>"
 									+ "<br> <br> \n";
 			FoodelVisit prev = getStart();
 

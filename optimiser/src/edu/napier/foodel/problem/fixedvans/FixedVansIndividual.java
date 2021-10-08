@@ -20,6 +20,7 @@ public class FixedVansIndividual extends FoodelIndividual {
 
 	}
 
+	
 	public FixedVansIndividual (FoodelProblem prob, FoodelIndividual parent1, FoodelIndividual parent2){
 		super(prob,parent1,parent2);
 	}
@@ -81,7 +82,7 @@ public class FixedVansIndividual extends FoodelIndividual {
 				else {//Find a route
 					for (ArrayList<FoodelVisit> r : phenotype) {
 						if ((getDemand(r)+g.getDemand())<= this.problem.getVehicleCapacity()) {
-							pref.add(g);
+							r.add(g);
 							break;
 						}
 					}

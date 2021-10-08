@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.napier.foodel.facade.FoodelSolver;
-
+import edu.napier.foodel.server.ServerProperties;
 import edu.napier.foodel.server.Task;
 import edu.napier.foodel.server.TaskStatus;
 
@@ -33,6 +33,7 @@ public class CSVHandler implements ContextHandler {
 
 		String key = params.get("key");
 		String run = params.get("run");
+		String id = params.get("id");
 
 		if ((run == null)||(key==null)) {
 			resp.getHeaders().add("Content-Type", "text/html");
@@ -40,24 +41,43 @@ public class CSVHandler implements ContextHandler {
 			return 0;
 		}
 
+		var nokey = false;//Default is that a key is required
+		String tmp = ServerProperties.getInstance().get("nokey");
+		if(tmp!=null)
+			if (tmp.contains("true"))
+				nokey = true;
+
+
 		//Find job
 		Task current = null;
+
 		synchronized(taskList){ 
-			Iterator<Task> myIterator = taskList.iterator(); 
-			while(myIterator.hasNext()){ 
-				Task t = myIterator.next();
-				if ((t.getKey().equals(key))) {
-					current = t;
-					break;
-				}
-			} 
+			if(nokey)	{
+				Iterator<Task> myIterator = taskList.iterator(); 
+				while(myIterator.hasNext()){ 
+					Task t = myIterator.next();
+					if ((t.getId().equals(id))) {
+						current = t;
+						break;
+					}
+				} 
+			}else {
+				Iterator<Task> myIterator = taskList.iterator(); 
+				while(myIterator.hasNext()){ 
+					Task t = myIterator.next();
+					if ((t.getKey().equals(key))) {
+						current = t;
+						break;
+					}
+				} 
+			}
 
 			if (current == null) {
 				resp.getHeaders().add("Content-Type", "text/html");
 				resp.send(200,  "Job not found");
 				return 0;
 			}
-			
+
 			if (!current.getStatus().equals(TaskStatus.SOLVED)) {
 				resp.getHeaders().add("Content-Type", "text/html");
 				resp.send(200,  "Job not complete");

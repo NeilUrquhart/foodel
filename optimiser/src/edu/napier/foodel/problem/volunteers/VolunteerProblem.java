@@ -339,7 +339,7 @@ public class VolunteerProblem extends CVRPProblem {
 				html = html += "<h2> No volunteer allocated </h2>";
 
 			html = html += "<a href=\"map?id="+getReference() +"&key="+key+"&run="+(r-1)+"\" class =\"button\" >View Map</a>  <a href=\"gpx?key="+key+"&run="+r+"\" class =\"button\" >GPX File</a>"+
-			"<a href=\"csv?key="+key+"&run="+(r-1)+"\" class =\"button\" >CSV File</a>"+
+			"<a href=\"csv?id="+getReference()+"&key="+key+"&run="+(r-1)+"\" class =\"button\" >CSV File</a>"+
 					"  <br> <br>\n";
 
 			FoodelVisit prev = getStart();

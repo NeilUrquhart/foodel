@@ -17,7 +17,7 @@ public class Task {
 	private String id = "";
 	private String errMsg;
 	private long removalTime;
-	private int lifeTime= 2;  //Hours to live for on the server
+	private int lifeTime= 12;  //Hours to live for on the server - default is 12
 	
 	
 	public String getErrMsg() {
@@ -39,6 +39,16 @@ public class Task {
 	        sb.append(String.format("%02X", b));
 	    }
 		key = sb.toString();
+		
+		String time =ServerProperties.getInstance().get("removaltime");
+		if (time!=null) {
+			try {
+				lifeTime = Integer.parseInt(time);
+			}catch(Exception e) {
+				
+				lifeTime=12;//default
+			}
+		}
 		removalTime = System.currentTimeMillis() + (3600000*lifeTime);
 	}
 	
