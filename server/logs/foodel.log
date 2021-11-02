@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2021-10-05T08:11:50.003909Z</date>
-  <millis>1633421510003</millis>
-  <nanos>909000</nanos>
+  <date>2021-10-11T18:33:13.317227Z</date>
+  <millis>1633977193317</millis>
+  <nanos>227000</nanos>
   <sequence>0</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -14,14 +14,15 @@
   <message>Starting server</message>
 </record>
 <record>
-  <date>2021-10-05T08:11:50.268717Z</date>
-  <millis>1633421510268</millis>
-  <nanos>717000</nanos>
+  <date>2021-10-11T18:33:14.031153Z</date>
+  <millis>1633977194031</millis>
+  <nanos>153000</nanos>
   <sequence>1</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
-  <level>INFO</level>
+  <level>SEVERE</level>
   <class>edu.napier.foodel.server.Server</class>
   <method>startServer</method>
   <thread>1</thread>
-  <message>Server running</message>
+  <message>Address already in use (Bind failed)</message>
 </record>
+</log>
