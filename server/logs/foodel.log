@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2021-10-11T18:33:13.317227Z</date>
-  <millis>1633977193317</millis>
-  <nanos>227000</nanos>
+  <date>2021-11-09T16:07:50.291622400Z</date>
+  <millis>1636474070291</millis>
+  <nanos>622400</nanos>
   <sequence>0</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -14,15 +14,26 @@
   <message>Starting server</message>
 </record>
 <record>
-  <date>2021-10-11T18:33:14.031153Z</date>
-  <millis>1633977194031</millis>
-  <nanos>153000</nanos>
+  <date>2021-11-09T16:07:50.433620300Z</date>
+  <millis>1636474070433</millis>
+  <nanos>620300</nanos>
   <sequence>1</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
-  <level>SEVERE</level>
+  <level>WARNING</level>
+  <class>edu.napier.foodel.server.handlers.Installer</class>
+  <method>&lt;init&gt;</method>
+  <thread>1</thread>
+  <message>No GitHub Personal Access Token found</message>
+</record>
+<record>
+  <date>2021-11-09T16:07:50.437620800Z</date>
+  <millis>1636474070437</millis>
+  <nanos>620800</nanos>
+  <sequence>2</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
   <class>edu.napier.foodel.server.Server</class>
   <method>startServer</method>
   <thread>1</thread>
-  <message>Address already in use (Bind failed)</message>
+  <message>Server running</message>
 </record>
-</log>

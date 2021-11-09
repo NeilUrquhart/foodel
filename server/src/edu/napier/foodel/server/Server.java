@@ -138,20 +138,21 @@ public class Server {
 		var port = Integer.parseInt(ServerProperties.getInstance().get("port"));
 		var server = new HTTPServer(port);
 		try {
-	
-
 			server.start();
 			var host = new VirtualHost(null);
 			host.addAlias("food"); // if it has aliases
 			server.addVirtualHost(host);
-			host.addContexts(new UploadProblem()); // adds all annotated context handlers relating to problem upload
+			
+			//Handles /new
+			host.addContexts(new UploadProblem());
+			//adds all annotated context handlers relating to problem upload
 			UploadProblem.setTaskList(taskList);
+			
 			host.addContext("/status", new ServerStatus(taskList));
 			host.addContext("/gpx", new GPXHandler(taskList));
 			host.addContext("/csv", new CSVHandler(taskList));
 			host.addContext("/job", new TaskHandler(taskList));
 			host.addContext("/map", new MapHandler(taskList));
-			host.addContext("/try", new Default());
 			host.addContext("/", new Home());
 			host.addContexts(new Installer());
 			host.addContext("/static", new FileContextHandler( new File("public_html/")));

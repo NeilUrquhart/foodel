@@ -12,7 +12,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Home implements ContextHandler {
-
+   /*
+    * Generate the home page
+    */
     @Override
     public int serve(Request req, Response res) throws IOException {
         HTMLpage page = new HTMLpage("Foodel");

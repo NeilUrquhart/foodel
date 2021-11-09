@@ -1,0 +1,58 @@
+
+<p>
+Foodel tasks are formated as csv files, this means that they can be created and edited using most spreadsheet packages. 
+The first section of the file defines your task, with attributes such as your depot location, vehicle capacities and
+time constraints.
+
+The second part of the CSV file is a list of deliveries to be organised into routes.
+<br>
+Currently Foodel understands 3 types of task: <br>
+<p></p>
+<button type="button" class="collapsible">Home Deliveries +</button>
+<div class="content">
+<p>
+Most delivery problems will fall into this type. The deliveries will be divided into routes based upon vehicle capacity and
+time limits. As many routes as required will be created to ensure that all of the deliveries  are dealt with efficiently.
+  <br>
+   <a href="/static/sample/cvrp-sample.csv"> Download a sample.</a>
+</p>
+</div>
+
+<button type="button" class="collapsible">Deliveries using volunteers +</button>
+<div class="content">
+  <p>
+This task type is designed for organisations that use volunteers to make deliveries. Each volunteer has a delivery route allocated to them, the routes will be designed
+to try to ensure that each route finishes reasonably close to the volunteers' home. 
+  <br>
+   <a href="/static/sample/volunteer-sample.csv"> Download a sample.</a>  </p>
+  
+</div>
+
+<button type="button" class="collapsible">Deliveries using a fixed number of routes +</button>
+<div class="content">
+  <p>
+This task type is designed for organisations that have a fixed number of vehicles and cannot have more than a set number of routes. 
+  <br>
+   <a href="/static/sample/fixed-sample.csv"> Download a sample.</a>  </p>
+
+</div>
+<br>
+<br>
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+</script>         
+</p>
+

@@ -11,34 +11,41 @@ public class HTMLpage {
 	private static String headtemplate= null;
 	private static String bodytemplate= null;
 	private static String footertemplate = null;
-	
+
 	public HTMLpage(String title) {
 		try {
 			if (headtemplate==null)
-			  headtemplate = Files.readString(Path.of("./config/" +ServerProperties.getInstance().get("htmlheader")));
-			
+				headtemplate = Files.readString(Path.of("./config/" +ServerProperties.getInstance().get("htmlheader")));
+
 			if (bodytemplate==null)
 				bodytemplate = Files.readString(Path.of("./config/" +ServerProperties.getInstance().get("htmlbody")));
-		
+
 			if (footertemplate==null)
 				footertemplate = Files.readString(Path.of("./config/" +ServerProperties.getInstance().get("htmlfooter")));
-		
-			
+
 			head.append("<title>"+title+"</title>\n");
 		} catch (IOException e) {
 			//Logger
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void addToHeader(String line) {
 		head.append( line);
 	}
-	
+
 	public void addToBody(String line) {
 		body.append( line);
 	}
-	
+
+	public void addFileToBody(String fName) {
+		try {
+			body.append( Files.readString(Path.of("./config/"+fName +".html")));
+		}
+		catch(IOException e) {//If file not found, supress the error (it may have been deliberately removed)
+		}
+	}
+
 	public String html() {
 		return "<!DOCTYPE html>\n"
 				+ "<html>\n"
@@ -53,5 +60,4 @@ public class HTMLpage {
 				+ "  </body>\n"
 				+ "</html>";
 	}
-	
 }

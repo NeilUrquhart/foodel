@@ -35,10 +35,13 @@ public class UploadProblem {
 
 	@Context("/new")
 	public int serveForm(Request req, Response resp) throws IOException {
-		var page = new HTMLpage("Upload Problem");
-
-		page.addToBody("<H1>Solve a new problem.</H1>");
-		page.addToBody("<form action=\"\\upload\" method=\"post\" enctype=\"multipart/form-data\"> \n"
+		var page = new HTMLpage("Submit Task");
+		page.addToHeader("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
+		
+		
+		page.addToBody("<H1>Submit a new task to Foodel</H1>");
+		
+		String dragDrop = "<form action=\"\\upload\" method=\"post\" enctype=\"multipart/form-data\"> \n"
 				+ "<!-- <input type=\"file\" name=\"fileToUpload\" id=\"fileToUpload\"><br> -->\n"
 				+ "<div class=\"drop-zone\">\n"
 				+ "<span class=\"drop-zone__prompt\">Drop your CSV file here or click to upload</span>\n"
@@ -47,10 +50,25 @@ public class UploadProblem {
 				+ "<BR><BR>"
 				+ "<input type=\"submit\" value=\"Solve my problem\" name=\"submit\"  class =\"button\">\n"
 				+ "</form>\n"
-				+ "<script src=\"/static/dragdrop.js\"></script>");
+				+ "<script src=\"/static/dragdrop.js\"></script>";
 		
-		page.addToBody("<p>Your problem should be saved as a .CSV file. ");
-		page.addToBody("Most spreadhseets (such as MS Excel) will allow you to edit CSV files.</p>");
+		
+		//2 column stuff
+		
+//		page.addToBody("<div class=\"row\">\r\n"
+//				+ "  <div class=\"column\" style=\"background-color:#EEEEEE;\">\n"
+//				+  dragDrop + "\n"
+//				+ "  </div>\r\n"
+//				+ "  <div class=\"column\" style=\"background-color:#EEEEEE;\">\n"
+//				+   page.addFileToBody("taskformats")
+//				+ "  </div>\r\n"
+//				+ "</div>");
+	
+		
+		page.addToBody(dragDrop);
+		page.addFileToBody("taskformats");
+		//page.addToBody("<p>Your problem should be saved as a .CSV file. ");
+		//page.addToBody("Most spreadhseets (such as MS Excel) will allow you to edit CSV files.</p>");
 		resp.getHeaders().add("Content-Type", "text/html");
 		resp.send(200, page.html());
 		return 0;
