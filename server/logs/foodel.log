@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2021-11-09T16:07:50.291622400Z</date>
-  <millis>1636474070291</millis>
-  <nanos>622400</nanos>
+  <date>2021-11-10T12:08:51.768497Z</date>
+  <millis>1636546131768</millis>
+  <nanos>497000</nanos>
   <sequence>0</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -14,21 +14,21 @@
   <message>Starting server</message>
 </record>
 <record>
-  <date>2021-11-09T16:07:50.433620300Z</date>
-  <millis>1636474070433</millis>
-  <nanos>620300</nanos>
+  <date>2021-11-10T12:08:52.313543Z</date>
+  <millis>1636546132313</millis>
+  <nanos>543000</nanos>
   <sequence>1</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
-  <level>WARNING</level>
+  <level>INFO</level>
   <class>edu.napier.foodel.server.handlers.Installer</class>
   <method>&lt;init&gt;</method>
   <thread>1</thread>
-  <message>No GitHub Personal Access Token found</message>
+  <message>Retrieved GitHub Personal Access Token</message>
 </record>
 <record>
-  <date>2021-11-09T16:07:50.437620800Z</date>
-  <millis>1636474070437</millis>
-  <nanos>620800</nanos>
+  <date>2021-11-10T12:08:52.322467Z</date>
+  <millis>1636546132322</millis>
+  <nanos>467000</nanos>
   <sequence>2</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -37,3 +37,28 @@
   <thread>1</thread>
   <message>Server running</message>
 </record>
+<record>
+  <date>2021-11-10T12:08:54.911968Z</date>
+  <millis>1636546134911</millis>
+  <nanos>968000</nanos>
+  <sequence>3</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>executeProblem</method>
+  <thread>1</thread>
+  <message>Parsing raw data cvrp-sample.csv</message>
+</record>
+<record>
+  <date>2021-11-10T12:09:03.747104Z</date>
+  <millis>1636546143747</millis>
+  <nanos>104000</nanos>
+  <sequence>4</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>executeProblem</method>
+  <thread>1</thread>
+  <message>Starting to solve cvrp-sample.csv</message>
+</record>
+</log>

@@ -52,23 +52,9 @@ public class UploadProblem {
 				+ "</form>\n"
 				+ "<script src=\"/static/dragdrop.js\"></script>";
 		
-		
-		//2 column stuff
-		
-//		page.addToBody("<div class=\"row\">\r\n"
-//				+ "  <div class=\"column\" style=\"background-color:#EEEEEE;\">\n"
-//				+  dragDrop + "\n"
-//				+ "  </div>\r\n"
-//				+ "  <div class=\"column\" style=\"background-color:#EEEEEE;\">\n"
-//				+   page.addFileToBody("taskformats")
-//				+ "  </div>\r\n"
-//				+ "</div>");
-	
-		
+				
 		page.addToBody(dragDrop);
 		page.addFileToBody("taskformats");
-		//page.addToBody("<p>Your problem should be saved as a .CSV file. ");
-		//page.addToBody("Most spreadhseets (such as MS Excel) will allow you to edit CSV files.</p>");
 		resp.getHeaders().add("Content-Type", "text/html");
 		resp.send(200, page.html());
 		return 0;
@@ -96,7 +82,7 @@ public class UploadProblem {
 			if (filename !=null) {
 				try {
 					if (!filename.endsWith(".csv")) {
-						throw new Exception("Your problem file must be saved as a .CSV");
+						throw new Exception("Your task should be saved as a .CSV file.");
 					}
 					newTask.setInputFile(filename);
 					//Check file can be parsed + extract id
@@ -110,12 +96,6 @@ public class UploadProblem {
 					}
 					newTask.setId(filename);
 					newTask.setRawData(readStream(part.getBody()));
-					//HashMap<String,String[]> csvData = readStream(part.getBody());
-					
-					//FoodelProblem p= FoodelSolver.getInstance().newProblem(csvData,filename);
-					//newTask.setProblem(p);
-					//set new task
-					
 					newTask.setStatus(TaskStatus.WAITING);
 				
 				} catch(Exception e) {
@@ -133,15 +113,28 @@ public class UploadProblem {
 			taskList.add(newTask);
 		}
 		resp.getHeaders().add("Content-Type", "text/html");
-		page.addToBody("<h2>Your file appears to have been understood .</h2> ");
-		page.addToBody("<h3>Your problem reference is  : "+newTask.getId()+ "<br></h3>");			
+		page.addToBody("<h3>Your task file has been understood and added to the list of problems to be solved.</h3> ");
+		page.addToBody("<h3> Your task reference is  :<br></h3> "+newTask.getId());			
 
 		String nokey = ServerProperties.getInstance().get("nokey");
 		if (nokey != null)
 			if (!nokey.contains("true")) {
-				page.addToBody("<h3> Key: "+ newTask.getKey() +" <br>You might wish to make a note of the key as you may need it later to access your results.</h3>");
+				page.addToBody("<h3> Your task has been allocated the unique key:</h3>"+ newTask.getKey() 
+				+" <button title=\"Copy key\"  alt = \"Copy key \" onclick=\"toClipboard()\" >\n"
+				+"<img src=\" \\static\\copyico.svg \" height =\"15\"  /> \n"
+				+ "  </button> </h3>");
+				
+				page.addToBody("<p>Please copy and paste this key somewhere safe, you will need it to access your results. "
+						+ "Do not share this key with anyone else, unless you wish them to be able access your"
+						+ "results.</p>");
 			}
 		page.addToBody("<H3><a href= /job?id="+newTask.getId()+"&key="+newTask.getKey() +" class =\"button\" > Continue </a></h3> ");
+		
+		page.addToBody("\n <script>\n"
+				+ "function toClipboard() {\n"
+				+ "  navigator.clipboard.writeText(\""+newTask.getKey()+ "\");\n"
+				+ "}\n"
+				+ "</script>");
 		resp.send(200,page.html());
 		return 0;
 	}
@@ -156,8 +149,7 @@ public class UploadProblem {
 		}catch(Exception e) {
 			throw new Exception("Can't open file:");
 		}
-		//int capacity =0;
-		
+
 		String readLine = "";
 	
 		while ((readLine = b.readLine()) != null) {
