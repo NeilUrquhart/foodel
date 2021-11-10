@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2021-11-10T16:59:37.970724Z</date>
-  <millis>1636563577970</millis>
-  <nanos>724000</nanos>
+  <date>2021-11-10T20:59:33.203062Z</date>
+  <millis>1636577973203</millis>
+  <nanos>62000</nanos>
   <sequence>0</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -14,9 +14,9 @@
   <message>Starting server</message>
 </record>
 <record>
-  <date>2021-11-10T16:59:38.593151Z</date>
-  <millis>1636563578593</millis>
-  <nanos>151000</nanos>
+  <date>2021-11-10T20:59:33.556286Z</date>
+  <millis>1636577973556</millis>
+  <nanos>286000</nanos>
   <sequence>1</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -26,9 +26,9 @@
   <message>Retrieved GitHub Personal Access Token</message>
 </record>
 <record>
-  <date>2021-11-10T16:59:38.599193Z</date>
-  <millis>1636563578599</millis>
-  <nanos>193000</nanos>
+  <date>2021-11-10T20:59:33.561026Z</date>
+  <millis>1636577973561</millis>
+  <nanos>26000</nanos>
   <sequence>2</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -38,99 +38,15 @@
   <message>Server running</message>
 </record>
 <record>
-  <date>2021-11-10T16:59:57.424095Z</date>
-  <millis>1636563597424</millis>
-  <nanos>95000</nanos>
+  <date>2021-11-10T20:59:52.397094Z</date>
+  <millis>1636577992397</millis>
+  <nanos>94000</nanos>
   <sequence>3</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
   <class>edu.napier.foodel.server.Server</class>
   <method>executeProblem</method>
   <thread>1</thread>
-  <message>Parsing raw data cvrp-sample (2).csv-1-1.csv</message>
-</record>
-<record>
-  <date>2021-11-10T17:00:20.598807Z</date>
-  <millis>1636563620598</millis>
-  <nanos>807000</nanos>
-  <sequence>4</sequence>
-  <logger>edu.napier.foodel.server.Server</logger>
-  <level>INFO</level>
-  <class>edu.napier.foodel.server.Server</class>
-  <method>executeProblem</method>
-  <thread>1</thread>
-  <message>Parsing raw data cvrp-sample (2).csv-1-1.csv</message>
-</record>
-<record>
-  <date>2021-11-10T17:16:36.567473Z</date>
-  <millis>1636564596567</millis>
-  <nanos>473000</nanos>
-  <sequence>5</sequence>
-  <logger>edu.napier.foodel.server.Server</logger>
-  <level>INFO</level>
-  <class>edu.napier.foodel.server.Server</class>
-  <method>executeProblem</method>
-  <thread>1</thread>
-  <message>Parsing raw data cvrp-sample (3).csv</message>
-</record>
-<record>
-  <date>2021-11-10T17:16:45.497507Z</date>
-  <millis>1636564605497</millis>
-  <nanos>507000</nanos>
-  <sequence>6</sequence>
-  <logger>edu.napier.foodel.server.Server</logger>
-  <level>INFO</level>
-  <class>edu.napier.foodel.server.Server</class>
-  <method>executeProblem</method>
-  <thread>1</thread>
-  <message>Starting to solve cvrp-sample (3).csv</message>
-</record>
-<record>
-  <date>2021-11-10T17:16:55.515657Z</date>
-  <millis>1636564615515</millis>
-  <nanos>657000</nanos>
-  <sequence>7</sequence>
-  <logger>edu.napier.foodel.server.Server</logger>
-  <level>INFO</level>
-  <class>edu.napier.foodel.server.Server</class>
-  <method>executeProblem</method>
-  <thread>1</thread>
-  <message>Solved cvrp-sample (3).csv</message>
-</record>
-<record>
-  <date>2021-11-10T17:17:14.675330Z</date>
-  <millis>1636564634675</millis>
-  <nanos>330000</nanos>
-  <sequence>8</sequence>
-  <logger>edu.napier.foodel.server.Server</logger>
-  <level>INFO</level>
-  <class>edu.napier.foodel.server.Server</class>
-  <method>executeProblem</method>
-  <thread>1</thread>
-  <message>Parsing raw data cvrp-sample (2).csv</message>
-</record>
-<record>
-  <date>2021-11-10T17:17:23.027852Z</date>
-  <millis>1636564643027</millis>
-  <nanos>852000</nanos>
-  <sequence>9</sequence>
-  <logger>edu.napier.foodel.server.Server</logger>
-  <level>INFO</level>
-  <class>edu.napier.foodel.server.Server</class>
-  <method>executeProblem</method>
-  <thread>1</thread>
-  <message>Starting to solve cvrp-sample (2).csv</message>
-</record>
-<record>
-  <date>2021-11-10T17:17:30.761820Z</date>
-  <millis>1636564650761</millis>
-  <nanos>820000</nanos>
-  <sequence>10</sequence>
-  <logger>edu.napier.foodel.server.Server</logger>
-  <level>INFO</level>
-  <class>edu.napier.foodel.server.Server</class>
-  <method>executeProblem</method>
-  <thread>1</thread>
-  <message>Solved cvrp-sample (2).csv</message>
+  <message>Parsing raw data cvrp-sample (3).csv-0.csv</message>
 </record>
 </log>

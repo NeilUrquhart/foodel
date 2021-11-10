@@ -39,7 +39,8 @@ public class UploadProblem {
 		page.addToHeader("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
 		
 		
-		page.addToBody("<H1>Submit a new task to Foodel</H1>");
+		page.addToBody(  "<div class=\"container\">\n "+
+		"<H1>Submit a new task </H1>");
 		
 		String dragDrop = "<form action=\"\\upload\" method=\"post\" enctype=\"multipart/form-data\"> \n"
 				+ "<!-- <input type=\"file\" name=\"fileToUpload\" id=\"fileToUpload\"><br> -->\n"
@@ -48,13 +49,15 @@ public class UploadProblem {
 				+ "<input type=\"file\" name=\"fileToUpload\" id=\"fileToUpload\" class=\"drop-zone__input\">\n"
 				+ "</div>\n"
 				+ "<BR><BR>"
-				+ "<input type=\"submit\" value=\"Solve my problem\" name=\"submit\"  class =\"button\">\n"
+				+ "<input type=\"submit\" value=\"Solve my task\" name=\"submit\"  class =\"button\">\n"
 				+ "</form>\n"
-				+ "<script src=\"/static/dragdrop.js\"></script>";
+				+ "<script src=\"/static/dragdrop.js\"></script> ";
 		
 				
 		page.addToBody(dragDrop);
 		page.addFileToBody("taskformats");
+		
+		page.addToBody("</div>");
 		resp.getHeaders().add("Content-Type", "text/html");
 		resp.send(200, page.html());
 		return 0;
@@ -64,7 +67,7 @@ public class UploadProblem {
 	public int serveUpload(Request request, Response resp) throws IOException {
 		
 		var page = new HTMLpage("New Foodel problem:");
-		
+		page.addToBody("<div class=\"container\">");
 		String filename;
 		
 		var newTask = new Task();
@@ -74,6 +77,7 @@ public class UploadProblem {
 		}catch(Exception e) {//If the MultipartIterator call fails then we can assume that the URL has been
 			resp.getHeaders().add("Content-Type", "text/html");
 			page.addToHeader("<meta http-equiv=\"refresh\" content=\"0; URL=/new \" />");
+			page.addToBody("</div>");
 			resp.send(200, page.html());
 		}
 		while (it.hasNext()) {
@@ -101,19 +105,20 @@ public class UploadProblem {
 				} catch(Exception e) {
 					e.printStackTrace();
 					resp.getHeaders().add("Content-Type", "text/html");
-					page.addToBody("<h3>Sorry, Foodel has found a problem in your task file.</h3>");
+					page.addToBody("<div class=\"container\">\n "
+							+ "<h3>Foodel appears to have found a problem in your task file.</h3>");
 					
-					page.addToBody("<div class=\"container\">\n"
-							+ "        <section>"
+					page.addToBody("        <section>"
 							+ "<div class=\"card\">\n"
 							+ "<div class=\"card-body\">\n"
 							+ "<div class=\"card-title\"> The message received from Foodel is: </div>\n"
-							+ "<p>"+e.getMessage() +"</p>\n</div> </div> </section></div>\n");
+							+ "<p>"+e.getMessage() +"</p>\n</div> </div> </section>\n");
 					
 					page.addToBody("<h3> Would you like to:  <br> <ul>"
 							+ "<li><a href=\"new \"> submit another task?</a> </li>"
 							+ "<li><a href=\"mailto:n.urquhart@napier.ac.uk\">email for help?</a> </li>"
-							+ "</ul></h3>");				
+							+ "</ul></h3></div>");	
+					page.addToBody("</div>");
 					resp.send(200, page.html());
 					return 0;
 				}
@@ -145,6 +150,7 @@ public class UploadProblem {
 				+ "  navigator.clipboard.writeText(\""+newTask.getKey()+ "\");\n"
 				+ "}\n"
 				+ "</script>");
+		page.addToBody("</div>");
 		resp.send(200,page.html());
 		return 0;
 	}

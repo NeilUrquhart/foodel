@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -84,8 +86,16 @@ public class Server {
 				p= FoodelSolver.getInstance().newProblem(currentTask.getRawData(),currentTask.getInputFile());
 				currentTask.setProblem(p);
 			}catch(Exception e) {
+				//Need to get error message back to the user
 				currentTask.setStatus(TaskStatus.BROKEN);
-				currentTask.setErrMsg(e.getMessage());
+				e.printStackTrace();
+				System.out.println(e);
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				e.printStackTrace(pw);
+				String sStackTrace = sw.toString(); // stack trace as a string
+				
+				currentTask.setErrMsg(e.getMessage()+"<br>"+e.toString()+"<br>"+sStackTrace);
 				return null;
 			}
 			LOGGER.info("Starting to solve "+ currentTask.getId());

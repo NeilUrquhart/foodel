@@ -40,9 +40,15 @@ public class ServerStatus implements ContextHandler {
 
 		}else {
 			
+			page.addToBody("<div class=\"container\"> \n");
 			
 			synchronized(taskList){ 
-				page.addToBody("<h3>Solved:</h3>");
+				page.addToBody( "        <section>\n"
+						+ "            <div class=\"card\">\n"
+						+ "                <div class=\"card-body\">\n"
+						+ "                    <div class=\"card-title\">\n"
+						+ "                        Solved \n"
+						+ "                    </div>");
 	
 				Iterator<Task> myIterator = taskList.iterator(); 
 				page.addToBody("<ul>");
@@ -59,8 +65,14 @@ public class ServerStatus implements ContextHandler {
 					}
 				} 
 				page.addToBody("</ul>");
+				page.addToBody("</ul></div></div></section>");
 				
-				page.addToBody("<h3>Currently being solved:</h3>");
+				page.addToBody(" <section>\n"
+						+ "            <div class=\"card\">\n"
+						+ "                <div class=\"card-body\">\n"
+						+ "                    <div class=\"card-title\">\n"
+						+ "                        Currently being solved \n"
+						+ "                    </div>");
 				myIterator = taskList.iterator(); 
 				page.addToBody("<ul>");
 				while(myIterator.hasNext()){ 
@@ -72,8 +84,16 @@ public class ServerStatus implements ContextHandler {
 					
 				} 
 				page.addToBody("</ul>");
+				page.addToBody("</ul></div></div></section>");
 				
-				page.addToBody("<h3>Waiting to be solved:</h3>");
+				//waiting
+				page.addToBody("<section>\n"
+						+ "            <div class=\"card\">\n"
+						+ "                <div class=\"card-body\">\n"
+						+ "                    <div class=\"card-title\">\n"
+						+ "                        Waiting to be solved\n"
+						+ "                    </div>");
+				
 				myIterator = taskList.iterator(); 
 				page.addToBody("<ul>");
 				while(myIterator.hasNext()){ 
@@ -83,11 +103,34 @@ public class ServerStatus implements ContextHandler {
 						page.addToBody("<li>" +t.getId() + " </li>");
 					}
 				} 
-				page.addToBody("</ul>");
+				page.addToBody("</ul></div></div></section>");
+				
+				//Broken
+				
+				page.addToBody("<section>\n"
+						+ "            <div class=\"card\">\n"
+						+ "                <div class=\"card-body\">\n"
+						+ "                    <div class=\"card-title\">\n"
+						+ "                        Broken tasks \n"
+						+ "                    </div>");
+				
+				myIterator = taskList.iterator(); 
+				page.addToBody("<ul>");
+				while(myIterator.hasNext()){ 
+					Task t = myIterator.next();
+					 
+					if (t.getStatus() == TaskStatus.BROKEN) {
+						page.addToBody("<li><b>" +t.getId() +"</b>"+
+								"<br> <a class=\"button\" href=\"/job?id="+t.getId()+" \"> More information </a>" +
+										" (To be removed at:"+removal+")</li><br>");
+
+					}
+				} 
+				page.addToBody("</ul></div></div></section>");
 			}
-
+			page.addToBody("</div>");
 		}
-
+		
 		resp.getHeaders().add("Content-Type", "text/html");
 		resp.send(200,   page.html());
 		return 0;

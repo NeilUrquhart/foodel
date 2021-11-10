@@ -433,7 +433,7 @@ public class CVRPProblem extends FoodelProblem {
 	}
 
 	public String getResultHTML(String key) {
-		String html ="";
+		String html ="<div class=\"container\">";
 
 		int r=0;
 		long deliveryTime = getDeliveryTimeMS();
@@ -447,11 +447,11 @@ public class CVRPProblem extends FoodelProblem {
 			if (this.isConcurrent())
 				time = getStartTime();
 
-			html = html += "<h2> Route  "+r+"</h2>";
+			html = html += "<h2> Route  "+r+" ";
 			html = html += "<a href=\"map?id="+getReference() +"&key="+key+"&run="+r+"\" class =\"button\"  >View Map</a>  "
 					+ "<a href=\"gpx?id="+this.getReference()+"&key="+key+"&run="+r+"\" class =\"button\" >GPX File</a> "
 					+ "<a href=\"csv?id="+this.getReference()+"&key="+key+"&run="+r+"\" class =\"button\" >CSV File</a> "
-									+ "<br> <br> \n";
+									+ "</h2>\n";
 			FoodelVisit prev = getStart();
             html = html + "<ol>";
 			for (FoodelVisit v : run){
@@ -481,7 +481,7 @@ public class CVRPProblem extends FoodelProblem {
 			html = html + "</ol>";
 			r++;
 		}
-
+        html = html +"</div>";
 		return html;
 	}
 

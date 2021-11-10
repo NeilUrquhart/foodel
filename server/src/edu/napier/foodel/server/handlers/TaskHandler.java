@@ -42,6 +42,7 @@ public class TaskHandler implements ContextHandler {
 
 	public int serve(Request req, Response resp) throws IOException {
 		var page = new HTMLpage("Foodel");
+		page.addToBody("<div class=\"container\">");
 		Map<String, String> params = req.getParams();
 
 		String key = params.get("key");
@@ -94,9 +95,9 @@ public class TaskHandler implements ContextHandler {
 
 			}
 
-			page.addToBody("<body> <h1>Problem: "+current.getId()+"</h1>");
+			page.addToBody("<body> <h3>Problem: "+current.getId()+"</h3>");
 			if (current.getStatus().equals(TaskStatus.WAITING))	{
-				page.addToBody("<h2>Your problem is currently in a queue waiting to be solved.</h2>");
+				page.addToBody("<p>Your problem is currently in a queue waiting to be solved.</p>");
 			}
 			
 			if (current.getStatus().equals(TaskStatus.RUNNING))	{
@@ -104,7 +105,8 @@ public class TaskHandler implements ContextHandler {
 			}
 			
 			if (current.getStatus().equals(TaskStatus.BROKEN))	{
-				page.addToBody("<p> Something has gone wrong. The message below may help explain the issue </p><br>" + current.getErrMsg() + "<br>");
+				page.addToBody("<p> Something has gone wrong. The message below may help explain the issue </p>"
+						+ "<br>" + current.getErrMsg() + "<br>");
 			}
 			
 			if (!current.getStatus().equals(TaskStatus.SOLVED))	{
@@ -118,6 +120,7 @@ public class TaskHandler implements ContextHandler {
 				f.setProblem(current.getProblem());
 				page.addToBody(f.getResultHTML(key));
 				resp.getHeaders().add("Content-Type", "text/html");
+				page.addToBody("</div>");
 				resp.send(200,page.html());
 				return 0;
 			}
@@ -130,9 +133,9 @@ public class TaskHandler implements ContextHandler {
 
 	private int noKeyError(Response resp, HTMLpage page) throws IOException {
 		resp.getHeaders().add("Content-Type", "text/html");	
-		page.addToBody("<h1>Please enter the problem key to view your problem</h1>\n"
-				+ "Problem Key: <input type=\"text\" id=\"key\" value=\"xxx\">\n"
-				+ "<button onclick=\"myFunction()\">Find Problem   </button>\n"
+		page.addToBody("<h3>Please enter the key to view your task</h3>\n"
+				+ "Task Key: <input type=\"text\" id=\"key\" value=\"xxx\">\n"
+				+ "<button onclick=\"myFunction()\">Find task </button>\n"
 				+ "\n"
 				+ "<script>\n"
 				+ "function myFunction() {\n"
@@ -149,7 +152,7 @@ public class TaskHandler implements ContextHandler {
 	
 	private int noIdError(Response resp, HTMLpage page) throws IOException {
 		resp.getHeaders().add("Content-Type", "text/html");	
-		page.addToBody("<h1>Sorry, I cannot find that job.</h1>");
+		page.addToBody("<h3>Sorry, I cannot find that task.</h3>");
 		resp.send(200,  page.html());
 		return 0;
 	}
