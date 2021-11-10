@@ -101,9 +101,19 @@ public class UploadProblem {
 				} catch(Exception e) {
 					e.printStackTrace();
 					resp.getHeaders().add("Content-Type", "text/html");
-					page.addToBody("<h2>It looks like something has gone wrong when your problem file was being  read...</h2>");
-					page.addToBody("<br> <p>The following error was generated : <br>"+e.getMessage() +"</p>");
-					page.addToBody("<h2> Would you like to  ... <br><a href=\"new \"> try and upload again?</a> <br>or<br>  <a href=\"mailto:n.urquhart@napier.ac.uk\">email for help?</a> </h2>");				
+					page.addToBody("<h3>Sorry, Foodel has found a problem in your task file.</h3>");
+					
+					page.addToBody("<div class=\"container\">\n"
+							+ "        <section>"
+							+ "<div class=\"card\">\n"
+							+ "<div class=\"card-body\">\n"
+							+ "<div class=\"card-title\"> The message received from Foodel is: </div>\n"
+							+ "<p>"+e.getMessage() +"</p>\n</div> </div> </section></div>\n");
+					
+					page.addToBody("<h3> Would you like to:  <br> <ul>"
+							+ "<li><a href=\"new \"> submit another task?</a> </li>"
+							+ "<li><a href=\"mailto:n.urquhart@napier.ac.uk\">email for help?</a> </li>"
+							+ "</ul></h3>");				
 					resp.send(200, page.html());
 					return 0;
 				}

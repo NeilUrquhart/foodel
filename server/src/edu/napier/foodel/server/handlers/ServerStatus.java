@@ -13,7 +13,7 @@ import java.util.List;
 
 import edu.napier.foodel.server.HTMLpage;
 import edu.napier.foodel.server.Task;
-
+import edu.napier.foodel.server.TaskStatus;
 import net.freeutils.httpserver.HTTPServer.ContextHandler;
 
 
@@ -30,29 +30,62 @@ public class ServerStatus implements ContextHandler {
 	}
 
 	public int serve(Request req, Response resp) throws IOException {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss  dd MMMM YYYY");
+		
 		var page = new HTMLpage("Foodel -  status");
 		page.addToHeader("<meta http-equiv=\"refresh\" content=\"10\">\n");
-		page.addToBody("<H1>Foodel Status </H1>");
-		page.addToBody("<p>Foodel is running on your computer.</p>");
-
+		
 		if (taskList.size() == 0) {
-			page.addToBody("<p>You have not uploaded any problems so far in this session.</p>");
+			page.addToBody("<p>You have not uploaded any task so far in this session.</p>");
 
 		}else {
-			page.addToBody("<p> Here are the problems that you have loaded so far in this session: </p>");
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss  dd MMMM YYYY");
+			
+			
 			synchronized(taskList){ 
+				page.addToBody("<h3>Solved:</h3>");
+	
 				Iterator<Task> myIterator = taskList.iterator(); 
+				page.addToBody("<ul>");
 				String removal = "";
 				while(myIterator.hasNext()){ 
 					Task t = myIterator.next();
-					Date date = new Date(t.getRemovalTime());
-					removal = simpleDateFormat.format(date);
-					page.addToBody("<a href=\"/job?id="+t.getId()+" \">" +t.getId() + ":"+ t.getStatus()  + " To be removed at "+removal+ "</a><br>");
+					removal = simpleDateFormat.format(new Date(t.getRemovalTime()));
+					if (t.getStatus() == TaskStatus.SOLVED) {
+						page.addToBody("<li><b>" +t.getId() +"</b>"+
+						"<br> <a class=\"button\" href=\"/job?id="+t.getId()+" \"> View result </a>" +
+								" (To be removed at:"+removal+")</li><br>");
+								//" To be removed at "+removal+ 
+						//<a href="/job?id="+t.getId()
+					}
 				} 
+				page.addToBody("</ul>");
+				
+				page.addToBody("<h3>Currently being solved:</h3>");
+				myIterator = taskList.iterator(); 
+				page.addToBody("<ul>");
+				while(myIterator.hasNext()){ 
+					 Task t = myIterator.next();
+					removal = simpleDateFormat.format(new Date(t.getRemovalTime()));
+					 if (t.getStatus() == TaskStatus.RUNNING) {
+						page.addToBody("<li><b>" +t.getId() +  "</b></li>");
+					}
+					
+				} 
+				page.addToBody("</ul>");
+				
+				page.addToBody("<h3>Waiting to be solved:</h3>");
+				myIterator = taskList.iterator(); 
+				page.addToBody("<ul>");
+				while(myIterator.hasNext()){ 
+					Task t = myIterator.next();
+					 
+					if (t.getStatus() == TaskStatus.WAITING) {
+						page.addToBody("<li>" +t.getId() + " </li>");
+					}
+				} 
+				page.addToBody("</ul>");
 			}
 
-			page.addToBody("<p>Click on a problem to look at the solution.</p>");
 		}
 
 		resp.getHeaders().add("Content-Type", "text/html");

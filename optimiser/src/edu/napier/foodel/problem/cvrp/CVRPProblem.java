@@ -378,11 +378,7 @@ public class CVRPProblem extends FoodelProblem {
 		long time = getStartTime();
 
 		ArrayList<ArrayList<FoodelVisit>> solution = getCVRPSolution();
-		//		if (getInitialVisit()!= null) {
-		//			ArrayList<FoodelVisit> run =solution.get(0);
-		//			run.add(0,getInitialVisit());
-		//		}
-
+	
 		ArrayList<FoodelVisit> run  = solution.get(route);
 		int c=0;
 		if (isConcurrent())
@@ -391,7 +387,7 @@ public class CVRPProblem extends FoodelProblem {
 
 		htm.addWayPoint(getStart(), 0, getTimeOnlyformatter().format(time));
 
-		FoodelVisit prev = getStart();//new Visit("",myVRP.getStart().getX(),myVRP.getStart().getY());
+		FoodelVisit prev = getStart();
 
 		for (FoodelVisit v : run){
 			c++;
@@ -451,16 +447,16 @@ public class CVRPProblem extends FoodelProblem {
 			if (this.isConcurrent())
 				time = getStartTime();
 
-			html = html += "<h2> Run:"+r+"</h2>";
+			html = html += "<h2> Route  "+r+"</h2>";
 			html = html += "<a href=\"map?id="+getReference() +"&key="+key+"&run="+r+"\" class =\"button\"  >View Map</a>  "
-					+ "<a href=\"gpx?id="+this.getReference()+"&key="+key+"&run="+r+"\" class =\"button\" >GPX File</a>"
-					+ "<a href=\"csv?id="+this.getReference()+"&key="+key+"&run="+r+"\" class =\"button\" >CSV File</a>"
+					+ "<a href=\"gpx?id="+this.getReference()+"&key="+key+"&run="+r+"\" class =\"button\" >GPX File</a> "
+					+ "<a href=\"csv?id="+this.getReference()+"&key="+key+"&run="+r+"\" class =\"button\" >CSV File</a> "
 									+ "<br> <br> \n";
 			FoodelVisit prev = getStart();
-
+            html = html + "<ol>";
 			for (FoodelVisit v : run){
 				c++;
-				String description = c +" ";
+				String description = "<li>";
 				if (v instanceof FoodelVisit) {
 
 					if (((FoodelVisit)v).getAddress()!= null) {
@@ -472,7 +468,7 @@ public class CVRPProblem extends FoodelProblem {
 				}else 
 					description += v.getName();
 
-				html = html +  description + " " + getTimeOnlyformatter().format(time) +"<br>" ;
+				html = html +  description + " " + getTimeOnlyformatter().format(time) +"</li>" ;
 
 				FoodelVisit curr = v;
 
@@ -482,6 +478,7 @@ public class CVRPProblem extends FoodelProblem {
 				//done
 				time  = time + deliveryTime;
 			}
+			html = html + "</ol>";
 			r++;
 		}
 
