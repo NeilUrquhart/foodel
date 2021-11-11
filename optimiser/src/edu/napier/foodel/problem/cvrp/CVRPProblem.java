@@ -378,7 +378,7 @@ public class CVRPProblem extends FoodelProblem {
 		long time = getStartTime();
 
 		ArrayList<ArrayList<FoodelVisit>> solution = getCVRPSolution();
-	
+
 		ArrayList<FoodelVisit> run  = solution.get(route);
 		int c=0;
 		if (isConcurrent())
@@ -442,18 +442,24 @@ public class CVRPProblem extends FoodelProblem {
 		ArrayList<ArrayList<FoodelVisit>> solution = getCVRPSolution();
 
 		for(ArrayList<FoodelVisit> run :solution){
-			
+
 			int c=0;
 			if (this.isConcurrent())
 				time = getStartTime();
+			html = html +" <section> "+
+					"<div class=\"card\"> "+
+					"<div class=\"card-body\">"+
+					"<div class=\"card-title\">"+
+					"Route " +r+" "+
+					"</div>";
 
-			html = html += "<h2> Route  "+r+" ";
-			html = html += "<a href=\"map?id="+getReference() +"&key="+key+"&run="+r+"\" class =\"button\"  >View Map</a>  "
+			html = html + "<a href=\"map?id="+getReference() +"&key="+key+"&run="+r+"\" class =\"button\"  >View Map</a>  "
 					+ "<a href=\"gpx?id="+this.getReference()+"&key="+key+"&run="+r+"\" class =\"button\" >GPX File</a> "
 					+ "<a href=\"csv?id="+this.getReference()+"&key="+key+"&run="+r+"\" class =\"button\" >CSV File</a> "
-									+ "</h2>\n";
+					+ "</h2>\n";
+			
 			FoodelVisit prev = getStart();
-            html = html + "<ol>";
+			html = html + "<ol>";
 			for (FoodelVisit v : run){
 				c++;
 				String description = "<li>";
@@ -479,9 +485,10 @@ public class CVRPProblem extends FoodelProblem {
 				time  = time + deliveryTime;
 			}
 			html = html + "</ol>";
+			html = html+ "</div></div></section>";
 			r++;
 		}
-        html = html +"</div>";
+		html = html +"</div>";
 		return html;
 	}
 
@@ -493,47 +500,47 @@ public class CVRPProblem extends FoodelProblem {
 		long time = getStartTime();
 
 		ArrayList<ArrayList<FoodelVisit>> solution = getCVRPSolution();
-		
+
 		ArrayList<FoodelVisit> run = solution.get(r);
-			r++;
-			int c=0;
-			if (this.isConcurrent())
-				time = getStartTime();
+		r++;
+		int c=0;
+		if (this.isConcurrent())
+			time = getStartTime();
 
-			csv.append(",Time,Name,Address,Postcode,Instructions\n");
-			csv.append("," + getTimeOnlyformatter().format(time) + ",Start"+ this.getStart().getAddress()+"\n");
-			FoodelVisit prev = getStart();
+		csv.append(",Time,Name,Address,Postcode,Instructions\n");
+		csv.append("," + getTimeOnlyformatter().format(time) + ",Start"+ this.getStart().getAddress()+"\n");
+		FoodelVisit prev = getStart();
 
-			
-			Journey j = GHopperInterface.getJourney(prev, run.get(0), getMode());
+
+		Journey j = GHopperInterface.getJourney(prev, run.get(0), getMode());
+		time = time + ( j.getTravelTimeMS()) ;
+
+		for (FoodelVisit v : run){
+			c++;
+			String description = c +" ";
+			//if (v instanceof FoodelVisit) {
+
+			//					if (((FoodelVisit)v).getAddress()!= null) {
+			//						description += ((FoodelVisit)v).getAddress().replace("&", " and ");
+			//						description += " ";
+			//					}
+			//					if (((FoodelVisit)v).getOrder()!= null) 
+			//						description += ((FoodelVisit)v).getOrder().replace("&", " and ");
+			//				}else 
+			//					description += v.getName();
+
+			csv.append(c +","  + getTimeOnlyformatter().format(time) +"," + v.getName() + "," + v.getAddress()+","+v.getPostcode() +","+v.getOrder()+"\n") ;
+
+			FoodelVisit curr = v;
+
+			j = GHopperInterface.getJourney(prev, curr, getMode());
 			time = time + ( j.getTravelTimeMS()) ;
-			
-			for (FoodelVisit v : run){
-				c++;
-				String description = c +" ";
-				//if (v instanceof FoodelVisit) {
 
-//					if (((FoodelVisit)v).getAddress()!= null) {
-//						description += ((FoodelVisit)v).getAddress().replace("&", " and ");
-//						description += " ";
-//					}
-//					if (((FoodelVisit)v).getOrder()!= null) 
-//						description += ((FoodelVisit)v).getOrder().replace("&", " and ");
-//				}else 
-//					description += v.getName();
+			//done
+			time  = time + deliveryTime;
+		}
 
-				csv.append(c +","  + getTimeOnlyformatter().format(time) +"," + v.getName() + "," + v.getAddress()+","+v.getPostcode() +","+v.getOrder()+"\n") ;
 
-				FoodelVisit curr = v;
-
-				j = GHopperInterface.getJourney(prev, curr, getMode());
-				time = time + ( j.getTravelTimeMS()) ;
-
-				//done
-				time  = time + deliveryTime;
-			}
-
-		
 
 		return csv.toString();
 	}

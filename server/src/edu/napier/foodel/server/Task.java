@@ -18,8 +18,8 @@ public class Task {
 	private String errMsg;
 	private long removalTime;
 	private int lifeTime= 12;  //Hours to live for on the server - default is 12
-	
-	
+
+
 	public String getErrMsg() {
 		return errMsg;
 	}
@@ -33,48 +33,64 @@ public class Task {
 		SecureRandom random = new SecureRandom();
 		byte[] values = new byte[20];
 		random.nextBytes(values);
-		
+
 		StringBuilder sb = new StringBuilder();
-	    for (byte b : values) {
-	        sb.append(String.format("%02X", b));
-	    }
+		for (byte b : values) {
+			sb.append(String.format("%02X", b));
+		}
 		key = sb.toString();
-		
+
 		String time =ServerProperties.getInstance().get("removaltime");
 		if (time!=null) {
 			try {
 				lifeTime = Integer.parseInt(time);
 			}catch(Exception e) {
-				
+
 				lifeTime=12;//default
 			}
 		}
 		removalTime = System.currentTimeMillis() + (3600000*lifeTime);
 	}
-	
+
 	public long getRemovalTime() {
 		return removalTime;
 	}
 	public void setRawData(HashMap<String,String[]> rawData) {//The basic data strucure read in from the CSV file
 		this.rawData = rawData;
 	}
-	
+
+	public String findId() {
+		
+		if (rawData == null)
+			return "";
+
+		String[] line = rawData.get("reference 0");
+		if (line == null)
+			return "";
+		if (line.length >=2) {
+			if (line[1].trim().length()>0) {
+				return line[1].trim();
+			}
+		}
+		return "";	
+	}
+
 	public HashMap<String,String[]>  getRawData() {//The basic data strucure read in from the CSV file
 		return this.rawData ;
 	}
-	
+
 	public void setProblem(FoodelProblem p) {
 		this.p = p;
 	}
-	
+
 	public FoodelProblem getProblem() {
 		return p;
 	}
-	
+
 	public String getKey() {
 		return key;
 	}
-	
+
 	public TaskStatus getStatus() {
 		return status;
 	}

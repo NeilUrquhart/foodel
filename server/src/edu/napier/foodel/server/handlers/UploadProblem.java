@@ -91,15 +91,30 @@ public class UploadProblem {
 					newTask.setInputFile(filename);
 					//Check file can be parsed + extract id
 					
-					if (idInUse(filename)) {
-						int c=1;
-						while(idInUse(filename + "-"+c))
-								c++;
-						
-						filename = filename +"-"+c;
-					}
-					newTask.setId(filename);
+//					String id = filename;
+//					id = stripSpaces(id);
+//					if (idInUse(id)) {
+//						int c=1;
+//						while(idInUse(id + "-"+c))
+//								c++;
+//						
+//						id = id +"-"+c;
+//					}
+//					newTask.setId(id);
+					
 					newTask.setRawData(readStream(part.getBody()));
+					String id = newTask.findId(); 
+					if (id.length()==0) {
+						throw new Exception("Can't find a valid description in your task file.");
+					}
+					if (idInUse(id)) {
+						int c=1;
+						while(idInUse(id + "-"+c))
+								c++;	
+						id = id +"-"+c;
+					}
+					newTask.setId(id);
+					
 					newTask.setStatus(TaskStatus.WAITING);
 				
 				} catch(Exception e) {
@@ -187,6 +202,9 @@ public class UploadProblem {
 		return res;
 	}
 	
+	private String stripSpaces(String in) {
+		return in.replace(" ", "");
+	}
 	private String[] split(String csv) {
 		//Split line by , - ignore any within quotes
 		ArrayList<String> parsed = new ArrayList<String>();

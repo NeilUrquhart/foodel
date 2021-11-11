@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2021-11-10T20:59:33.203062Z</date>
-  <millis>1636577973203</millis>
-  <nanos>62000</nanos>
+  <date>2021-11-11T12:18:00.168957300Z</date>
+  <millis>1636633080168</millis>
+  <nanos>957300</nanos>
   <sequence>0</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -14,21 +14,21 @@
   <message>Starting server</message>
 </record>
 <record>
-  <date>2021-11-10T20:59:33.556286Z</date>
-  <millis>1636577973556</millis>
-  <nanos>286000</nanos>
+  <date>2021-11-11T12:18:00.453956600Z</date>
+  <millis>1636633080453</millis>
+  <nanos>956600</nanos>
   <sequence>1</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
-  <level>INFO</level>
+  <level>WARNING</level>
   <class>edu.napier.foodel.server.handlers.Installer</class>
   <method>&lt;init&gt;</method>
   <thread>1</thread>
-  <message>Retrieved GitHub Personal Access Token</message>
+  <message>No GitHub Personal Access Token found</message>
 </record>
 <record>
-  <date>2021-11-10T20:59:33.561026Z</date>
-  <millis>1636577973561</millis>
-  <nanos>26000</nanos>
+  <date>2021-11-11T12:18:00.458957Z</date>
+  <millis>1636633080458</millis>
+  <nanos>957000</nanos>
   <sequence>2</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -38,15 +38,146 @@
   <message>Server running</message>
 </record>
 <record>
-  <date>2021-11-10T20:59:52.397094Z</date>
-  <millis>1636577992397</millis>
-  <nanos>94000</nanos>
+  <date>2021-11-11T12:18:29.738737Z</date>
+  <millis>1636633109738</millis>
+  <nanos>737000</nanos>
   <sequence>3</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
   <class>edu.napier.foodel.server.Server</class>
   <method>executeProblem</method>
   <thread>1</thread>
-  <message>Parsing raw data cvrp-sample (3).csv-0.csv</message>
+  <message>Parsing raw data fixed-sample (1).csv</message>
 </record>
-</log>
+<record>
+  <date>2021-11-11T12:18:38.617762600Z</date>
+  <millis>1636633118617</millis>
+  <nanos>762600</nanos>
+  <sequence>4</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>executeProblem</method>
+  <thread>1</thread>
+  <message>Starting to solve cvrpsample</message>
+</record>
+<record>
+  <date>2021-11-11T12:18:46.999697Z</date>
+  <millis>1636633126999</millis>
+  <nanos>697000</nanos>
+  <sequence>5</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>executeProblem</method>
+  <thread>1</thread>
+  <message>Solved cvrpsample</message>
+</record>
+<record>
+  <date>2021-11-11T12:18:47.000698700Z</date>
+  <millis>1636633127000</millis>
+  <nanos>698700</nanos>
+  <sequence>6</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>executeProblem</method>
+  <thread>1</thread>
+  <message>Parsing raw data fixed-sample (1).csv</message>
+</record>
+<record>
+  <date>2021-11-11T12:18:55.058230200Z</date>
+  <millis>1636633135058</millis>
+  <nanos>230200</nanos>
+  <sequence>7</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>executeProblem</method>
+  <thread>1</thread>
+  <message>Starting to solve cvrpsample-1</message>
+</record>
+<record>
+  <date>2021-11-11T12:19:02.630172Z</date>
+  <millis>1636633142630</millis>
+  <nanos>172000</nanos>
+  <sequence>8</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>executeProblem</method>
+  <thread>1</thread>
+  <message>Solved cvrpsample-1</message>
+</record>
+<record>
+  <date>2021-11-11T12:19:02.630172Z</date>
+  <millis>1636633142630</millis>
+  <nanos>172000</nanos>
+  <sequence>9</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>executeProblem</method>
+  <thread>1</thread>
+  <message>Parsing raw data volunteer-sample (3).csv</message>
+</record>
+<record>
+  <date>2021-11-11T12:19:16.685317Z</date>
+  <millis>1636633156685</millis>
+  <nanos>317000</nanos>
+  <sequence>10</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>executeProblem</method>
+  <thread>1</thread>
+  <message>Starting to solve volunteertest</message>
+</record>
+<record>
+  <date>2021-11-11T12:19:27.023238500Z</date>
+  <millis>1636633167023</millis>
+  <nanos>238500</nanos>
+  <sequence>11</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>executeProblem</method>
+  <thread>1</thread>
+  <message>Solved volunteertest</message>
+</record>
+<record>
+  <date>2021-11-11T12:19:27.023238500Z</date>
+  <millis>1636633167023</millis>
+  <nanos>238500</nanos>
+  <sequence>12</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>executeProblem</method>
+  <thread>1</thread>
+  <message>Parsing raw data volunteer-sample (3).csv</message>
+</record>
+<record>
+  <date>2021-11-11T12:19:41.069833900Z</date>
+  <millis>1636633181069</millis>
+  <nanos>833900</nanos>
+  <sequence>13</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>executeProblem</method>
+  <thread>1</thread>
+  <message>Starting to solve volunteertest-1</message>
+</record>
+<record>
+  <date>2021-11-11T12:19:51.003761Z</date>
+  <millis>1636633191003</millis>
+  <nanos>761000</nanos>
+  <sequence>14</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>executeProblem</method>
+  <thread>1</thread>
+  <message>Solved volunteertest-1</message>
+</record>

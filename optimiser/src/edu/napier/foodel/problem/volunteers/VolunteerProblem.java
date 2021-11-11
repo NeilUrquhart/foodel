@@ -331,24 +331,30 @@ public class VolunteerProblem extends CVRPProblem {
 			r++;
 			int c=0;
 			time = getStartTime();
-
-			html = html += "<h2> Delivery run "+r+"</h2>";
+			String vol = "(No volunteer available)"; 
 			if (volunteer != null)
-				html = html += "<h2> Volunteer : "+volunteer.getName()+"</h2>";
-			else
-				html = html += "<h2> No volunteer allocated </h2>";
+				 vol = " Volunteer : "+volunteer.getName();
+			
+			html = html + " <section>\r\n"
+					+ "            <div class=\"card\">\r\n"
+					+ "                <div class=\"card-body\">\r\n"
+					+ "                    <div class=\"card-title\">\r\n"
+					+  " Route "+r + " " +vol
+					+ "                    </div><br>";
+			
 
-			html = html += "<a href=\"map?id="+getReference() +"&key="+key+"&run="+(r-1)+"\" class =\"button\" >View Map</a>  <a href=\"gpx?key="+key+"&run="+r+"\" class =\"button\" >GPX File</a>"+
-			"<a href=\"csv?id="+getReference()+"&key="+key+"&run="+(r-1)+"\" class =\"button\" >CSV File</a>"+
-					"  <br> <br>\n";
+			html = html += " <a href=\"map?id="+getReference() +"&key="+key+"&run="+(r-1)+"\" class =\"button\" >View Map</a>  <a href=\"gpx?key="+key+"&run="+r+"\" class =\"button\" > GPX File</a>"+
+			" <a href=\"csv?id="+getReference()+"&key="+key+"&run="+(r-1)+"\" class =\"button\" > CSV File</a>"+
+			"</h2><br>";
 
 			FoodelVisit prev = getStart();
-
+			html = html +"<ol>\n";
+			
 			for (FoodelVisit v : run){
 				c++;
-				String description;// = c +" ";
+				String description;
 				if (v instanceof FoodelVisit) {
-					description= c +" ";
+					description= "<li>";
 					if (((FoodelVisit)v).getAddress()!= null) {
 						
 						description += ((FoodelVisit)v).getAddress().replace("&", " and ");
@@ -358,9 +364,9 @@ public class VolunteerProblem extends CVRPProblem {
 						description += ((FoodelVisit)v).getOrder().replace("&", " and ");
 				}
 				else 
-					description = c + " "+ v.getName();
+					description =   v.getName();
 
-				html = html +  description + " " + getTimeOnlyformatter().format(time) +"<br>" ;
+				html = html +  description + " " + getTimeOnlyformatter().format(time) +"</li>" ;
 
 				FoodelVisit curr = v;
 
@@ -370,7 +376,7 @@ public class VolunteerProblem extends CVRPProblem {
 				//done
 				time  = time + deliveryTime;
 			}
-
+			html = html +"</ol></div></div></section>";
 		}
 
 		return html;
