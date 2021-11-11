@@ -133,9 +133,9 @@ public class TaskHandler implements ContextHandler {
 
 	private int noKeyError(Response resp, HTMLpage page) throws IOException {
 		resp.getHeaders().add("Content-Type", "text/html");	
-		page.addToBody("<h3>Please enter the key to view your task</h3>\n"
+		page.addToBody("<h3>Please enter the task key to view your task</h3>\n"
 				+ "Task Key: <input type=\"text\" id=\"key\" value=\"xxx\">\n"
-				+ "<button onclick=\"myFunction()\">Find task </button>\n"
+				+ "<button onclick=\"myFunction()\">Open task </button>\n"
 				+ "\n"
 				+ "<script>\n"
 				+ "function myFunction() {\n"
