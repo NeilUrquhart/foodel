@@ -17,13 +17,17 @@ public class Home implements ContextHandler {
     */
     @Override
     public int serve(Request req, Response res) throws IOException {
-        HTMLpage page = new HTMLpage("Foodel");
+
+    	HTMLpage page = new HTMLpage("Foodel");
 
         // Add specific styling for the home page
         page.addToHeader("<link rel='stylesheet' href='/static/home.css'>");
 
-        String content = Files.readString(Paths.get("config/home.html"), StandardCharsets.UTF_8);
-        page.addToBody(content);
+        //Try to find content that matches the uri and add it to the page
+        // if it failes (ie an invalid uri -  then default to home)
+        if (!page.addFileToBody(req.getURI().toString())) {
+        	page.addFileToBody("/home");
+        }
         res.getHeaders().add("Content-Type", "text/html");
         res.send(200, page.html());
 

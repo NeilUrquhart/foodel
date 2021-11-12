@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2021-11-11T13:20:49.307941Z</date>
-  <millis>1636636849307</millis>
-  <nanos>941000</nanos>
+  <date>2021-11-12T12:16:27.960016900Z</date>
+  <millis>1636719387960</millis>
+  <nanos>16900</nanos>
   <sequence>0</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -14,9 +14,9 @@
   <message>Starting server</message>
 </record>
 <record>
-  <date>2021-11-11T13:20:49.478941400Z</date>
-  <millis>1636636849478</millis>
-  <nanos>941400</nanos>
+  <date>2021-11-12T12:16:28.212017500Z</date>
+  <millis>1636719388212</millis>
+  <nanos>17500</nanos>
   <sequence>1</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>WARNING</level>
@@ -26,9 +26,9 @@
   <message>No GitHub Personal Access Token found</message>
 </record>
 <record>
-  <date>2021-11-11T13:20:49.483939900Z</date>
-  <millis>1636636849483</millis>
-  <nanos>939900</nanos>
+  <date>2021-11-12T12:16:28.220016700Z</date>
+  <millis>1636719388220</millis>
+  <nanos>16700</nanos>
   <sequence>2</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -36,40 +36,4 @@
   <method>startServer</method>
   <thread>1</thread>
   <message>Server running</message>
-</record>
-<record>
-  <date>2021-11-11T13:21:33.589695Z</date>
-  <millis>1636636893589</millis>
-  <nanos>695000</nanos>
-  <sequence>3</sequence>
-  <logger>edu.napier.foodel.server.Server</logger>
-  <level>INFO</level>
-  <class>edu.napier.foodel.server.Server</class>
-  <method>executeProblem</method>
-  <thread>1</thread>
-  <message>Parsing raw data volunteer-sample (4).csv</message>
-</record>
-<record>
-  <date>2021-11-11T13:21:48.294608300Z</date>
-  <millis>1636636908294</millis>
-  <nanos>608300</nanos>
-  <sequence>4</sequence>
-  <logger>edu.napier.foodel.server.Server</logger>
-  <level>INFO</level>
-  <class>edu.napier.foodel.server.Server</class>
-  <method>executeProblem</method>
-  <thread>1</thread>
-  <message>Starting to solve volunteertest</message>
-</record>
-<record>
-  <date>2021-11-11T13:22:01.111536200Z</date>
-  <millis>1636636921111</millis>
-  <nanos>536200</nanos>
-  <sequence>5</sequence>
-  <logger>edu.napier.foodel.server.Server</logger>
-  <level>INFO</level>
-  <class>edu.napier.foodel.server.Server</class>
-  <method>executeProblem</method>
-  <thread>1</thread>
-  <message>Solved volunteertest</message>
 </record>

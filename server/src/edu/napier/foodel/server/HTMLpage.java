@@ -38,11 +38,13 @@ public class HTMLpage {
 		body.append( line);
 	}
 
-	public void addFileToBody(String fName) {
+	public boolean addFileToBody(String fName) {
 		try {
 			body.append( Files.readString(Path.of("./config/"+fName +".html")));
+			return true;
 		}
 		catch(IOException e) {//If file not found, supress the error (it may have been deliberately removed)
+		return false;
 		}
 	}
 

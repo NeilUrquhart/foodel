@@ -30,15 +30,12 @@ import net.freeutils.httpserver.HTTPServer.Response;
 
 public class TaskHandler implements ContextHandler {
 
-
-
 	static List<Task> taskList;
 
 	public TaskHandler(List<Task> taskList) {
 		super();
 		TaskHandler.taskList = taskList;
 	}
-
 
 	public int serve(Request req, Response resp) throws IOException {
 		var page = new HTMLpage("Foodel");
