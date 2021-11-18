@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2021-11-12T12:16:27.960016900Z</date>
-  <millis>1636719387960</millis>
-  <nanos>16900</nanos>
+  <date>2021-11-18T23:49:51.356659Z</date>
+  <millis>1637279391356</millis>
+  <nanos>659000</nanos>
   <sequence>0</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -14,21 +14,21 @@
   <message>Starting server</message>
 </record>
 <record>
-  <date>2021-11-12T12:16:28.212017500Z</date>
-  <millis>1636719388212</millis>
-  <nanos>17500</nanos>
+  <date>2021-11-18T23:49:51.528921Z</date>
+  <millis>1637279391528</millis>
+  <nanos>921000</nanos>
   <sequence>1</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
-  <level>WARNING</level>
+  <level>INFO</level>
   <class>edu.napier.foodel.server.handlers.Installer</class>
   <method>&lt;init&gt;</method>
   <thread>1</thread>
-  <message>No GitHub Personal Access Token found</message>
+  <message>Retrieved GitHub Personal Access Token</message>
 </record>
 <record>
-  <date>2021-11-12T12:16:28.220016700Z</date>
-  <millis>1636719388220</millis>
-  <nanos>16700</nanos>
+  <date>2021-11-18T23:49:51.531587Z</date>
+  <millis>1637279391531</millis>
+  <nanos>587000</nanos>
   <sequence>2</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
