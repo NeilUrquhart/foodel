@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2021-11-18T23:49:51.356659Z</date>
-  <millis>1637279391356</millis>
-  <nanos>659000</nanos>
+  <date>2022-01-17T17:03:32.735145Z</date>
+  <millis>1642439012735</millis>
+  <nanos>145000</nanos>
   <sequence>0</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -14,9 +14,9 @@
   <message>Starting server</message>
 </record>
 <record>
-  <date>2021-11-18T23:49:51.528921Z</date>
-  <millis>1637279391528</millis>
-  <nanos>921000</nanos>
+  <date>2022-01-17T17:03:33.007703Z</date>
+  <millis>1642439013007</millis>
+  <nanos>703000</nanos>
   <sequence>1</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -26,9 +26,9 @@
   <message>Retrieved GitHub Personal Access Token</message>
 </record>
 <record>
-  <date>2021-11-18T23:49:51.531587Z</date>
-  <millis>1637279391531</millis>
-  <nanos>587000</nanos>
+  <date>2022-01-17T17:03:33.012063Z</date>
+  <millis>1642439013012</millis>
+  <nanos>63000</nanos>
   <sequence>2</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -37,3 +37,4 @@
   <thread>1</thread>
   <message>Server running</message>
 </record>
+</log>
