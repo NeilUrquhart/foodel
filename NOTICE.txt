@@ -1,0 +1,23 @@
+Apache FOODEL
+Copyright  2019-2022 EDINBURGH NAPIER UNIVERSITY
+
+This software was originally developed by Dr Neil Urquhart.
+
+This product includes :
+
+GraphHopper: The GraphHopper Java Library is distributed under the terms of the Apache License 2.0  https://github.com/graphhopper/graphhopper/blob/master/LICENSE.txt
+
+Leaflet.js: Leafler is distributed under the BSD 2-Clause simplified license. https://github.com/Leaflet/Leaflet/blob/master/LICENSE
+
+Apache Commons: Apache Commons  is distributed under the Apache License. http://www.apache.org/licenses/
+
+Osmosis: https://github.com/openstreetmap/osmosis/releases/tag/0.47.4
+
+JLHTTP : =The Java Light HTTP Server is distributed under the terms of the GNU General Public License. http://www.freeutils.net/source/jlhttp/
+
+In addition to the above libraries which are included within the program code, foodel also uses data from Open Streetmap and accesses NOMINATIM (https://nominatim.org/)
+
+Open StreetMap Data: OpenStreetMap® is open data, licensed under the Open Data Commons Open Database License (ODbL) by the OpenStreetMap Foundation (OSMF).
+
+See https://www.openstreetmap.org/copyright
+
