@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2022-01-17T17:03:32.735145Z</date>
-  <millis>1642439012735</millis>
-  <nanos>145000</nanos>
+  <date>2022-05-26T20:18:26.577262Z</date>
+  <millis>1653596306577</millis>
+  <nanos>262000</nanos>
   <sequence>0</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -14,21 +14,21 @@
   <message>Starting server</message>
 </record>
 <record>
-  <date>2022-01-17T17:03:33.007703Z</date>
-  <millis>1642439013007</millis>
-  <nanos>703000</nanos>
+  <date>2022-05-26T20:18:26.630877Z</date>
+  <millis>1653596306630</millis>
+  <nanos>877000</nanos>
   <sequence>1</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
-  <level>INFO</level>
+  <level>WARNING</level>
   <class>edu.napier.foodel.server.handlers.Installer</class>
   <method>&lt;init&gt;</method>
   <thread>1</thread>
-  <message>Retrieved GitHub Personal Access Token</message>
+  <message>No GitHub Personal Access Token found</message>
 </record>
 <record>
-  <date>2022-01-17T17:03:33.012063Z</date>
-  <millis>1642439013012</millis>
-  <nanos>63000</nanos>
+  <date>2022-05-26T20:18:26.631609Z</date>
+  <millis>1653596306631</millis>
+  <nanos>609000</nanos>
   <sequence>2</sequence>
   <logger>edu.napier.foodel.server.Server</logger>
   <level>INFO</level>
@@ -36,5 +36,41 @@
   <method>startServer</method>
   <thread>1</thread>
   <message>Server running</message>
+</record>
+<record>
+  <date>2022-05-26T20:19:07.679122Z</date>
+  <millis>1653596347679</millis>
+  <nanos>122000</nanos>
+  <sequence>3</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>executeProblem</method>
+  <thread>1</thread>
+  <message>Parsing raw data cvrp-sample (4).csv</message>
+</record>
+<record>
+  <date>2022-05-26T20:19:12.038810Z</date>
+  <millis>1653596352038</millis>
+  <nanos>810000</nanos>
+  <sequence>4</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>executeProblem</method>
+  <thread>1</thread>
+  <message>Starting to solve cvrpsample</message>
+</record>
+<record>
+  <date>2022-05-26T20:19:15.857594Z</date>
+  <millis>1653596355857</millis>
+  <nanos>594000</nanos>
+  <sequence>5</sequence>
+  <logger>edu.napier.foodel.server.Server</logger>
+  <level>INFO</level>
+  <class>edu.napier.foodel.server.Server</class>
+  <method>executeProblem</method>
+  <thread>1</thread>
+  <message>Solved cvrpsample</message>
 </record>
 </log>
