@@ -57,6 +57,7 @@ public class HTMLpage {
 				+ "  </head>\n"
 				+ "  <body>\n"
 				+  bodytemplate
+				+ "Version " + ServerProperties.getInstance().get("version")
 				+ body.toString()
 				+ footertemplate
 				+ "  </body>\n"

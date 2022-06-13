@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import edu.napier.foodel.utils.FoodelProperties;
+
 public class ServerProperties {
 	private Properties prop;
 
@@ -15,6 +17,10 @@ public class ServerProperties {
 
 			// load a properties file
 			prop.load(input);
+			//Add version
+			prop.put("version", "10");
+			FoodelProperties.getInstance().setProperties(prop);
+			//Share the properties with Foodel
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}

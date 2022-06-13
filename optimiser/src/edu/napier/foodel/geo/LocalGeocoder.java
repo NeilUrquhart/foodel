@@ -6,30 +6,28 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import edu.napier.foodel.utils.FoodelProperties;
+
 /*
  * Local Geocoder attempts to find an address in the local postcode csv files
  */
 public class LocalGeocoder {
-	private String dataDir;
+//	private String dataDir;
+//
+//	
+//
+//	public void setDirectory(String aDataDir) {
+//		dataDir = aDataDir;
+//	}
 
-	
-
-	public void setDirectory(String aDataDir) {
-		dataDir = aDataDir;
-	}
-
-	public  Point2D find(String postCode){
+	public  Point2D find(String postCode) throws Exception{
+		
 		postCode = postCode.trim();
 		postCode = postCode.toUpperCase();
-		String area = "";
-		for (int x=0; x < postCode.length();x++){
-			if (Character.isLetter(postCode.charAt(x)))
-				area = area + postCode.charAt(x);
-			else
-				x= postCode.length();
-		}
+
 		try{
-			InputStream inputStream       = new FileInputStream(dataDir+"/"+area+" postcodes.csv");
+			String data = FoodelProperties.getInstance().get("datadir") +FoodelProperties.getInstance().get("postcodefile");
+			InputStream inputStream       = new FileInputStream(data);
 			InputStreamReader isr = new InputStreamReader(inputStream);
 			BufferedReader reader = new BufferedReader(isr);
 
@@ -43,11 +41,11 @@ public class LocalGeocoder {
 					return res;
 				}
 			}
-			System.out.println("Postcode not found "+postCode);
 			reader.close();
-			return null;
+			throw new Exception ("Postcode not found "+postCode);
+			//return null;
 		}catch(Exception e){
-			return null;
+			throw new Exception ("Postcode not found "+postCode);
 		}
 	}
 

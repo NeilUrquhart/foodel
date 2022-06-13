@@ -88,7 +88,10 @@ public abstract class  FoodelProblemFactory   {
 
 		else if (keyword.startsWith("start")){
 			String[] buffer = csvData.get(keyword);
-			Point2D p = Geocoder.find(buffer[1]);
+			Point2D p = Geocoder.find(buffer[1],buffer[1]);
+			if (p==null)
+				throw new Exception("I don't understand the address " + buffer[1]);
+			
 			FoodelVisit v = new FoodelVisit("Base","","","",p.getX(),p.getY(),0);
 			result.setStart(v);
 			result.setStartPcode(buffer[1]);
@@ -96,7 +99,13 @@ public abstract class  FoodelProblemFactory   {
 
 		else if (keyword.startsWith("end")){
 			String[] buffer = csvData.get(keyword);
-			Point2D p =Geocoder.find(buffer[1]);
+			Point2D p = Geocoder.find( buffer[1],buffer[1]);
+			
+			if (p==null)
+				throw new Exception("I don't understand the address " + buffer[1]);
+		if (p==null)
+				throw new Exception("I don't understand the address " + buffer[1]);
+	
 			FoodelVisit v = new FoodelVisit("End","","","",p.getX(),p.getY(),0);
 			result.setEnd(v);
 			result.setEndPCode(buffer[1]);
@@ -128,16 +137,9 @@ public abstract class  FoodelProblemFactory   {
 			loc = new Point2D.Double(Double.parseDouble(strlat),Double.parseDouble(strlon));
 		
 		if (loc == null)
-			loc = Geocoder.find(address + ","+ postcode);
-		
-		if (loc == null)
-			loc = Geocoder.find(postcode);
-		
-		if (loc == null)
-			loc = Geocoder.find(address);
+			loc = Geocoder.find(address,postcode);
 		
 		
-	
 	if (loc== null) {
 			throw new Exception("Address not found " + address +" , " + postcode);
 		}else {

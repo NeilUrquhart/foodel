@@ -51,13 +51,13 @@ public class FixedVansProblemFactory extends FoodelProblemFactory {
 			loc = new Point2D.Double(Double.parseDouble(strlat),Double.parseDouble(strlon));
 		
 		if (loc == null)
-			loc = Geocoder.find(address + ","+ postcode);
+			loc = Geocoder.find(address ,postcode);
 		
-		if (loc == null)
-			loc = Geocoder.find(postcode);
+//		if (loc == null)
+//			loc = Geocoder.find(Geocoder.Type.LOCAL,postcode);
 		
-		if (loc == null)
-			loc = Geocoder.find(address);
+//		if (loc == null)
+//			loc = Geocoder.find(address);
 		
 		
 	

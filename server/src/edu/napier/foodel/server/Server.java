@@ -36,7 +36,6 @@ public class Server {
 
 	public static void main(String[] args) throws SecurityException, IOException {
 
-
 		LOGGER.addHandler(new FileHandler(ServerProperties.getInstance().get("logdir")+"foodel.log"));
 		LOGGER.info("Starting server");
 		//Init task list
@@ -126,7 +125,7 @@ public class Server {
 	}
 
 	private static void setData() {
-		Geocoder.setDirectory(ServerProperties.getInstance().get("datadir")+ServerProperties.getInstance().get("postcodedir"));
+//		Geocoder.setDirectory(ServerProperties.getInstance().get("datadir")+ServerProperties.getInstance().get("postcodedir"));
 		GHopperInterface.init(ServerProperties.getInstance().get("datadir"),ServerProperties.getInstance().get("osmfile"));
 		if (ServerProperties.getInstance().get("customrouting") != null)
 			if (Boolean.parseBoolean(ServerProperties.getInstance().get("customrouting"))==true) {

@@ -27,7 +27,7 @@ public class VolunteerProblemFactory extends FoodelProblemFactory {
 				else
 					if (postcode != null)
 						address = address + "," + postcode;
-				resultV.addVolunteer(name, address);
+				resultV.addVolunteer(name, address,postcode);
 			}
 		}
 		return resultV;
